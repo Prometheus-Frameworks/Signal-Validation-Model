@@ -51,6 +51,7 @@ pip install -e .[dev]
 signal-validation run-scaffold
 signal-validation build-wr-tables --input data/raw/player_weekly_history.csv
 signal-validation build-wr-labels --processed-dir data/processed --output-dir outputs/validation_reports
+signal-validation score-wr-candidates --validation-dataset outputs/validation_reports/wr_validation_dataset.csv --output-dir outputs
 ```
 
 The historical ingestion command writes deterministic canonical outputs to `data/processed/` by default:
@@ -67,6 +68,15 @@ The WR label command writes deterministic validation artifacts to:
 - `outputs/validation_reports/wr_label_summary.json`
 - `outputs/validation_reports/wr_label_examples.md`
 
+The WR scoring command writes deterministic PR4 artifacts to:
+
+- `outputs/candidate_rankings/wr_candidate_rankings.csv`
+- `outputs/candidate_rankings/wr_signal_component_scores.csv`
+- `outputs/validation_reports/wr_signal_validation_summary.json`
+- `outputs/validation_reports/wr_top_candidates.md`
+- `outputs/validation_reports/wr_false_positives.md`
+- `outputs/validation_reports/wr_false_negatives.md`
+
 The scaffold command still writes deterministic mock outputs to:
 
 - `outputs/candidate_rankings/`
@@ -78,6 +88,7 @@ The scaffold command still writes deterministic mock outputs to:
 - `docs/BREAKOUT_LABELS.md`
 - `docs/LABEL_ENGINE.md`
 - `docs/FEATURE_SCHEMA.md`
+- `docs/SIGNAL_SCORE.md`
 - `docs/BACKTEST_PROTOCOL.md`
 - `docs/DATA_CONTRACT.md`
 - `docs/CANONICAL_TABLES.md`
@@ -89,6 +100,7 @@ This repository now provides:
 - the original mock backtest scaffold for placeholder research flow testing,
 - deterministic CSV ingestion for historical WR player-week data,
 - canonical processed tables that separate prior-season inputs from next-season outcomes,
-- deterministic WR breakout labels and validation artifacts built from those canonical tables.
+- deterministic WR breakout labels and validation artifacts built from those canonical tables,
+- deterministic WR signal scoring and candidate ranking artifacts evaluated against the PR3 breakout labels.
 
 It still does **not** make production or predictive claims.

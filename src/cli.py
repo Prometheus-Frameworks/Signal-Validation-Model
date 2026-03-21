@@ -7,6 +7,7 @@ import argparse
 from src.backtest.pipeline import run_scaffold_pipeline
 from src.ingestion import build_wr_tables_from_csv
 from src.labels.wr_breakouts import write_wr_label_outputs
+from src.scoring import score_wr_candidates
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -56,6 +57,21 @@ def build_parser() -> argparse.ArgumentParser:
         default="outputs/validation_reports",
         help="Directory for WR validation datasets, labels, summaries, and examples.",
     )
+
+    score_parser = subparsers.add_parser(
+        "score-wr-candidates",
+        help="Score WR breakout candidates from the PR3 validation dataset and write PR4 artifacts.",
+    )
+    score_parser.add_argument(
+        "--validation-dataset",
+        default="outputs/validation_reports/wr_validation_dataset.csv",
+        help="Path to the PR3 WR validation dataset CSV.",
+    )
+    score_parser.add_argument(
+        "--output-dir",
+        default="outputs",
+        help="Base output directory for candidate rankings and validation reports.",
+    )
     return parser
 
 
@@ -89,6 +105,16 @@ def main() -> None:
         print("Built WR breakout labeling artifacts:")
         for table_name, path in sorted(output_paths.items()):
             print(f"- {table_name}: {path}")
+        return
+
+    if args.command == "score-wr-candidates":
+        artifacts = score_wr_candidates(
+            validation_dataset_path=args.validation_dataset,
+            output_dir=args.output_dir,
+        )
+        print("Built WR candidate scoring artifacts:")
+        for label, path in sorted(artifacts.__dict__.items()):
+            print(f"- {label}: {path}")
         return
 
     raise ValueError(f"Unsupported command: {args.command}")
