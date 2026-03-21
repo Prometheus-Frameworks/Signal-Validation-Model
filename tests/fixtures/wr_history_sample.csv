@@ -1,0 +1,7 @@
+player_id,player_name,team,season,week,position,games,active,fantasy_points_ppr,targets,receptions,receiving_yards,receiving_tds,snap_share,route_participation,target_share,air_yard_share
+wr_alpha,Alpha Receiver,AAA,2022,1,WR,1,true,12.0,8,6,70,1,0.75,0.82,0.22,0.28
+wr_alpha,Alpha Receiver,AAA,2022,2,WR,1,true,24.0,11,8,110,1,0.81,0.87,0.26,0.34
+wr_alpha,Alpha Receiver,AAA,2023,1,WR,1,true,30.0,10,7,120,2,0.84,0.89,0.25,0.33
+wr_alpha,Alpha Receiver,AAA,2023,2,WR,1,true,4.0,6,3,25,0,0.62,0.71,0.18,0.2
+wr_beta,Beta Wideout,BBB,2022,1,WR,1,true,3.0,4,2,18,0,,,,
+wr_beta,Beta Wideout,BBB,2022,2,WR,0,false,0.0,0,0,0,0,,,,
