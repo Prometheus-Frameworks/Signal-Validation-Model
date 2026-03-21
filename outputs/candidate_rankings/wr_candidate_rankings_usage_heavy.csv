@@ -1,0 +1,4 @@
+player_id,player_name,feature_season,outcome_season,position,feature_team,has_valid_outcome,breakout_label_default,breakout_reason,wr_signal_score,rank,scoring_version
+wr_alpha,Alpha Receiver,2022,2023,WR,AAA,true,false,no_breakout_trigger,46.3839,1,wr_signal_score_usage_heavy_v1
+wr_beta,Beta Wideout,2022,2023,WR,BBB,false,false,missing_outcome,-0.1939,2,wr_signal_score_usage_heavy_v1
+wr_alpha,Alpha Receiver,2023,2024,WR,AAA,false,false,missing_outcome,37.6732,1,wr_signal_score_usage_heavy_v1
