@@ -1,0 +1,11 @@
+{
+  "feature_season": 2024,
+  "outcome_season": 2025,
+  "position": "WR",
+  "candidate_count": 3,
+  "breakout_count": 2,
+  "top_ranked_player_id": "wr_alpha",
+  "top_ranked_player_name": "Alpha Receiver",
+  "scoring_version": "scaffold_deterministic_v1",
+  "summary_note": "Scaffold-only validation summary built from mock data. No predictive-power claim is implied."
+}
