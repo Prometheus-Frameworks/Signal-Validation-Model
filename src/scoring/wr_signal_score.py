@@ -9,6 +9,8 @@ from pathlib import Path
 from statistics import median
 from typing import Iterable
 
+from src.scoring.recipes import DEFAULT_RECIPE, SignalRecipe
+
 FEATURE_ONLY_COLUMNS = {
     "player_id",
     "player_name",
@@ -31,15 +33,8 @@ REQUIRED_DATASET_COLUMNS = FEATURE_ONLY_COLUMNS | {
     "breakout_reason",
 }
 
-COMPONENT_WEIGHTS = {
-    "usage_signal": 0.35,
-    "efficiency_signal": 0.20,
-    "development_signal": 0.20,
-    "stability_signal": 0.15,
-    "penalty_signal": -0.10,
-}
-
-SCORING_VERSION = "wr_signal_score_v1"
+COMPONENT_WEIGHTS = DEFAULT_RECIPE.component_weights
+SCORING_VERSION = DEFAULT_RECIPE.scoring_version
 RANKING_OUTPUT_COLUMNS = [
     "player_id",
     "player_name",
@@ -111,7 +106,8 @@ class ScoredCandidate:
             "scoring_version": self.scoring_version,
         }
 
-    def component_row(self) -> dict[str, object]:
+    def component_row(self, recipe: SignalRecipe = DEFAULT_RECIPE) -> dict[str, object]:
+        thresholds = recipe.thresholds
         return {
             "player_id": self.player_id,
             "player_name": self.player_name,
@@ -126,25 +122,42 @@ class ScoredCandidate:
             "wr_signal_score": self.wr_signal_score,
             "scoring_version": self.scoring_version,
             "usage_formula_notes": (
-                "0.55*scale(feature_targets_per_game,4,10)+"
-                "0.45*scale(feature_target_share,0.12,0.30)"
+                f"{recipe.usage_weights['targets_per_game']:.2f}*scale(feature_targets_per_game,"
+                f"{thresholds.usage_targets_per_game_floor:.2f},{thresholds.usage_targets_per_game_ceiling:.2f})+"
+                f"{recipe.usage_weights['target_share']:.2f}*scale(feature_target_share,"
+                f"{thresholds.usage_target_share_floor:.2f},{thresholds.usage_target_share_ceiling:.2f})"
             ),
             "efficiency_formula_notes": (
-                "0.60*scale(feature_ppg_per_target,0.8,2.5)+"
-                "0.40*scale(feature_ppg,6,18)"
+                f"{recipe.efficiency_weights['ppg_per_target']:.2f}*scale(feature_ppg_per_target,"
+                f"{thresholds.efficiency_ppg_per_target_floor:.2f},"
+                f"{thresholds.efficiency_ppg_per_target_ceiling:.2f})+"
+                f"{recipe.efficiency_weights['ppg']:.2f}*scale(feature_ppg,"
+                f"{thresholds.efficiency_ppg_floor:.2f},{thresholds.efficiency_ppg_ceiling:.2f})"
             ),
             "development_formula_notes": (
-                "0.50*scale(48-feature_finish,0,36)+"
-                "0.50*scale(expected_ppg_baseline-feature_ppg,0,4)"
+                f"{recipe.development_weights['finish_room']:.2f}*scale("
+                f"{thresholds.development_finish_anchor:.2f}-feature_finish,"
+                f"{thresholds.development_finish_floor:.2f},{thresholds.development_finish_ceiling:.2f})+"
+                f"{recipe.development_weights['expected_gap']:.2f}*scale(expected_ppg_baseline-feature_ppg,"
+                f"{thresholds.development_expected_gap_floor:.2f},"
+                f"{thresholds.development_expected_gap_ceiling:.2f})"
             ),
             "stability_formula_notes": (
-                "0.65*scale(feature_games_played,8,17)+"
-                "0.35*scale(feature_total_ppr,80,260)"
+                f"{recipe.stability_weights['games_played']:.2f}*scale(feature_games_played,"
+                f"{thresholds.stability_games_floor:.2f},{thresholds.stability_games_ceiling:.2f})+"
+                f"{recipe.stability_weights['total_ppr']:.2f}*scale(feature_total_ppr,"
+                f"{thresholds.stability_total_ppr_floor:.2f},{thresholds.stability_total_ppr_ceiling:.2f})"
             ),
             "penalty_formula_notes": (
-                "0.60*scale(12-feature_finish,0,12)+"
-                "0.25*scale(11-feature_games_played,0,11)+"
-                "0.15*scale(0.14-feature_target_share,0,0.14)"
+                f"{recipe.penalty_weights['already_elite']:.2f}*scale("
+                f"{thresholds.penalty_finish_anchor:.2f}-feature_finish,"
+                f"{thresholds.penalty_finish_floor:.2f},{thresholds.penalty_finish_ceiling:.2f})+"
+                f"{recipe.penalty_weights['missed_games']:.2f}*scale("
+                f"{thresholds.penalty_games_anchor:.2f}-feature_games_played,"
+                f"{thresholds.penalty_games_floor:.2f},{thresholds.penalty_games_ceiling:.2f})+"
+                f"{recipe.penalty_weights['thin_share']:.2f}*scale("
+                f"{thresholds.penalty_target_share_anchor:.2f}-feature_target_share,"
+                f"{thresholds.penalty_target_share_floor:.2f},{thresholds.penalty_target_share_ceiling:.2f})"
             ),
         }
 
@@ -162,14 +175,15 @@ class ScoreArtifacts:
 def score_wr_candidates(
     validation_dataset_path: str | Path,
     output_dir: str | Path = "outputs",
+    recipe: SignalRecipe = DEFAULT_RECIPE,
 ) -> ScoreArtifacts:
     """Score WR candidates from the PR3 validation dataset and write deterministic artifacts."""
 
     dataset_path = Path(validation_dataset_path)
     output_dir = Path(output_dir)
     rows = read_validation_dataset(dataset_path)
-    scored_candidates = build_scored_candidates(rows)
-    summary = build_validation_summary(scored_candidates)
+    scored_candidates = build_scored_candidates(rows, recipe=recipe)
+    summary = build_validation_summary(scored_candidates, recipe=recipe)
 
     candidate_dir = output_dir / "candidate_rankings"
     report_dir = output_dir / "validation_reports"
@@ -184,7 +198,7 @@ def score_wr_candidates(
     false_negatives_path = report_dir / "wr_false_negatives.md"
 
     _write_csv(candidate_rankings_path, RANKING_OUTPUT_COLUMNS, [row.ranking_row() for row in scored_candidates])
-    _write_csv(component_scores_path, COMPONENT_OUTPUT_COLUMNS, [row.component_row() for row in scored_candidates])
+    _write_csv(component_scores_path, COMPONENT_OUTPUT_COLUMNS, [row.component_row(recipe=recipe) for row in scored_candidates])
     validation_summary_path.write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     top_candidates_path.write_text(build_top_candidates_markdown(scored_candidates), encoding="utf-8")
     false_positives_path.write_text(build_false_positives_markdown(scored_candidates), encoding="utf-8")
@@ -214,14 +228,17 @@ def read_validation_dataset(path: Path) -> list[dict[str, object]]:
         return [_normalize_dataset_row(row) for row in reader]
 
 
-def build_scored_candidates(rows: Iterable[dict[str, object]]) -> list[ScoredCandidate]:
+def build_scored_candidates(
+    rows: Iterable[dict[str, object]],
+    recipe: SignalRecipe = DEFAULT_RECIPE,
+) -> list[ScoredCandidate]:
     by_season: dict[int, list[dict[str, object]]] = {}
     for row in rows:
         by_season.setdefault(int(row["feature_season"]), []).append(row)
 
     scored: list[ScoredCandidate] = []
     for feature_season, season_rows in sorted(by_season.items()):
-        season_candidates = [_score_candidate(row) for row in season_rows]
+        season_candidates = [_score_candidate(row, recipe=recipe) for row in season_rows]
         ordered = sorted(
             season_candidates,
             key=lambda row: (
@@ -253,19 +270,24 @@ def build_scored_candidates(rows: Iterable[dict[str, object]]) -> list[ScoredCan
                     penalty_signal=float(row["penalty_signal"]),
                     wr_signal_score=float(row["wr_signal_score"]),
                     rank=rank,
+                    scoring_version=recipe.scoring_version,
                 )
             )
     return scored
 
 
-def build_validation_summary(scored_candidates: Iterable[ScoredCandidate]) -> dict[str, object]:
+def build_validation_summary(
+    scored_candidates: Iterable[ScoredCandidate],
+    recipe: SignalRecipe = DEFAULT_RECIPE,
+) -> dict[str, object]:
     rows = list(scored_candidates)
     evaluable_rows = [row for row in rows if row.has_valid_outcome]
     breakouts = [row for row in evaluable_rows if row.breakout_label_default]
 
     summary: dict[str, object] = {
         "position": "WR",
-        "scoring_version": SCORING_VERSION,
+        "recipe_name": recipe.name,
+        "scoring_version": recipe.scoring_version,
         "candidate_count": len(rows),
         "evaluated_candidate_count": len(evaluable_rows),
         "breakout_count": len(breakouts),
@@ -273,23 +295,21 @@ def build_validation_summary(scored_candidates: Iterable[ScoredCandidate]) -> di
         "precision_at_10": _precision_at_n(evaluable_rows, 10),
         "precision_at_20": _precision_at_n(evaluable_rows, 20),
         "precision_at_30": _precision_at_n(evaluable_rows, 30),
-        "recall_at_10": _recall_at_n(evaluable_rows, breakouts, 10),
-        "recall_at_20": _recall_at_n(evaluable_rows, breakouts, 20),
-        "recall_at_30": _recall_at_n(evaluable_rows, breakouts, 30),
+        "recall_at_10": _recall_at_n(breakouts, 10),
+        "recall_at_20": _recall_at_n(breakouts, 20),
+        "recall_at_30": _recall_at_n(breakouts, 30),
         "average_rank_of_actual_breakouts": _average_rank(breakouts),
         "median_rank_of_actual_breakouts": _median_rank(breakouts),
         "false_positives_in_top_20": sum(
             1 for row in evaluable_rows if row.rank <= 20 and not row.breakout_label_default
         ),
-        "false_negatives_outside_top_30": sum(
-            1 for row in breakouts if row.rank > 30
-        ),
+        "false_negatives_outside_top_30": sum(1 for row in breakouts if row.rank > 30),
         "evaluation_notes": {
             "top_n_metrics_only_include_rows_with_valid_outcomes": True,
             "ranks_are_assigned_within_each_feature_season": True,
             "score_inputs_are_feature_season_fields_only": True,
         },
-        "component_weights": COMPONENT_WEIGHTS,
+        "component_weights": recipe.component_weights,
     }
     return summary
 
@@ -353,8 +373,9 @@ def build_false_negatives_markdown(scored_candidates: Iterable[ScoredCandidate],
     )
 
 
-def _score_candidate(row: dict[str, object]) -> dict[str, object]:
+def _score_candidate(row: dict[str, object], recipe: SignalRecipe = DEFAULT_RECIPE) -> dict[str, object]:
     feature_row = _feature_only_view(row)
+    thresholds = recipe.thresholds
 
     feature_games_played = int(feature_row["feature_games_played"])
     feature_total_ppr = float(feature_row["feature_total_ppr"])
@@ -367,37 +388,80 @@ def _score_candidate(row: dict[str, object]) -> dict[str, object]:
     feature_ppg_per_target = feature_total_ppr / estimated_targets
 
     usage_signal = round(
-        0.55 * _scaled(feature_targets_per_game, 4.0, 10.0)
-        + 0.45 * _scaled(feature_target_share, 0.12, 0.30),
+        recipe.usage_weights["targets_per_game"]
+        * _scaled(
+            feature_targets_per_game,
+            thresholds.usage_targets_per_game_floor,
+            thresholds.usage_targets_per_game_ceiling,
+        )
+        + recipe.usage_weights["target_share"]
+        * _scaled(
+            feature_target_share,
+            thresholds.usage_target_share_floor,
+            thresholds.usage_target_share_ceiling,
+        ),
         4,
     )
     efficiency_signal = round(
-        0.60 * _scaled(feature_ppg_per_target, 0.8, 2.5)
-        + 0.40 * _scaled(feature_ppg, 6.0, 18.0),
+        recipe.efficiency_weights["ppg_per_target"]
+        * _scaled(
+            feature_ppg_per_target,
+            thresholds.efficiency_ppg_per_target_floor,
+            thresholds.efficiency_ppg_per_target_ceiling,
+        )
+        + recipe.efficiency_weights["ppg"]
+        * _scaled(feature_ppg, thresholds.efficiency_ppg_floor, thresholds.efficiency_ppg_ceiling),
         4,
     )
     development_signal = round(
-        0.50 * _scaled(48.0 - feature_finish, 0.0, 36.0)
-        + 0.50 * _scaled(expected_ppg_baseline - feature_ppg, 0.0, 4.0),
+        recipe.development_weights["finish_room"]
+        * _scaled(
+            thresholds.development_finish_anchor - feature_finish,
+            thresholds.development_finish_floor,
+            thresholds.development_finish_ceiling,
+        )
+        + recipe.development_weights["expected_gap"]
+        * _scaled(
+            expected_ppg_baseline - feature_ppg,
+            thresholds.development_expected_gap_floor,
+            thresholds.development_expected_gap_ceiling,
+        ),
         4,
     )
     stability_signal = round(
-        0.65 * _scaled(feature_games_played, 8.0, 17.0)
-        + 0.35 * _scaled(feature_total_ppr, 80.0, 260.0),
+        recipe.stability_weights["games_played"]
+        * _scaled(feature_games_played, thresholds.stability_games_floor, thresholds.stability_games_ceiling)
+        + recipe.stability_weights["total_ppr"]
+        * _scaled(feature_total_ppr, thresholds.stability_total_ppr_floor, thresholds.stability_total_ppr_ceiling),
         4,
     )
     penalty_signal = round(
-        0.60 * _scaled(12.0 - feature_finish, 0.0, 12.0)
-        + 0.25 * _scaled(11.0 - feature_games_played, 0.0, 11.0)
-        + 0.15 * _scaled(0.14 - feature_target_share, 0.0, 0.14),
+        recipe.penalty_weights["already_elite"]
+        * _scaled(
+            thresholds.penalty_finish_anchor - feature_finish,
+            thresholds.penalty_finish_floor,
+            thresholds.penalty_finish_ceiling,
+        )
+        + recipe.penalty_weights["missed_games"]
+        * _scaled(
+            thresholds.penalty_games_anchor - feature_games_played,
+            thresholds.penalty_games_floor,
+            thresholds.penalty_games_ceiling,
+        )
+        + recipe.penalty_weights["thin_share"]
+        * _scaled(
+            thresholds.penalty_target_share_anchor - feature_target_share,
+            thresholds.penalty_target_share_floor,
+            thresholds.penalty_target_share_ceiling,
+        ),
         4,
     )
     wr_signal_score = round(
-        usage_signal * COMPONENT_WEIGHTS["usage_signal"]
-        + efficiency_signal * COMPONENT_WEIGHTS["efficiency_signal"]
-        + development_signal * COMPONENT_WEIGHTS["development_signal"]
-        + stability_signal * COMPONENT_WEIGHTS["stability_signal"]
-        + penalty_signal * COMPONENT_WEIGHTS["penalty_signal"],
+        usage_signal * recipe.component_weights["usage_signal"]
+        + efficiency_signal * recipe.component_weights["efficiency_signal"]
+        + development_signal * recipe.component_weights["development_signal"]
+        + stability_signal * recipe.component_weights["stability_signal"]
+        + penalty_signal * recipe.component_weights["penalty_signal"],
         4,
     )
 
@@ -433,7 +497,7 @@ def _precision_at_n(rows: list[ScoredCandidate], n: int) -> float:
     return round(sum(1 for row in top_rows if row.breakout_label_default) / len(top_rows), 4)
 
 
-def _recall_at_n(rows: list[ScoredCandidate], breakouts: list[ScoredCandidate], n: int) -> float:
+def _recall_at_n(breakouts: list[ScoredCandidate], n: int) -> float:
     if not breakouts:
         return 0.0
     return round(sum(1 for row in breakouts if row.rank <= n) / len(breakouts), 4)

@@ -7,7 +7,7 @@ import argparse
 from src.backtest.pipeline import run_scaffold_pipeline
 from src.ingestion import build_wr_tables_from_csv
 from src.labels.wr_breakouts import write_wr_label_outputs
-from src.scoring import score_wr_candidates
+from src.scoring import compare_wr_recipes, score_wr_candidates
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -72,6 +72,21 @@ def build_parser() -> argparse.ArgumentParser:
         default="outputs",
         help="Base output directory for candidate rankings and validation reports.",
     )
+
+    compare_parser = subparsers.add_parser(
+        "compare-wr-recipes",
+        help="Compare multiple deterministic WR score recipes against the same labeled validation dataset.",
+    )
+    compare_parser.add_argument(
+        "--validation-dataset",
+        default="outputs/validation_reports/wr_validation_dataset.csv",
+        help="Path to the PR3 WR validation dataset CSV.",
+    )
+    compare_parser.add_argument(
+        "--output-dir",
+        default="outputs",
+        help="Base output directory for per-recipe rankings and comparison reports.",
+    )
     return parser
 
 
@@ -113,6 +128,16 @@ def main() -> None:
             output_dir=args.output_dir,
         )
         print("Built WR candidate scoring artifacts:")
+        for label, path in sorted(artifacts.__dict__.items()):
+            print(f"- {label}: {path}")
+        return
+
+    if args.command == "compare-wr-recipes":
+        artifacts = compare_wr_recipes(
+            validation_dataset_path=args.validation_dataset,
+            output_dir=args.output_dir,
+        )
+        print("Built WR recipe comparison artifacts:")
         for label, path in sorted(artifacts.__dict__.items()):
             print(f"- {label}: {path}")
         return

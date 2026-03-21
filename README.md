@@ -52,6 +52,7 @@ signal-validation run-scaffold
 signal-validation build-wr-tables --input data/raw/player_weekly_history.csv
 signal-validation build-wr-labels --processed-dir data/processed --output-dir outputs/validation_reports
 signal-validation score-wr-candidates --validation-dataset outputs/validation_reports/wr_validation_dataset.csv --output-dir outputs
+signal-validation compare-wr-recipes --validation-dataset outputs/validation_reports/wr_validation_dataset.csv --output-dir outputs
 ```
 
 The historical ingestion command writes deterministic canonical outputs to `data/processed/` by default:
@@ -77,6 +78,14 @@ The WR scoring command writes deterministic PR4 artifacts to:
 - `outputs/validation_reports/wr_false_positives.md`
 - `outputs/validation_reports/wr_false_negatives.md`
 
+The WR recipe comparison command writes deterministic PR5 artifacts to:
+
+- `outputs/validation_reports/wr_recipe_comparison_summary.json`
+- `outputs/validation_reports/wr_recipe_comparison_table.csv`
+- `outputs/validation_reports/wr_best_recipe_candidates.md`
+- `outputs/validation_reports/wr_recipe_failure_modes.md`
+- `outputs/candidate_rankings/wr_candidate_rankings_<recipe>.csv`
+
 The scaffold command still writes deterministic mock outputs to:
 
 - `outputs/candidate_rankings/`
@@ -89,6 +98,7 @@ The scaffold command still writes deterministic mock outputs to:
 - `docs/LABEL_ENGINE.md`
 - `docs/FEATURE_SCHEMA.md`
 - `docs/SIGNAL_SCORE.md`
+- `docs/RECIPE_COMPARISON.md`
 - `docs/BACKTEST_PROTOCOL.md`
 - `docs/DATA_CONTRACT.md`
 - `docs/CANONICAL_TABLES.md`
@@ -102,5 +112,6 @@ This repository now provides:
 - canonical processed tables that separate prior-season inputs from next-season outcomes,
 - deterministic WR breakout labels and validation artifacts built from those canonical tables,
 - deterministic WR signal scoring and candidate ranking artifacts evaluated against the PR3 breakout labels.
+- deterministic WR recipe comparison artifacts that evaluate multiple explicit score recipes side by side.
 
 It still does **not** make production or predictive claims.
