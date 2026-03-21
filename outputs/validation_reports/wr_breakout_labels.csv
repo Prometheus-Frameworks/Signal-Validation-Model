@@ -1,0 +1,4 @@
+player_id,player_name,feature_season,outcome_season,has_valid_outcome,breakout_label_default,breakout_label_ppg_jump,breakout_label_top24_jump,breakout_reason
+wr_alpha,Alpha Receiver,2022,2023,true,false,false,false,no_breakout_trigger
+wr_alpha,Alpha Receiver,2023,2024,false,false,false,false,missing_outcome
+wr_beta,Beta Wideout,2022,2023,false,false,false,false,missing_outcome
