@@ -1,0 +1,33 @@
+{
+  "breakout_reason_counts": {
+    "missing_outcome": 2,
+    "no_breakout_trigger": 1
+  },
+  "feature_seasons": [
+    2022,
+    2023
+  ],
+  "label_counts": {
+    "breakout_label_default": 0,
+    "breakout_label_ppg_jump": 0,
+    "breakout_label_top24_jump": 0
+  },
+  "missing_outcome_count": 2,
+  "outcome_seasons": [
+    2023,
+    2024
+  ],
+  "position": "WR",
+  "row_count": 3,
+  "thresholds": {
+    "expected_ppg_baseline_weights": {
+      "feature_ppg": 0.7,
+      "target_share": 10.0,
+      "targets_per_game": 0.2
+    },
+    "expected_ppg_beat_threshold": 2.0,
+    "ppg_jump_threshold": 3.0,
+    "top_24_finish_threshold": 24
+  },
+  "valid_outcome_count": 1
+}

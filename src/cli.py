@@ -6,6 +6,7 @@ import argparse
 
 from src.backtest.pipeline import run_scaffold_pipeline
 from src.ingestion import build_wr_tables_from_csv
+from src.labels.wr_breakouts import write_wr_label_outputs
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -40,6 +41,21 @@ def build_parser() -> argparse.ArgumentParser:
         default="data/processed",
         help="Directory for canonical WR processed tables.",
     )
+
+    label_parser = subparsers.add_parser(
+        "build-wr-labels",
+        help="Build deterministic WR breakout labels and validation reports from processed tables.",
+    )
+    label_parser.add_argument(
+        "--processed-dir",
+        default="data/processed",
+        help="Directory containing wr_feature_seasons.csv and wr_outcome_seasons.csv.",
+    )
+    label_parser.add_argument(
+        "--output-dir",
+        default="outputs/validation_reports",
+        help="Directory for WR validation datasets, labels, summaries, and examples.",
+    )
     return parser
 
 
@@ -61,6 +77,16 @@ def main() -> None:
             output_dir=args.output_dir,
         )
         print("Built canonical WR historical tables:")
+        for table_name, path in sorted(output_paths.items()):
+            print(f"- {table_name}: {path}")
+        return
+
+    if args.command == "build-wr-labels":
+        output_paths = write_wr_label_outputs(
+            processed_dir=args.processed_dir,
+            output_dir=args.output_dir,
+        )
+        print("Built WR breakout labeling artifacts:")
         for table_name, path in sorted(output_paths.items()):
             print(f"- {table_name}: {path}")
         return

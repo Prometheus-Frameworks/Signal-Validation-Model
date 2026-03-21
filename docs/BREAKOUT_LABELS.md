@@ -1,42 +1,35 @@
 # Breakout Labels
 
-## Purpose
+This repository now contains **two different breakout-label contexts**:
 
-A breakout label converts next-season outcomes into a research target that can be compared against prior-season signals.
+1. the original PR1 scaffold placeholder rule used only by the mock backtest flow, and
+2. the PR3 deterministic WR label engine used for canonical season-N -> season-N+1 validation outputs.
 
-For PR1, the label definition is intentionally simple and explicitly marked as a **proposed v1 placeholder** for wide receivers.
+## Current canonical WR label engine
 
-## Proposed v1 WR breakout label
+For real processed WR validation work, use:
 
-A WR is labeled as a breakout in outcome season `Y+1` if all of the following are true:
+- `src/labels/wr_breakouts.py`
+- `docs/LABEL_ENGINE.md`
 
-1. The player finishes with at least **200.0 PPR fantasy points**.
-2. The player averages at least **12.0 PPR points per game**.
-3. The player plays at least **12 games**.
-4. The player did **not** already exceed 200.0 PPR fantasy points in the feature season `Y`.
+That engine joins `wr_feature_seasons.csv` to `wr_outcome_seasons.csv` and writes deterministic label artifacts under `outputs/validation_reports/`.
 
-## Why this is a placeholder
+## Legacy scaffold placeholder label
 
-This definition is useful for scaffolding because it is:
+The mock scaffold path still keeps a simple placeholder breakout rule in `src/labels/rules.py` so the original scaffold tests and demonstration flow continue to work.
 
-- explicit
-- deterministic
-- easy to test
-- easy to replace in future PRs
+That placeholder rule is intentionally limited and should be treated as a mock research stub, not the repository's canonical WR label definition.
 
-It is **not** a claim that this is the best or only breakout definition.
+## Why both exist
 
-## Future refinements for later PRs
+The scaffold rule remains useful for:
 
-Possible future label variants include:
+- preserving PR1 behavior
+- keeping the mock backtest flow stable
+- testing the repository's original end-to-end placeholder pipeline
 
-- percentile-based finish thresholds
-- ADP-relative outperformance
-- role-change breakouts
-- age-adjusted breakouts
-- cohort-specific thresholds
-- multi-tier labels such as soft breakout vs. hard breakout
+The PR3 label engine exists for:
 
-## Timestamp safety rule
-
-Breakout labels are computed from the **next season's realized outcomes**, but they are used **only for evaluation**, never as model inputs. Any feature built from outcome-season data would violate the repository's research protocol.
+- real deterministic WR feature/outcome joins
+- canonical validation dataset creation
+- multi-definition breakout labeling with explicit leakage guardrails

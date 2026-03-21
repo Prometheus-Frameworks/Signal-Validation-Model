@@ -21,6 +21,8 @@ PR1 intentionally shipped an honest scaffold:
 
 PR2 extends the repository with deterministic historical WR ingestion and canonical processed research tables while preserving the same no-leakage boundaries.
 
+PR3 adds a deterministic WR label engine and joined validation dataset for season-over-season breakout evaluation.
+
 No predictive-power claims are made in this repository.
 
 ## Current scope
@@ -38,7 +40,7 @@ Still out of scope:
 - ML training
 - live APIs or databases
 - role/opportunity integrations
-- breakout label engine overhauls
+- breakout label engine APIs beyond deterministic WR validation outputs
 
 ## Quick start
 
@@ -48,6 +50,7 @@ source .venv/bin/activate
 pip install -e .[dev]
 signal-validation run-scaffold
 signal-validation build-wr-tables --input data/raw/player_weekly_history.csv
+signal-validation build-wr-labels --processed-dir data/processed --output-dir outputs/validation_reports
 ```
 
 The historical ingestion command writes deterministic canonical outputs to `data/processed/` by default:
@@ -56,6 +59,13 @@ The historical ingestion command writes deterministic canonical outputs to `data
 - `wr_player_seasons.csv`
 - `wr_feature_seasons.csv`
 - `wr_outcome_seasons.csv`
+
+The WR label command writes deterministic validation artifacts to:
+
+- `outputs/validation_reports/wr_validation_dataset.csv`
+- `outputs/validation_reports/wr_breakout_labels.csv`
+- `outputs/validation_reports/wr_label_summary.json`
+- `outputs/validation_reports/wr_label_examples.md`
 
 The scaffold command still writes deterministic mock outputs to:
 
@@ -66,6 +76,7 @@ The scaffold command still writes deterministic mock outputs to:
 
 - `docs/MODEL_SCOPE.md`
 - `docs/BREAKOUT_LABELS.md`
+- `docs/LABEL_ENGINE.md`
 - `docs/FEATURE_SCHEMA.md`
 - `docs/BACKTEST_PROTOCOL.md`
 - `docs/DATA_CONTRACT.md`
@@ -77,6 +88,7 @@ This repository now provides:
 
 - the original mock backtest scaffold for placeholder research flow testing,
 - deterministic CSV ingestion for historical WR player-week data,
-- canonical processed tables that separate prior-season inputs from next-season outcomes.
+- canonical processed tables that separate prior-season inputs from next-season outcomes,
+- deterministic WR breakout labels and validation artifacts built from those canonical tables.
 
 It still does **not** make production or predictive claims.

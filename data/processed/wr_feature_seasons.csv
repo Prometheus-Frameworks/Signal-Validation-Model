@@ -1,0 +1,4 @@
+player_id,player_name,season,target_outcome_season,data_through_season,position,team,games_played,weeks_recorded,total_ppr,ppg,spike_week_rate,dud_week_rate,total_targets,targets_per_game,total_receptions,receptions_per_game,total_receiving_yards,receiving_yards_per_game,total_receiving_tds,receiving_tds_per_game,avg_snap_share,avg_route_participation,avg_target_share,avg_air_yard_share
+wr_alpha,Alpha Receiver,2022,2023,2022,WR,AAA,2,2,36,18,0.5,0,19,9.5,14,7,180,90,2,1,0.78,0.845,0.24,0.31
+wr_alpha,Alpha Receiver,2023,2024,2023,WR,AAA,2,2,34,17,0.5,0.5,16,8,10,5,145,72.5,2,1,0.73,0.8,0.215,0.265
+wr_beta,Beta Wideout,2022,2023,2022,WR,BBB,1,2,3,3,0,1,4,4,2,2,18,18,0,0,,,,
