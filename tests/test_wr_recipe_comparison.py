@@ -179,6 +179,7 @@ def test_recipe_comparison_metrics_and_artifacts_are_generated(tmp_path: Path) -
     assert artifacts.best_candidates_path.exists()
     assert artifacts.failure_modes_path.exists()
     assert set(artifacts.per_recipe_candidate_paths) == set(RECIPES)
+    assert set(artifacts.per_recipe_component_paths) == set(RECIPES)
     assert len(comparison_rows) == len(RECIPES)
     assert summary["best_recipe_rule"] == BEST_RECIPE_RULE
     assert summary["best_recipe"]["recipe_name"] in RECIPES
@@ -193,6 +194,11 @@ def test_recipe_comparison_metrics_and_artifacts_are_generated(tmp_path: Path) -
         assert path.exists()
         rows = list(csv.DictReader(path.open(encoding="utf-8", newline="")))
         assert rows[0]["rank"] == "1"
+        assert recipe_name in str(path)
+    for recipe_name, path in artifacts.per_recipe_component_paths.items():
+        assert path.exists()
+        rows = list(csv.DictReader(path.open(encoding="utf-8", newline="")))
+        assert rows[0]["usage_signal"]
         assert recipe_name in str(path)
 
 

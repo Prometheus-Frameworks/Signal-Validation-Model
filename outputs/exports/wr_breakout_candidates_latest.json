@@ -1,0 +1,103 @@
+{
+  "export_name": "wr_breakout_candidates_latest",
+  "schema_version": "wr_exports_v1",
+  "position": "WR",
+  "feature_season": 2022,
+  "outcome_season": 2023,
+  "best_recipe_name": "balanced_conservative",
+  "candidate_count": 2,
+  "candidates": [
+    {
+      "player_id": "wr_alpha",
+      "player_name": "Alpha Receiver",
+      "feature_season": 2022,
+      "outcome_season": 2023,
+      "best_recipe_name": "balanced_conservative",
+      "candidate_rank": 1,
+      "final_signal_score": 36.0378,
+      "breakout_label_default": false,
+      "breakout_reason": "no_breakout_trigger",
+      "component_scores": {
+        "usage_signal": 79.1667,
+        "efficiency_signal": 80.418,
+        "development_signal": 50.0,
+        "stability_signal": 0.0,
+        "cohort_signal": 0.0,
+        "role_signal": 78.3334,
+        "penalty_signal": 71.25
+      },
+      "cohort_context": {
+        "career_year": 1,
+        "career_year_bucket": "yr1",
+        "age_bucket": "age_unknown",
+        "cohort_key": "WR|yr1|age_unknown",
+        "cohort_player_count": 0,
+        "expected_ppg_baseline": 16.9
+      },
+      "role_context": {
+        "feature_team": "AAA",
+        "feature_ppg": 18.0,
+        "feature_finish": 1,
+        "feature_targets_per_game": 9.5,
+        "feature_target_share": 0.24,
+        "route_participation_season_avg": 0.845,
+        "target_share_season_avg": 0.24,
+        "air_yard_share_season_avg": 0.31,
+        "routes_consistency_index": 0.9704,
+        "target_earning_index": 0.284,
+        "opportunity_concentration_score": 0.4995
+      },
+      "source_artifacts": {
+        "validation_dataset_path": "outputs/validation_reports/wr_validation_dataset_role_enriched.csv",
+        "comparison_summary_path": "outputs/validation_reports/wr_recipe_comparison_summary.json",
+        "candidate_dir": "outputs/candidate_rankings"
+      }
+    },
+    {
+      "player_id": "wr_beta",
+      "player_name": "Beta Wideout",
+      "feature_season": 2022,
+      "outcome_season": 2023,
+      "best_recipe_name": "balanced_conservative",
+      "candidate_rank": 2,
+      "final_signal_score": -4.8125,
+      "breakout_label_default": false,
+      "breakout_reason": "missing_outcome",
+      "component_scores": {
+        "usage_signal": 0.0,
+        "efficiency_signal": 0.0,
+        "development_signal": 50.0,
+        "stability_signal": 0.0,
+        "cohort_signal": 0.0,
+        "role_signal": 0.0,
+        "penalty_signal": 88.75
+      },
+      "cohort_context": {
+        "career_year": 1,
+        "career_year_bucket": "yr1",
+        "age_bucket": "age_unknown",
+        "cohort_key": "WR|yr1|age_unknown",
+        "cohort_player_count": 0,
+        "expected_ppg_baseline": 2.9
+      },
+      "role_context": {
+        "feature_team": "BBB",
+        "feature_ppg": 3.0,
+        "feature_finish": 2,
+        "feature_targets_per_game": 4.0,
+        "feature_target_share": null,
+        "route_participation_season_avg": null,
+        "target_share_season_avg": null,
+        "air_yard_share_season_avg": null,
+        "routes_consistency_index": null,
+        "target_earning_index": null,
+        "opportunity_concentration_score": null
+      },
+      "source_artifacts": {
+        "validation_dataset_path": "outputs/validation_reports/wr_validation_dataset_role_enriched.csv",
+        "comparison_summary_path": "outputs/validation_reports/wr_recipe_comparison_summary.json",
+        "candidate_dir": "outputs/candidate_rankings"
+      }
+    }
+  ]
+}

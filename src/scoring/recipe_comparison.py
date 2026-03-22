@@ -10,6 +10,7 @@ from typing import Iterable
 
 from src.scoring.recipes import RECIPES, SignalRecipe
 from src.scoring.wr_signal_score import (
+    COMPONENT_OUTPUT_COLUMNS,
     RANKING_OUTPUT_COLUMNS,
     ScoredCandidate,
     build_scored_candidates,
@@ -51,6 +52,7 @@ class RecipeComparisonArtifacts:
     best_candidates_path: Path
     failure_modes_path: Path
     per_recipe_candidate_paths: dict[str, Path]
+    per_recipe_component_paths: dict[str, Path]
 
 
 @dataclass(frozen=True)
@@ -59,6 +61,7 @@ class RecipeRunResult:
     scored_candidates: list[ScoredCandidate]
     metrics: dict[str, object]
     candidate_rankings_path: Path
+    component_scores_path: Path
 
 
 def compare_wr_recipes(
@@ -174,6 +177,7 @@ def compare_wr_recipes(
         best_candidates_path=best_candidates_path,
         failure_modes_path=failure_modes_path,
         per_recipe_candidate_paths={result.recipe.name: result.candidate_rankings_path for result in results},
+        per_recipe_component_paths={result.recipe.name: result.component_scores_path for result in results},
     )
 
 
@@ -216,12 +220,15 @@ def _run_recipe(rows: list[dict[str, object]], recipe: SignalRecipe, candidate_d
         "false_negatives_outside_top_30": summary["false_negatives_outside_top_30"],
     }
     path = candidate_dir / f"wr_candidate_rankings_{recipe.name}.csv"
+    component_path = candidate_dir / f"wr_signal_component_scores_{recipe.name}.csv"
     _write_csv(path, RANKING_OUTPUT_COLUMNS, [row.ranking_row() for row in scored_candidates])
+    _write_csv(component_path, COMPONENT_OUTPUT_COLUMNS, [row.component_row(recipe=recipe) for row in scored_candidates])
     return RecipeRunResult(
         recipe=recipe,
         scored_candidates=scored_candidates,
         metrics=metrics,
         candidate_rankings_path=path,
+        component_scores_path=component_path,
     )
 
 
