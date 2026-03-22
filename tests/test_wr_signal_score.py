@@ -42,6 +42,16 @@ def _base_dataset_row(player_id: str, player_name: str, feature_season: int) -> 
         "outcome_targets_per_game": 7.0,
         "feature_target_share": 0.20,
         "expected_ppg_baseline": 11.4,
+        "career_year": 2,
+        "career_year_bucket": "yr2",
+        "age_bucket": "age_unknown",
+        "cohort_key": "WR|yr2|age_unknown",
+        "cohort_player_count": 4,
+        "expected_ppg_from_cohort": 9.2,
+        "expected_finish_from_cohort": 29.0,
+        "feature_ppg_minus_cohort_expected": 0.8,
+        "outcome_ppg_minus_cohort_expected": 0.8,
+        "actual_minus_cohort_expected_ppg": 0.8,
         "actual_minus_expected_ppg": -1.4,
         "is_new_fantasy_starter": False,
         "breakout_reason": "no_breakout_trigger",
@@ -153,6 +163,7 @@ def test_component_scores_output_uses_explicit_weighted_sum() -> None:
         + scored["efficiency_signal"] * COMPONENT_WEIGHTS["efficiency_signal"]
         + scored["development_signal"] * COMPONENT_WEIGHTS["development_signal"]
         + scored["stability_signal"] * COMPONENT_WEIGHTS["stability_signal"]
+        + scored["cohort_signal"] * COMPONENT_WEIGHTS["cohort_signal"]
         + scored["penalty_signal"] * COMPONENT_WEIGHTS["penalty_signal"],
         4,
     )

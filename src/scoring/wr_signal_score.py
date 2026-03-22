@@ -59,6 +59,7 @@ COMPONENT_OUTPUT_COLUMNS = [
     "efficiency_signal",
     "development_signal",
     "stability_signal",
+    "cohort_signal",
     "penalty_signal",
     "wr_signal_score",
     "scoring_version",
@@ -66,6 +67,7 @@ COMPONENT_OUTPUT_COLUMNS = [
     "efficiency_formula_notes",
     "development_formula_notes",
     "stability_formula_notes",
+    "cohort_formula_notes",
     "penalty_formula_notes",
 ]
 
@@ -85,6 +87,7 @@ class ScoredCandidate:
     efficiency_signal: float
     development_signal: float
     stability_signal: float
+    cohort_signal: float
     penalty_signal: float
     wr_signal_score: float
     rank: int
@@ -118,6 +121,7 @@ class ScoredCandidate:
             "efficiency_signal": self.efficiency_signal,
             "development_signal": self.development_signal,
             "stability_signal": self.stability_signal,
+            "cohort_signal": self.cohort_signal,
             "penalty_signal": self.penalty_signal,
             "wr_signal_score": self.wr_signal_score,
             "scoring_version": self.scoring_version,
@@ -147,6 +151,14 @@ class ScoredCandidate:
                 f"{thresholds.stability_games_floor:.2f},{thresholds.stability_games_ceiling:.2f})+"
                 f"{recipe.stability_weights['total_ppr']:.2f}*scale(feature_total_ppr,"
                 f"{thresholds.stability_total_ppr_floor:.2f},{thresholds.stability_total_ppr_ceiling:.2f})"
+            ),
+            "cohort_formula_notes": (
+                f"{recipe.cohort_weights['ppg_delta']:.2f}*scale(feature_ppg_minus_cohort_expected,"
+                f"{thresholds.cohort_ppg_delta_floor:.2f},{thresholds.cohort_ppg_delta_ceiling:.2f})+"
+                f"{recipe.cohort_weights['finish_delta']:.2f}*scale(expected_finish_from_cohort-feature_finish,"
+                f"{thresholds.cohort_finish_delta_floor:.2f},{thresholds.cohort_finish_delta_ceiling:.2f})+"
+                f"{recipe.cohort_weights['cohort_count']:.2f}*scale(cohort_player_count,"
+                f"{thresholds.cohort_count_floor:.2f},{thresholds.cohort_count_ceiling:.2f})"
             ),
             "penalty_formula_notes": (
                 f"{recipe.penalty_weights['already_elite']:.2f}*scale("
@@ -247,6 +259,7 @@ def build_scored_candidates(
                 -row["efficiency_signal"],
                 -row["development_signal"],
                 -row["stability_signal"],
+                -row["cohort_signal"],
                 row["penalty_signal"],
                 row["player_id"],
             ),
@@ -267,6 +280,7 @@ def build_scored_candidates(
                     efficiency_signal=float(row["efficiency_signal"]),
                     development_signal=float(row["development_signal"]),
                     stability_signal=float(row["stability_signal"]),
+                    cohort_signal=float(row["cohort_signal"]),
                     penalty_signal=float(row["penalty_signal"]),
                     wr_signal_score=float(row["wr_signal_score"]),
                     rank=rank,
@@ -308,6 +322,7 @@ def build_validation_summary(
             "top_n_metrics_only_include_rows_with_valid_outcomes": True,
             "ranks_are_assigned_within_each_feature_season": True,
             "score_inputs_are_feature_season_fields_only": True,
+            "cohort_expectations_are_historical_only": True,
         },
         "component_weights": recipe.component_weights,
     }
@@ -384,6 +399,9 @@ def _score_candidate(row: dict[str, object], recipe: SignalRecipe = DEFAULT_RECI
     feature_targets_per_game = float(feature_row["feature_targets_per_game"])
     feature_target_share = float(feature_row["feature_target_share"] or 0.0)
     expected_ppg_baseline = float(feature_row["expected_ppg_baseline"])
+    cohort_player_count = float(feature_row.get("cohort_player_count") or 0.0)
+    expected_finish_from_cohort = _parse_optional_float(feature_row.get("expected_finish_from_cohort"))
+    feature_ppg_minus_cohort_expected = _parse_optional_float(feature_row.get("feature_ppg_minus_cohort_expected")) or 0.0
     estimated_targets = max(feature_targets_per_game * max(feature_games_played, 1), 1.0)
     feature_ppg_per_target = feature_total_ppr / estimated_targets
 
@@ -428,11 +446,36 @@ def _score_candidate(row: dict[str, object], recipe: SignalRecipe = DEFAULT_RECI
         ),
         4,
     )
+    cohort_finish_room = (
+        expected_finish_from_cohort - feature_finish if expected_finish_from_cohort is not None else 0.0
+    )
+
     stability_signal = round(
         recipe.stability_weights["games_played"]
         * _scaled(feature_games_played, thresholds.stability_games_floor, thresholds.stability_games_ceiling)
         + recipe.stability_weights["total_ppr"]
         * _scaled(feature_total_ppr, thresholds.stability_total_ppr_floor, thresholds.stability_total_ppr_ceiling),
+        4,
+    )
+    cohort_signal = round(
+        recipe.cohort_weights["ppg_delta"]
+        * _scaled(
+            feature_ppg_minus_cohort_expected,
+            thresholds.cohort_ppg_delta_floor,
+            thresholds.cohort_ppg_delta_ceiling,
+        )
+        + recipe.cohort_weights["finish_delta"]
+        * _scaled(
+            cohort_finish_room,
+            thresholds.cohort_finish_delta_floor,
+            thresholds.cohort_finish_delta_ceiling,
+        )
+        + recipe.cohort_weights["cohort_count"]
+        * _scaled(
+            cohort_player_count,
+            thresholds.cohort_count_floor,
+            thresholds.cohort_count_ceiling,
+        ),
         4,
     )
     penalty_signal = round(
@@ -461,6 +504,7 @@ def _score_candidate(row: dict[str, object], recipe: SignalRecipe = DEFAULT_RECI
         + efficiency_signal * recipe.component_weights["efficiency_signal"]
         + development_signal * recipe.component_weights["development_signal"]
         + stability_signal * recipe.component_weights["stability_signal"]
+        + cohort_signal * recipe.component_weights["cohort_signal"]
         + penalty_signal * recipe.component_weights["penalty_signal"],
         4,
     )
@@ -471,6 +515,7 @@ def _score_candidate(row: dict[str, object], recipe: SignalRecipe = DEFAULT_RECI
         "efficiency_signal": efficiency_signal,
         "development_signal": development_signal,
         "stability_signal": stability_signal,
+        "cohort_signal": cohort_signal,
         "penalty_signal": penalty_signal,
         "wr_signal_score": wr_signal_score,
     }
@@ -531,6 +576,11 @@ def _normalize_dataset_row(row: dict[str, str]) -> dict[str, object]:
         "feature_targets_per_game": float(row["feature_targets_per_game"]),
         "feature_target_share": _parse_optional_float(row.get("feature_target_share", "")),
         "expected_ppg_baseline": float(row["expected_ppg_baseline"]),
+        "cohort_player_count": _parse_optional_float(row.get("cohort_player_count", "")) or 0.0,
+        "expected_ppg_from_cohort": _parse_optional_float(row.get("expected_ppg_from_cohort", "")),
+        "expected_finish_from_cohort": _parse_optional_float(row.get("expected_finish_from_cohort", "")),
+        "feature_ppg_minus_cohort_expected": _parse_optional_float(row.get("feature_ppg_minus_cohort_expected", "")),
+        "actual_minus_cohort_expected_ppg": _parse_optional_float(row.get("actual_minus_cohort_expected_ppg", "")),
         "breakout_label_default": _parse_bool(row["breakout_label_default"]),
         "breakout_reason": row["breakout_reason"],
     }

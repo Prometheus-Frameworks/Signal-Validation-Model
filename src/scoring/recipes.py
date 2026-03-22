@@ -9,6 +9,7 @@ COMPONENT_NAMES = (
     "efficiency_signal",
     "development_signal",
     "stability_signal",
+    "cohort_signal",
     "penalty_signal",
 )
 
@@ -28,6 +29,12 @@ class RecipeThresholds:
     development_finish_ceiling: float
     development_expected_gap_floor: float
     development_expected_gap_ceiling: float
+    cohort_ppg_delta_floor: float
+    cohort_ppg_delta_ceiling: float
+    cohort_finish_delta_floor: float
+    cohort_finish_delta_ceiling: float
+    cohort_count_floor: float
+    cohort_count_ceiling: float
     stability_games_floor: float
     stability_games_ceiling: float
     stability_total_ppr_floor: float
@@ -53,6 +60,7 @@ class SignalRecipe:
     efficiency_weights: dict[str, float]
     development_weights: dict[str, float]
     stability_weights: dict[str, float]
+    cohort_weights: dict[str, float]
     penalty_weights: dict[str, float]
     thresholds: RecipeThresholds
 
@@ -82,6 +90,7 @@ def validate_recipe(recipe: SignalRecipe) -> None:
     _validate_unit_weight_group("efficiency", recipe.efficiency_weights)
     _validate_unit_weight_group("development", recipe.development_weights)
     _validate_unit_weight_group("stability", recipe.stability_weights)
+    _validate_unit_weight_group("cohort", recipe.cohort_weights)
     _validate_unit_weight_group("penalty", recipe.penalty_weights)
 
     thresholds = recipe.thresholds
@@ -114,6 +123,21 @@ def validate_recipe(recipe: SignalRecipe) -> None:
         "development_expected_gap",
         thresholds.development_expected_gap_floor,
         thresholds.development_expected_gap_ceiling,
+    )
+    _validate_threshold_pair(
+        "cohort_ppg_delta",
+        thresholds.cohort_ppg_delta_floor,
+        thresholds.cohort_ppg_delta_ceiling,
+    )
+    _validate_threshold_pair(
+        "cohort_finish_delta",
+        thresholds.cohort_finish_delta_floor,
+        thresholds.cohort_finish_delta_ceiling,
+    )
+    _validate_threshold_pair(
+        "cohort_count",
+        thresholds.cohort_count_floor,
+        thresholds.cohort_count_ceiling,
     )
     _validate_threshold_pair(
         "stability_games",
@@ -152,6 +176,7 @@ def _recipe(
     efficiency_weights: dict[str, float],
     development_weights: dict[str, float],
     stability_weights: dict[str, float],
+    cohort_weights: dict[str, float],
     penalty_weights: dict[str, float],
     thresholds: RecipeThresholds,
 ) -> SignalRecipe:
@@ -164,6 +189,7 @@ def _recipe(
         efficiency_weights=efficiency_weights,
         development_weights=development_weights,
         stability_weights=stability_weights,
+        cohort_weights=cohort_weights,
         penalty_weights=penalty_weights,
         thresholds=thresholds,
     )
@@ -185,6 +211,12 @@ BASE_THRESHOLDS = RecipeThresholds(
     development_finish_ceiling=36.0,
     development_expected_gap_floor=0.0,
     development_expected_gap_ceiling=4.0,
+    cohort_ppg_delta_floor=0.0,
+    cohort_ppg_delta_ceiling=6.0,
+    cohort_finish_delta_floor=0.0,
+    cohort_finish_delta_ceiling=36.0,
+    cohort_count_floor=1.0,
+    cohort_count_ceiling=24.0,
     stability_games_floor=8.0,
     stability_games_ceiling=17.0,
     stability_total_ppr_floor=80.0,
@@ -211,12 +243,14 @@ RECIPES: dict[str, SignalRecipe] = {
             "efficiency_signal": 0.20,
             "development_signal": 0.20,
             "stability_signal": 0.15,
+            "cohort_signal": 0.0,
             "penalty_signal": -0.10,
         },
         usage_weights={"targets_per_game": 0.55, "target_share": 0.45},
         efficiency_weights={"ppg_per_target": 0.60, "ppg": 0.40},
         development_weights={"finish_room": 0.50, "expected_gap": 0.50},
         stability_weights={"games_played": 0.65, "total_ppr": 0.35},
+        cohort_weights={"ppg_delta": 0.50, "finish_delta": 0.30, "cohort_count": 0.20},
         penalty_weights={"already_elite": 0.60, "missed_games": 0.25, "thin_share": 0.15},
         thresholds=BASE_THRESHOLDS,
     ),
@@ -229,12 +263,14 @@ RECIPES: dict[str, SignalRecipe] = {
             "efficiency_signal": 0.15,
             "development_signal": 0.15,
             "stability_signal": 0.18,
+            "cohort_signal": 0.0,
             "penalty_signal": -0.07,
         },
         usage_weights={"targets_per_game": 0.65, "target_share": 0.35},
         efficiency_weights={"ppg_per_target": 0.45, "ppg": 0.55},
         development_weights={"finish_room": 0.40, "expected_gap": 0.60},
         stability_weights={"games_played": 0.75, "total_ppr": 0.25},
+        cohort_weights={"ppg_delta": 0.50, "finish_delta": 0.30, "cohort_count": 0.20},
         penalty_weights={"already_elite": 0.50, "missed_games": 0.35, "thin_share": 0.15},
         thresholds=RecipeThresholds(
             **{**BASE_THRESHOLDS.__dict__, "usage_targets_per_game_floor": 4.5, "usage_targets_per_game_ceiling": 11.0}
@@ -249,12 +285,14 @@ RECIPES: dict[str, SignalRecipe] = {
             "efficiency_signal": 0.38,
             "development_signal": 0.20,
             "stability_signal": 0.12,
+            "cohort_signal": 0.0,
             "penalty_signal": -0.08,
         },
         usage_weights={"targets_per_game": 0.45, "target_share": 0.55},
         efficiency_weights={"ppg_per_target": 0.70, "ppg": 0.30},
         development_weights={"finish_room": 0.35, "expected_gap": 0.65},
         stability_weights={"games_played": 0.55, "total_ppr": 0.45},
+        cohort_weights={"ppg_delta": 0.50, "finish_delta": 0.30, "cohort_count": 0.20},
         penalty_weights={"already_elite": 0.45, "missed_games": 0.20, "thin_share": 0.35},
         thresholds=RecipeThresholds(
             **{
@@ -274,12 +312,14 @@ RECIPES: dict[str, SignalRecipe] = {
             "efficiency_signal": 0.18,
             "development_signal": 0.17,
             "stability_signal": 0.20,
+            "cohort_signal": 0.0,
             "penalty_signal": -0.15,
         },
         usage_weights={"targets_per_game": 0.50, "target_share": 0.50},
         efficiency_weights={"ppg_per_target": 0.55, "ppg": 0.45},
         development_weights={"finish_room": 0.50, "expected_gap": 0.50},
         stability_weights={"games_played": 0.70, "total_ppr": 0.30},
+        cohort_weights={"ppg_delta": 0.50, "finish_delta": 0.30, "cohort_count": 0.20},
         penalty_weights={"already_elite": 0.55, "missed_games": 0.25, "thin_share": 0.20},
         thresholds=RecipeThresholds(
             **{
@@ -301,12 +341,14 @@ RECIPES: dict[str, SignalRecipe] = {
             "efficiency_signal": 0.26,
             "development_signal": 0.30,
             "stability_signal": 0.10,
+            "cohort_signal": 0.0,
             "penalty_signal": -0.05,
         },
         usage_weights={"targets_per_game": 0.45, "target_share": 0.55},
         efficiency_weights={"ppg_per_target": 0.65, "ppg": 0.35},
         development_weights={"finish_room": 0.30, "expected_gap": 0.70},
         stability_weights={"games_played": 0.55, "total_ppr": 0.45},
+        cohort_weights={"ppg_delta": 0.50, "finish_delta": 0.30, "cohort_count": 0.20},
         penalty_weights={"already_elite": 0.45, "missed_games": 0.15, "thin_share": 0.40},
         thresholds=RecipeThresholds(
             **{
@@ -318,6 +360,46 @@ RECIPES: dict[str, SignalRecipe] = {
                 "penalty_target_share_ceiling": 0.12,
             }
         ),
+    ),
+    "cohort_balanced": _recipe(
+        name="cohort_balanced",
+        description="Balanced recipe that adds cohort-relative peer expectation context while keeping the original usage/efficiency spine.",
+        scoring_version="wr_signal_score_cohort_balanced_v1",
+        component_weights={
+            "usage_signal": 0.28,
+            "efficiency_signal": 0.17,
+            "development_signal": 0.18,
+            "stability_signal": 0.15,
+            "cohort_signal": 0.30,
+            "penalty_signal": -0.08,
+        },
+        usage_weights={"targets_per_game": 0.55, "target_share": 0.45},
+        efficiency_weights={"ppg_per_target": 0.55, "ppg": 0.45},
+        development_weights={"finish_room": 0.40, "expected_gap": 0.60},
+        stability_weights={"games_played": 0.65, "total_ppr": 0.35},
+        cohort_weights={"ppg_delta": 0.55, "finish_delta": 0.25, "cohort_count": 0.20},
+        penalty_weights={"already_elite": 0.55, "missed_games": 0.25, "thin_share": 0.20},
+        thresholds=RecipeThresholds(**{**BASE_THRESHOLDS.__dict__, "cohort_count_ceiling": 18.0}),
+    ),
+    "cohort_upside": _recipe(
+        name="cohort_upside",
+        description="Cohort-aware upside recipe that prioritizes players who already outperform peer expectations and still have room to climb.",
+        scoring_version="wr_signal_score_cohort_upside_v1",
+        component_weights={
+            "usage_signal": 0.20,
+            "efficiency_signal": 0.18,
+            "development_signal": 0.24,
+            "stability_signal": 0.08,
+            "cohort_signal": 0.36,
+            "penalty_signal": -0.06,
+        },
+        usage_weights={"targets_per_game": 0.45, "target_share": 0.55},
+        efficiency_weights={"ppg_per_target": 0.60, "ppg": 0.40},
+        development_weights={"finish_room": 0.30, "expected_gap": 0.70},
+        stability_weights={"games_played": 0.55, "total_ppr": 0.45},
+        cohort_weights={"ppg_delta": 0.65, "finish_delta": 0.20, "cohort_count": 0.15},
+        penalty_weights={"already_elite": 0.45, "missed_games": 0.20, "thin_share": 0.35},
+        thresholds=RecipeThresholds(**{**BASE_THRESHOLDS.__dict__, "cohort_ppg_delta_ceiling": 7.0, "cohort_finish_delta_ceiling": 42.0, "cohort_count_ceiling": 16.0}),
     ),
 }
 

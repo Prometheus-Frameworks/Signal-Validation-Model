@@ -1,4 +1,44 @@
 {
+  "best_base_recipe": {
+    "metrics": {
+      "average_breakout_rank": null,
+      "breakout_count": 0,
+      "candidate_count": 3,
+      "false_negatives_outside_top_30": 0,
+      "false_positives_in_top_20": 1,
+      "median_breakout_rank": null,
+      "precision_at_10": 0.0,
+      "precision_at_20": 0.0,
+      "precision_at_30": 0.0,
+      "recall_at_10": 0.0,
+      "recall_at_20": 0.0,
+      "recall_at_30": 0.0,
+      "recipe_family": "base",
+      "recipe_name": "balanced_conservative"
+    },
+    "recipe_name": "balanced_conservative",
+    "scoring_version": "wr_signal_score_balanced_conservative_v1"
+  },
+  "best_cohort_recipe": {
+    "metrics": {
+      "average_breakout_rank": null,
+      "breakout_count": 0,
+      "candidate_count": 3,
+      "false_negatives_outside_top_30": 0,
+      "false_positives_in_top_20": 1,
+      "median_breakout_rank": null,
+      "precision_at_10": 0.0,
+      "precision_at_20": 0.0,
+      "precision_at_30": 0.0,
+      "recall_at_10": 0.0,
+      "recall_at_20": 0.0,
+      "recall_at_30": 0.0,
+      "recipe_family": "cohort",
+      "recipe_name": "cohort_balanced"
+    },
+    "recipe_name": "cohort_balanced",
+    "scoring_version": "wr_signal_score_cohort_balanced_v1"
+  },
   "best_recipe": {
     "metrics": {
       "average_breakout_rank": null,
@@ -13,6 +53,7 @@
       "recall_at_10": 0.0,
       "recall_at_20": 0.0,
       "recall_at_30": 0.0,
+      "recipe_family": "base",
       "recipe_name": "balanced_conservative"
     },
     "recipe_name": "balanced_conservative",
@@ -26,6 +67,16 @@
       "lowest_average_breakout_rank",
       "recipe_name"
     ]
+  },
+  "cohort_vs_base_delta": {
+    "average_breakout_rank_delta": null,
+    "median_breakout_rank_delta": null,
+    "precision_at_10_delta": 0.0,
+    "precision_at_20_delta": 0.0,
+    "precision_at_30_delta": 0.0,
+    "recall_at_10_delta": 0.0,
+    "recall_at_20_delta": 0.0,
+    "recall_at_30_delta": 0.0
   },
   "position": "WR",
   "recipe_metrics": [
@@ -42,6 +93,7 @@
       "recall_at_10": 0.0,
       "recall_at_20": 0.0,
       "recall_at_30": 0.0,
+      "recipe_family": "base",
       "recipe_name": "balanced_conservative"
     },
     {
@@ -57,6 +109,7 @@
       "recall_at_10": 0.0,
       "recall_at_20": 0.0,
       "recall_at_30": 0.0,
+      "recipe_family": "base",
       "recipe_name": "baseline_v1"
     },
     {
@@ -72,6 +125,39 @@
       "recall_at_10": 0.0,
       "recall_at_20": 0.0,
       "recall_at_30": 0.0,
+      "recipe_family": "cohort",
+      "recipe_name": "cohort_balanced"
+    },
+    {
+      "average_breakout_rank": null,
+      "breakout_count": 0,
+      "candidate_count": 3,
+      "false_negatives_outside_top_30": 0,
+      "false_positives_in_top_20": 1,
+      "median_breakout_rank": null,
+      "precision_at_10": 0.0,
+      "precision_at_20": 0.0,
+      "precision_at_30": 0.0,
+      "recall_at_10": 0.0,
+      "recall_at_20": 0.0,
+      "recall_at_30": 0.0,
+      "recipe_family": "cohort",
+      "recipe_name": "cohort_upside"
+    },
+    {
+      "average_breakout_rank": null,
+      "breakout_count": 0,
+      "candidate_count": 3,
+      "false_negatives_outside_top_30": 0,
+      "false_positives_in_top_20": 1,
+      "median_breakout_rank": null,
+      "precision_at_10": 0.0,
+      "precision_at_20": 0.0,
+      "precision_at_30": 0.0,
+      "recall_at_10": 0.0,
+      "recall_at_20": 0.0,
+      "recall_at_30": 0.0,
+      "recipe_family": "base",
       "recipe_name": "efficiency_heavy"
     },
     {
@@ -87,6 +173,7 @@
       "recall_at_10": 0.0,
       "recall_at_20": 0.0,
       "recall_at_30": 0.0,
+      "recipe_family": "base",
       "recipe_name": "upside_chaser"
     },
     {
@@ -102,15 +189,18 @@
       "recall_at_10": 0.0,
       "recall_at_20": 0.0,
       "recall_at_30": 0.0,
+      "recipe_family": "base",
       "recipe_name": "usage_heavy"
     }
   ],
   "recipes_compared": [
     "balanced_conservative",
     "baseline_v1",
+    "cohort_balanced",
+    "cohort_upside",
     "efficiency_heavy",
     "upside_chaser",
     "usage_heavy"
   ],
-  "validation_dataset_path": "outputs/validation_reports/wr_validation_dataset.csv"
+  "validation_dataset_path": "outputs/validation_reports/wr_validation_dataset_enriched.csv"
 }

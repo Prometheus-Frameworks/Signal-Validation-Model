@@ -1,0 +1,78 @@
+{
+  "bucket_definitions": {
+    "age_bucket": {
+      "age_21_or_younger": "Age on Sept. 1 is less than 22.0 when present.",
+      "age_22_to_24": "Age on Sept. 1 is at least 22.0 and less than 25.0 when present.",
+      "age_25_to_27": "Age on Sept. 1 is at least 25.0 and less than 28.0 when present.",
+      "age_28_plus": "Age on Sept. 1 is at least 28.0 when present.",
+      "age_unknown": "Age is not available in the current processed WR tables, so the row is grouped into an explicit unknown bucket."
+    },
+    "career_year_bucket": {
+      "yr1": "First recorded WR feature season for the player.",
+      "yr2": "Second recorded WR feature season for the player.",
+      "yr3": "Third recorded WR feature season for the player.",
+      "yr4_plus": "Fourth or later recorded WR feature season for the player."
+    },
+    "position": {
+      "WR": "All rows are restricted to WRs."
+    }
+  },
+  "cohort_counts": {
+    "WR|yr1|age_unknown": 2,
+    "WR|yr2|age_unknown": 1
+  },
+  "cohort_examples": {
+    "WR|yr1|age_unknown": [
+      {
+        "expected_ppg_from_cohort": null,
+        "feature_season": 2022,
+        "outcome_ppg_minus_cohort_expected": null,
+        "player_id": "wr_alpha",
+        "player_name": "Alpha Receiver"
+      },
+      {
+        "expected_ppg_from_cohort": null,
+        "feature_season": 2022,
+        "outcome_ppg_minus_cohort_expected": null,
+        "player_id": "wr_beta",
+        "player_name": "Beta Wideout"
+      }
+    ],
+    "WR|yr2|age_unknown": [
+      {
+        "expected_ppg_from_cohort": null,
+        "feature_season": 2023,
+        "outcome_ppg_minus_cohort_expected": null,
+        "player_id": "wr_alpha",
+        "player_name": "Alpha Receiver"
+      }
+    ]
+  },
+  "cohort_history_coverage": {
+    "max_historical_peer_count": 0,
+    "median_historical_peer_count": 0.0,
+    "rows_with_any_historical_cohort": 0,
+    "rows_without_historical_cohort": 3
+  },
+  "feature_seasons": [
+    2022,
+    2023
+  ],
+  "leakage_guardrails": {
+    "historical_rows_only": true,
+    "position_locked_to_wr": true,
+    "rule": "Each feature-season row uses only cohort observations with feature_season strictly less than the current feature_season."
+  },
+  "position": "WR",
+  "row_count": 3,
+  "season_coverage": {
+    "2022": {
+      "row_count": 2,
+      "rows_with_history": 0
+    },
+    "2023": {
+      "row_count": 1,
+      "rows_with_history": 0
+    }
+  }
+}
