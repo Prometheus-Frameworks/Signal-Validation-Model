@@ -8,6 +8,7 @@ from src.backtest.pipeline import run_scaffold_pipeline
 from src.enrichment import write_wr_cohort_outputs
 from src.ingestion import build_wr_tables_from_csv
 from src.labels.wr_breakouts import write_wr_label_outputs
+from src.reporting import build_wr_case_study
 from src.scoring import compare_wr_recipes, score_wr_candidates
 
 
@@ -109,6 +110,43 @@ def build_parser() -> argparse.ArgumentParser:
         default="outputs",
         help="Base output directory for per-recipe rankings and comparison reports.",
     )
+
+    case_study_parser = subparsers.add_parser(
+        "build-wr-case-study",
+        help="Build a deterministic season-pair WR case study from validation and recipe outputs.",
+    )
+    case_study_parser.add_argument(
+        "--validation-dataset",
+        default="outputs/validation_reports/wr_validation_dataset_enriched.csv",
+        help="Path to the enriched WR validation dataset CSV.",
+    )
+    case_study_parser.add_argument(
+        "--comparison-summary",
+        default="outputs/validation_reports/wr_recipe_comparison_summary.json",
+        help="Path to the WR recipe comparison summary JSON.",
+    )
+    case_study_parser.add_argument(
+        "--candidate-dir",
+        default="outputs/candidate_rankings",
+        help="Directory containing per-recipe WR candidate ranking CSV files.",
+    )
+    case_study_parser.add_argument(
+        "--output-dir",
+        default="outputs/case_studies",
+        help="Directory for season-pair WR case-study artifacts.",
+    )
+    case_study_parser.add_argument(
+        "--feature-season",
+        required=True,
+        type=int,
+        help="Feature season to analyze, such as 2024.",
+    )
+    case_study_parser.add_argument(
+        "--outcome-season",
+        required=True,
+        type=int,
+        help="Outcome season paired with the feature season, such as 2025.",
+    )
     return parser
 
 
@@ -171,6 +209,20 @@ def main() -> None:
             output_dir=args.output_dir,
         )
         print("Built WR recipe comparison artifacts:")
+        for label, path in sorted(artifacts.__dict__.items()):
+            print(f"- {label}: {path}")
+        return
+
+    if args.command == "build-wr-case-study":
+        artifacts = build_wr_case_study(
+            validation_dataset_path=args.validation_dataset,
+            comparison_summary_path=args.comparison_summary,
+            candidate_dir=args.candidate_dir,
+            output_dir=args.output_dir,
+            feature_season=args.feature_season,
+            outcome_season=args.outcome_season,
+        )
+        print("Built WR case-study artifacts:")
         for label, path in sorted(artifacts.__dict__.items()):
             print(f"- {label}: {path}")
         return
