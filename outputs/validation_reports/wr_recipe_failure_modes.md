@@ -5,6 +5,7 @@ Side-by-side deterministic comparison of how each recipe missed breakout labels 
 Best recipe under the documented rule: `balanced_conservative`.
 Best base recipe: `balanced_conservative`.
 Best cohort-aware recipe: `cohort_balanced`.
+Best role-aware recipe: `role_balanced`.
 
 ## Metric table
 
@@ -15,6 +16,8 @@ Best cohort-aware recipe: `cohort_balanced`.
 | cohort_balanced | cohort | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | n/a | n/a | 1 | 0 |
 | cohort_upside | cohort | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | n/a | n/a | 1 | 0 |
 | efficiency_heavy | base | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | n/a | n/a | 1 | 0 |
+| role_balanced | role | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | n/a | n/a | 1 | 0 |
+| role_upside | role | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | n/a | n/a | 1 | 0 |
 | upside_chaser | base | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | n/a | n/a | 1 | 0 |
 | usage_heavy | base | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | n/a | n/a | 1 | 0 |
 
@@ -103,6 +106,42 @@ _No rows in this category._
 | feature_season | rank | player_id | player_name | score | breakout_label | breakout_reason |
 | ---: | ---: | --- | --- | ---: | --- | --- |
 | 2022 | 1 | wr_alpha | Alpha Receiver | 45.6326 | false  no_breakout_trigger |
+
+### Top false negatives
+
+_No rows in this category._
+
+## role_balanced
+
+- family: role
+- precision@20: 0.0000
+- recall@20: 0.0000
+- false positives in top 20: 1
+- false negatives outside top 30: 0
+
+### Top false positives
+
+| feature_season | rank | player_id | player_name | score | breakout_label | breakout_reason |
+| ---: | ---: | --- | --- | ---: | --- | --- |
+| 2022 | 1 | wr_alpha | Alpha Receiver | 48.4108 | false  no_breakout_trigger |
+
+### Top false negatives
+
+_No rows in this category._
+
+## role_upside
+
+- family: role
+- precision@20: 0.0000
+- recall@20: 0.0000
+- false positives in top 20: 1
+- false negatives outside top 30: 0
+
+### Top false positives
+
+| feature_season | rank | player_id | player_name | score | breakout_label | breakout_reason |
+| ---: | ---: | --- | --- | ---: | --- | --- |
+| 2022 | 1 | wr_alpha | Alpha Receiver | 48.9783 | false  no_breakout_trigger |
 
 ### Top false negatives
 

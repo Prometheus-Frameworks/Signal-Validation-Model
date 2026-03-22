@@ -11,7 +11,7 @@ from typing import Iterable
 
 from src.scoring.recipes import DEFAULT_RECIPE, SignalRecipe
 
-FEATURE_ONLY_COLUMNS = {
+REQUIRED_FEATURE_COLUMNS = {
     "player_id",
     "player_name",
     "feature_season",
@@ -27,7 +27,7 @@ FEATURE_ONLY_COLUMNS = {
     "expected_ppg_baseline",
 }
 
-REQUIRED_DATASET_COLUMNS = FEATURE_ONLY_COLUMNS | {
+REQUIRED_DATASET_COLUMNS = REQUIRED_FEATURE_COLUMNS | {
     "has_valid_outcome",
     "breakout_label_default",
     "breakout_reason",
@@ -60,6 +60,7 @@ COMPONENT_OUTPUT_COLUMNS = [
     "development_signal",
     "stability_signal",
     "cohort_signal",
+    "role_signal",
     "penalty_signal",
     "wr_signal_score",
     "scoring_version",
@@ -68,6 +69,7 @@ COMPONENT_OUTPUT_COLUMNS = [
     "development_formula_notes",
     "stability_formula_notes",
     "cohort_formula_notes",
+    "role_formula_notes",
     "penalty_formula_notes",
 ]
 
@@ -88,6 +90,7 @@ class ScoredCandidate:
     development_signal: float
     stability_signal: float
     cohort_signal: float
+    role_signal: float
     penalty_signal: float
     wr_signal_score: float
     rank: int
@@ -122,6 +125,7 @@ class ScoredCandidate:
             "development_signal": self.development_signal,
             "stability_signal": self.stability_signal,
             "cohort_signal": self.cohort_signal,
+            "role_signal": self.role_signal,
             "penalty_signal": self.penalty_signal,
             "wr_signal_score": self.wr_signal_score,
             "scoring_version": self.scoring_version,
@@ -159,6 +163,21 @@ class ScoredCandidate:
                 f"{thresholds.cohort_finish_delta_floor:.2f},{thresholds.cohort_finish_delta_ceiling:.2f})+"
                 f"{recipe.cohort_weights['cohort_count']:.2f}*scale(cohort_player_count,"
                 f"{thresholds.cohort_count_floor:.2f},{thresholds.cohort_count_ceiling:.2f})"
+            ),
+            "role_formula_notes": (
+                f"{recipe.role_weights['route_participation']:.2f}*scale(route_participation_season_avg,"
+                f"{thresholds.role_route_participation_floor:.2f},{thresholds.role_route_participation_ceiling:.2f})+"
+                f"{recipe.role_weights['target_share']:.2f}*scale(target_share_season_avg,"
+                f"{thresholds.role_target_share_floor:.2f},{thresholds.role_target_share_ceiling:.2f})+"
+                f"{recipe.role_weights['air_yard_share']:.2f}*scale(air_yard_share_season_avg,"
+                f"{thresholds.role_air_yard_share_floor:.2f},{thresholds.role_air_yard_share_ceiling:.2f})+"
+                f"{recipe.role_weights['routes_consistency']:.2f}*scale(routes_consistency_index,"
+                f"{thresholds.role_routes_consistency_floor:.2f},{thresholds.role_routes_consistency_ceiling:.2f})+"
+                f"{recipe.role_weights['target_earning_index']:.2f}*scale(target_earning_index,"
+                f"{thresholds.role_target_earning_floor:.2f},{thresholds.role_target_earning_ceiling:.2f})+"
+                f"{recipe.role_weights['opportunity_concentration']:.2f}*scale(opportunity_concentration_score,"
+                f"{thresholds.role_opportunity_concentration_floor:.2f},"
+                f"{thresholds.role_opportunity_concentration_ceiling:.2f})"
             ),
             "penalty_formula_notes": (
                 f"{recipe.penalty_weights['already_elite']:.2f}*scale("
@@ -260,6 +279,7 @@ def build_scored_candidates(
                 -row["development_signal"],
                 -row["stability_signal"],
                 -row["cohort_signal"],
+                -row["role_signal"],
                 row["penalty_signal"],
                 row["player_id"],
             ),
@@ -281,6 +301,7 @@ def build_scored_candidates(
                     development_signal=float(row["development_signal"]),
                     stability_signal=float(row["stability_signal"]),
                     cohort_signal=float(row["cohort_signal"]),
+                    role_signal=float(row["role_signal"]),
                     penalty_signal=float(row["penalty_signal"]),
                     wr_signal_score=float(row["wr_signal_score"]),
                     rank=rank,
@@ -323,6 +344,7 @@ def build_validation_summary(
             "ranks_are_assigned_within_each_feature_season": True,
             "score_inputs_are_feature_season_fields_only": True,
             "cohort_expectations_are_historical_only": True,
+            "role_usage_inputs_are_feature_season_only": True,
         },
         "component_weights": recipe.component_weights,
     }
@@ -402,6 +424,12 @@ def _score_candidate(row: dict[str, object], recipe: SignalRecipe = DEFAULT_RECI
     cohort_player_count = float(feature_row.get("cohort_player_count") or 0.0)
     expected_finish_from_cohort = _parse_optional_float(feature_row.get("expected_finish_from_cohort"))
     feature_ppg_minus_cohort_expected = _parse_optional_float(feature_row.get("feature_ppg_minus_cohort_expected")) or 0.0
+    route_participation_season_avg = _parse_optional_float(feature_row.get("route_participation_season_avg")) or 0.0
+    target_share_season_avg = _parse_optional_float(feature_row.get("target_share_season_avg")) or 0.0
+    air_yard_share_season_avg = _parse_optional_float(feature_row.get("air_yard_share_season_avg")) or 0.0
+    routes_consistency_index = _parse_optional_float(feature_row.get("routes_consistency_index")) or 0.0
+    target_earning_index = _parse_optional_float(feature_row.get("target_earning_index")) or 0.0
+    opportunity_concentration_score = _parse_optional_float(feature_row.get("opportunity_concentration_score")) or 0.0
     estimated_targets = max(feature_targets_per_game * max(feature_games_played, 1), 1.0)
     feature_ppg_per_target = feature_total_ppr / estimated_targets
 
@@ -478,6 +506,45 @@ def _score_candidate(row: dict[str, object], recipe: SignalRecipe = DEFAULT_RECI
         ),
         4,
     )
+    role_signal = round(
+        recipe.role_weights["route_participation"]
+        * _scaled(
+            route_participation_season_avg,
+            thresholds.role_route_participation_floor,
+            thresholds.role_route_participation_ceiling,
+        )
+        + recipe.role_weights["target_share"]
+        * _scaled(
+            target_share_season_avg,
+            thresholds.role_target_share_floor,
+            thresholds.role_target_share_ceiling,
+        )
+        + recipe.role_weights["air_yard_share"]
+        * _scaled(
+            air_yard_share_season_avg,
+            thresholds.role_air_yard_share_floor,
+            thresholds.role_air_yard_share_ceiling,
+        )
+        + recipe.role_weights["routes_consistency"]
+        * _scaled(
+            routes_consistency_index,
+            thresholds.role_routes_consistency_floor,
+            thresholds.role_routes_consistency_ceiling,
+        )
+        + recipe.role_weights["target_earning_index"]
+        * _scaled(
+            target_earning_index,
+            thresholds.role_target_earning_floor,
+            thresholds.role_target_earning_ceiling,
+        )
+        + recipe.role_weights["opportunity_concentration"]
+        * _scaled(
+            opportunity_concentration_score,
+            thresholds.role_opportunity_concentration_floor,
+            thresholds.role_opportunity_concentration_ceiling,
+        ),
+        4,
+    )
     penalty_signal = round(
         recipe.penalty_weights["already_elite"]
         * _scaled(
@@ -505,6 +572,7 @@ def _score_candidate(row: dict[str, object], recipe: SignalRecipe = DEFAULT_RECI
         + development_signal * recipe.component_weights["development_signal"]
         + stability_signal * recipe.component_weights["stability_signal"]
         + cohort_signal * recipe.component_weights["cohort_signal"]
+        + role_signal * recipe.component_weights["role_signal"]
         + penalty_signal * recipe.component_weights["penalty_signal"],
         4,
     )
@@ -516,16 +584,17 @@ def _score_candidate(row: dict[str, object], recipe: SignalRecipe = DEFAULT_RECI
         "development_signal": development_signal,
         "stability_signal": stability_signal,
         "cohort_signal": cohort_signal,
+        "role_signal": role_signal,
         "penalty_signal": penalty_signal,
         "wr_signal_score": wr_signal_score,
     }
 
 
 def _feature_only_view(row: dict[str, object]) -> dict[str, object]:
-    missing = [column for column in FEATURE_ONLY_COLUMNS if column not in row]
+    missing = [column for column in REQUIRED_FEATURE_COLUMNS if column not in row]
     if missing:
         raise ValueError(f"score row is missing required feature columns: {sorted(missing)}")
-    return {column: row[column] for column in FEATURE_ONLY_COLUMNS}
+    return dict(row)
 
 
 def _scaled(value: float, floor: float, ceiling: float) -> float:
@@ -581,6 +650,12 @@ def _normalize_dataset_row(row: dict[str, str]) -> dict[str, object]:
         "expected_finish_from_cohort": _parse_optional_float(row.get("expected_finish_from_cohort", "")),
         "feature_ppg_minus_cohort_expected": _parse_optional_float(row.get("feature_ppg_minus_cohort_expected", "")),
         "actual_minus_cohort_expected_ppg": _parse_optional_float(row.get("actual_minus_cohort_expected_ppg", "")),
+        "route_participation_season_avg": _parse_optional_float(row.get("route_participation_season_avg", "")),
+        "target_share_season_avg": _parse_optional_float(row.get("target_share_season_avg", "")),
+        "air_yard_share_season_avg": _parse_optional_float(row.get("air_yard_share_season_avg", "")),
+        "routes_consistency_index": _parse_optional_float(row.get("routes_consistency_index", "")),
+        "target_earning_index": _parse_optional_float(row.get("target_earning_index", "")),
+        "opportunity_concentration_score": _parse_optional_float(row.get("opportunity_concentration_score", "")),
         "breakout_label_default": _parse_bool(row["breakout_label_default"]),
         "breakout_reason": row["breakout_reason"],
     }

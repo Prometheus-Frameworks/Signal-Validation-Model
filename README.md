@@ -39,7 +39,6 @@ Still out of scope:
 - projection generation
 - ML training
 - live APIs or databases
-- role/opportunity integrations
 - breakout label engine APIs beyond deterministic WR validation outputs
 
 ## Quick start
@@ -52,8 +51,9 @@ signal-validation run-scaffold
 signal-validation build-wr-tables --input data/raw/player_weekly_history.csv
 signal-validation build-wr-labels --processed-dir data/processed --output-dir outputs/validation_reports
 signal-validation enrich-wr-cohorts --processed-dir data/processed --validation-dataset outputs/validation_reports/wr_validation_dataset.csv --output-dir outputs/validation_reports
-signal-validation compare-wr-recipes --validation-dataset outputs/validation_reports/wr_validation_dataset_enriched.csv --output-dir outputs
-signal-validation build-wr-case-study --validation-dataset outputs/validation_reports/wr_validation_dataset_enriched.csv --comparison-summary outputs/validation_reports/wr_recipe_comparison_summary.json --candidate-dir outputs/candidate_rankings --output-dir outputs/case_studies --feature-season 2024 --outcome-season 2025
+signal-validation enrich-wr-role --processed-dir data/processed --validation-dataset outputs/validation_reports/wr_validation_dataset_enriched.csv --output-dir outputs/validation_reports
+signal-validation compare-wr-recipes --validation-dataset outputs/validation_reports/wr_validation_dataset_role_enriched.csv --output-dir outputs
+signal-validation build-wr-case-study --validation-dataset outputs/validation_reports/wr_validation_dataset_role_enriched.csv --comparison-summary outputs/validation_reports/wr_recipe_comparison_summary.json --candidate-dir outputs/candidate_rankings --output-dir outputs/case_studies --feature-season 2024 --outcome-season 2025
 ```
 
 The historical ingestion command writes deterministic canonical outputs to `data/processed/` by default:
@@ -87,6 +87,12 @@ The WR recipe comparison command writes deterministic PR5/PR6 artifacts to:
 - `outputs/validation_reports/wr_recipe_failure_modes.md`
 - `outputs/candidate_rankings/wr_candidate_rankings_<recipe>.csv`
 
+The WR role enrichment command writes deterministic PR8 artifacts to:
+
+- `outputs/validation_reports/wr_validation_dataset_role_enriched.csv`
+- `outputs/validation_reports/wr_role_enrichment_summary.json`
+- `outputs/validation_reports/wr_role_examples.md`
+
 The WR case-study command writes deterministic PR7 artifacts to:
 
 - `outputs/case_studies/wr_breakout_case_study_<feature>_to_<outcome>.md`
@@ -113,6 +119,7 @@ The scaffold command still writes deterministic mock outputs to:
 - `docs/DATA_CONTRACT.md`
 - `docs/CANONICAL_TABLES.md`
 - `docs/COHORT_BASELINES.md`
+- `docs/ROLE_ENRICHMENT.md`
 - `docs/CASE_STUDIES.md`
 
 ## Current status
@@ -124,6 +131,7 @@ This repository now provides:
 - canonical processed tables that separate prior-season inputs from next-season outcomes,
 - deterministic WR breakout labels and validation artifacts built from those canonical tables,
 - deterministic cohort-baseline enrichment artifacts for cohort-aware recipe variants,
+- deterministic role-and-opportunity enrichment artifacts for role-aware recipe variants,
 - deterministic WR recipe comparison artifacts that evaluate multiple explicit score recipes side by side, and
 - deterministic season-pair WR case studies that convert the ranking and label outputs into human-readable hit/miss reports.
 

@@ -5,7 +5,7 @@ from __future__ import annotations
 import argparse
 
 from src.backtest.pipeline import run_scaffold_pipeline
-from src.enrichment import write_wr_cohort_outputs
+from src.enrichment import write_wr_cohort_outputs, write_wr_role_outputs
 from src.ingestion import build_wr_tables_from_csv
 from src.labels.wr_breakouts import write_wr_label_outputs
 from src.reporting import build_wr_case_study
@@ -102,8 +102,8 @@ def build_parser() -> argparse.ArgumentParser:
     )
     compare_parser.add_argument(
         "--validation-dataset",
-        default="outputs/validation_reports/wr_validation_dataset_enriched.csv",
-        help="Path to the WR validation dataset CSV, typically the PR6 enriched cohort dataset.",
+        default="outputs/validation_reports/wr_validation_dataset_role_enriched.csv",
+        help="Path to the WR validation dataset CSV, typically the PR8 role-enriched dataset.",
     )
     compare_parser.add_argument(
         "--output-dir",
@@ -117,7 +117,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     case_study_parser.add_argument(
         "--validation-dataset",
-        default="outputs/validation_reports/wr_validation_dataset_enriched.csv",
+        default="outputs/validation_reports/wr_validation_dataset_role_enriched.csv",
         help="Path to the enriched WR validation dataset CSV.",
     )
     case_study_parser.add_argument(
@@ -146,6 +146,25 @@ def build_parser() -> argparse.ArgumentParser:
         required=True,
         type=int,
         help="Outcome season paired with the feature season, such as 2025.",
+    )
+    role_enrich_parser = subparsers.add_parser(
+        "enrich-wr-role",
+        help="Enrich the WR validation dataset with deterministic role-and-opportunity signals and write PR8 artifacts.",
+    )
+    role_enrich_parser.add_argument(
+        "--processed-dir",
+        default="data/processed",
+        help="Directory containing canonical wr_player_weeks.csv and wr_player_seasons.csv tables.",
+    )
+    role_enrich_parser.add_argument(
+        "--validation-dataset",
+        default="outputs/validation_reports/wr_validation_dataset_enriched.csv",
+        help="Path to the WR validation dataset CSV to role-enrich, typically the PR6 cohort-enriched dataset.",
+    )
+    role_enrich_parser.add_argument(
+        "--output-dir",
+        default="outputs/validation_reports",
+        help="Directory for role-enriched WR validation artifacts.",
     )
     return parser
 
@@ -189,6 +208,17 @@ def main() -> None:
             output_dir=args.output_dir,
         )
         print("Built WR cohort enrichment artifacts:")
+        for label, path in sorted(artifacts.__dict__.items()):
+            print(f"- {label}: {path}")
+        return
+
+    if args.command == "enrich-wr-role":
+        artifacts = write_wr_role_outputs(
+            processed_dir=args.processed_dir,
+            validation_dataset_path=args.validation_dataset,
+            output_dir=args.output_dir,
+        )
+        print("Built WR role enrichment artifacts:")
         for label, path in sorted(artifacts.__dict__.items()):
             print(f"- {label}: {path}")
         return

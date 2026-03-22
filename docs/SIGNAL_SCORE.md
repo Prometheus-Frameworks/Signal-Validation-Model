@@ -18,9 +18,9 @@ It is **not** a claim of predictive accuracy, a live projection model, or a hidd
 
 ## Inputs
 
-The scoring command reads the PR3 joined validation dataset:
+The scoring command reads the joined validation dataset. For PR8 comparisons, the default input is the role-enriched dataset:
 
-- `outputs/validation_reports/wr_validation_dataset.csv`
+- `outputs/validation_reports/wr_validation_dataset_role_enriched.csv`
 
 The implementation lives in:
 
@@ -37,6 +37,8 @@ The score uses only feature-season fields:
 - `feature_targets_per_game`
 - `feature_target_share`
 - `expected_ppg_baseline`
+- optional cohort-relative expectations from PR6
+- optional role-and-opportunity metrics from PR8
 
 Outcome-season and delta columns may exist in the joined validation dataset, but the scoring path extracts a feature-only view before calculating component values. Changing outcome columns does not change the score.
 
@@ -88,7 +90,36 @@ stability_signal =
 + 0.35 * scale(feature_total_ppr, 80.0, 260.0)
 ```
 
-### 5. Penalty signal
+### 5. Cohort signal
+
+When the dataset includes PR6 cohort enrichment, cohort-aware recipes can score:
+
+```text
+cohort_signal =
+  0.50 * scale(feature_ppg_minus_cohort_expected, 0.0, 6.0)
++ 0.30 * scale(expected_finish_from_cohort - feature_finish, 0.0, 36.0)
++ 0.20 * scale(cohort_player_count, 1.0, 24.0)
+```
+
+For base recipes this family weight remains `0`, so the cohort component does not move the final score.
+
+### 6. Role signal
+
+When the dataset includes PR8 role enrichment, role-aware recipes can score:
+
+```text
+role_signal =
+  0.18 * scale(route_participation_season_avg, 0.45, 0.95)
++ 0.22 * scale(target_share_season_avg, 0.10, 0.30)
++ 0.15 * scale(air_yard_share_season_avg, 0.08, 0.35)
++ 0.12 * scale(routes_consistency_index, 0.55, 0.95)
++ 0.18 * scale(target_earning_index, 0.12, 0.42)
++ 0.15 * scale(opportunity_concentration_score, 0.18, 0.52)
+```
+
+For base and cohort-only recipes this family weight remains `0`, so the role component is still computed transparently but does not affect the final score.
+
+### 7. Penalty signal
 
 Penalizes profiles that are poor breakout targets for this specific research question:
 
@@ -106,15 +137,20 @@ penalty_signal =
 ## Final score
 
 ```text
+The final score is always a weighted sum of the explicit component families:
+
+```text
 wr_signal_score =
-  0.35 * usage_signal
-+ 0.20 * efficiency_signal
-+ 0.20 * development_signal
-+ 0.15 * stability_signal
-- 0.10 * penalty_signal
+  usage_weight * usage_signal
++ efficiency_weight * efficiency_signal
++ development_weight * development_signal
++ stability_weight * stability_signal
++ cohort_weight * cohort_signal
++ role_weight * role_signal
++ penalty_weight * penalty_signal
 ```
 
-All weights are explicit constants in code so future PRs can compare alternative recipes without hidden logic.
+The exact weights come from the selected recipe in `src/scoring/recipes.py`. All weights are explicit constants in code so future PRs can compare alternative recipes without hidden logic.
 
 ## Tie-breaking rules
 
@@ -125,8 +161,10 @@ Players are ranked within each `feature_season` using this deterministic sort or
 3. higher `efficiency_signal`
 4. higher `development_signal`
 5. higher `stability_signal`
-6. lower `penalty_signal`
-7. alphabetical `player_id`
+6. higher `cohort_signal`
+7. higher `role_signal`
+8. lower `penalty_signal`
+9. alphabetical `player_id`
 
 This guarantees stable reproducible ranks even when scores tie.
 
