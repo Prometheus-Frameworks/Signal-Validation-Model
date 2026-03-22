@@ -9,6 +9,7 @@ from src.enrichment import write_wr_cohort_outputs, write_wr_role_outputs
 from src.exports import export_wr_results
 from src.ingestion import build_wr_tables_from_csv
 from src.labels.wr_breakouts import write_wr_label_outputs
+from src.public import build_wr_public_report
 from src.reporting import build_wr_case_study
 from src.scoring import compare_wr_recipes, score_wr_candidates
 
@@ -191,6 +192,43 @@ def build_parser() -> argparse.ArgumentParser:
         help="Outcome season paired with the feature season, such as 2025.",
     )
 
+    public_report_parser = subparsers.add_parser(
+        "build-wr-public-report",
+        help="Build a public-facing WR report pack from deterministic export and case-study artifacts.",
+    )
+    public_report_parser.add_argument(
+        "--exports-dir",
+        default="outputs/exports",
+        help="Directory containing deterministic WR export artifacts.",
+    )
+    public_report_parser.add_argument(
+        "--case-study-dir",
+        default="outputs/case_studies",
+        help="Directory containing deterministic WR case-study artifacts.",
+    )
+    public_report_parser.add_argument(
+        "--comparison-summary",
+        default="outputs/validation_reports/wr_recipe_comparison_summary.json",
+        help="Path to the WR recipe comparison summary JSON.",
+    )
+    public_report_parser.add_argument(
+        "--output-dir",
+        default="outputs/public",
+        help="Directory for public-facing WR report artifacts.",
+    )
+    public_report_parser.add_argument(
+        "--feature-season",
+        required=True,
+        type=int,
+        help="Feature season to report, such as 2024.",
+    )
+    public_report_parser.add_argument(
+        "--outcome-season",
+        required=True,
+        type=int,
+        help="Outcome season paired with the feature season, such as 2025.",
+    )
+
     role_enrich_parser = subparsers.add_parser(
         "enrich-wr-role",
         help="Enrich the WR validation dataset with deterministic role-and-opportunity signals and write PR8 artifacts.",
@@ -312,6 +350,20 @@ def main() -> None:
             outcome_season=args.outcome_season,
         )
         print("Built WR export artifacts:")
+        for label, path in sorted(artifacts.__dict__.items()):
+            print(f"- {label}: {path}")
+        return
+
+    if args.command == "build-wr-public-report":
+        artifacts = build_wr_public_report(
+            exports_dir=args.exports_dir,
+            case_study_dir=args.case_study_dir,
+            comparison_summary_path=args.comparison_summary,
+            output_dir=args.output_dir,
+            feature_season=args.feature_season,
+            outcome_season=args.outcome_season,
+        )
+        print("Built WR public-report artifacts:")
         for label, path in sorted(artifacts.__dict__.items()):
             print(f"- {label}: {path}")
         return
