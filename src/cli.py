@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 
 from src.backtest.pipeline import run_scaffold_pipeline
+from src.enrichment import write_wr_cohort_outputs
 from src.ingestion import build_wr_tables_from_csv
 from src.labels.wr_breakouts import write_wr_label_outputs
 from src.scoring import compare_wr_recipes, score_wr_candidates
@@ -73,14 +74,35 @@ def build_parser() -> argparse.ArgumentParser:
         help="Base output directory for candidate rankings and validation reports.",
     )
 
+
+    enrich_parser = subparsers.add_parser(
+        "enrich-wr-cohorts",
+        help="Enrich the WR validation dataset with deterministic cohort-baseline context and write PR6 artifacts.",
+    )
+    enrich_parser.add_argument(
+        "--processed-dir",
+        default="data/processed",
+        help="Directory containing wr_feature_seasons.csv for deterministic cohort assignment.",
+    )
+    enrich_parser.add_argument(
+        "--validation-dataset",
+        default="outputs/validation_reports/wr_validation_dataset.csv",
+        help="Path to the canonical WR validation dataset CSV to enrich.",
+    )
+    enrich_parser.add_argument(
+        "--output-dir",
+        default="outputs/validation_reports",
+        help="Directory for enriched WR cohort-baseline artifacts.",
+    )
+
     compare_parser = subparsers.add_parser(
         "compare-wr-recipes",
         help="Compare multiple deterministic WR score recipes against the same labeled validation dataset.",
     )
     compare_parser.add_argument(
         "--validation-dataset",
-        default="outputs/validation_reports/wr_validation_dataset.csv",
-        help="Path to the PR3 WR validation dataset CSV.",
+        default="outputs/validation_reports/wr_validation_dataset_enriched.csv",
+        help="Path to the WR validation dataset CSV, typically the PR6 enriched cohort dataset.",
     )
     compare_parser.add_argument(
         "--output-dir",
@@ -120,6 +142,17 @@ def main() -> None:
         print("Built WR breakout labeling artifacts:")
         for table_name, path in sorted(output_paths.items()):
             print(f"- {table_name}: {path}")
+        return
+
+    if args.command == "enrich-wr-cohorts":
+        artifacts = write_wr_cohort_outputs(
+            processed_dir=args.processed_dir,
+            validation_dataset_path=args.validation_dataset,
+            output_dir=args.output_dir,
+        )
+        print("Built WR cohort enrichment artifacts:")
+        for label, path in sorted(artifacts.__dict__.items()):
+            print(f"- {label}: {path}")
         return
 
     if args.command == "score-wr-candidates":

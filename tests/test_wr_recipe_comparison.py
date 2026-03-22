@@ -34,6 +34,16 @@ REQUIRED_COLUMNS = [
     "outcome_targets_per_game",
     "feature_target_share",
     "expected_ppg_baseline",
+    "career_year",
+    "career_year_bucket",
+    "age_bucket",
+    "cohort_key",
+    "cohort_player_count",
+    "expected_ppg_from_cohort",
+    "expected_finish_from_cohort",
+    "feature_ppg_minus_cohort_expected",
+    "outcome_ppg_minus_cohort_expected",
+    "actual_minus_cohort_expected_ppg",
     "actual_minus_expected_ppg",
     "is_new_fantasy_starter",
     "breakout_reason",
@@ -67,6 +77,16 @@ def _base_dataset_row(player_id: str, player_name: str, feature_season: int) -> 
         "outcome_targets_per_game": 7.0,
         "feature_target_share": 0.20,
         "expected_ppg_baseline": 11.4,
+        "career_year": 2,
+        "career_year_bucket": "yr2",
+        "age_bucket": "age_unknown",
+        "cohort_key": "WR|yr2|age_unknown",
+        "cohort_player_count": 4,
+        "expected_ppg_from_cohort": 9.2,
+        "expected_finish_from_cohort": 29.0,
+        "feature_ppg_minus_cohort_expected": 0.8,
+        "outcome_ppg_minus_cohort_expected": 0.8,
+        "actual_minus_cohort_expected_ppg": 0.8,
         "actual_minus_expected_ppg": -1.4,
         "is_new_fantasy_starter": False,
         "breakout_reason": "no_breakout_trigger",
@@ -162,6 +182,9 @@ def test_recipe_comparison_metrics_and_artifacts_are_generated(tmp_path: Path) -
     assert len(comparison_rows) == len(RECIPES)
     assert summary["best_recipe_rule"] == BEST_RECIPE_RULE
     assert summary["best_recipe"]["recipe_name"] in RECIPES
+    assert summary["best_base_recipe"]["recipe_name"] in RECIPES
+    assert summary["best_cohort_recipe"]["recipe_name"] in RECIPES
+    assert summary["cohort_vs_base_delta"] is not None
     assert "# WR Best Recipe Candidates" in best_candidates
     assert "# WR Recipe Failure Modes" in failure_modes
     for recipe_name, path in artifacts.per_recipe_candidate_paths.items():
@@ -179,6 +202,7 @@ def test_recipe_comparison_metrics_match_fixture_expectations(tmp_path: Path) ->
     comparison_rows = list(csv.DictReader(artifacts.comparison_table_path.open(encoding="utf-8", newline="")))
     baseline_row = next(row for row in comparison_rows if row["recipe_name"] == "baseline_v1")
 
+    assert baseline_row["recipe_family"] == "base"
     assert baseline_row["candidate_count"] == "32"
     assert baseline_row["breakout_count"] == "4"
     assert baseline_row["precision_at_10"] == "0.3000"
@@ -218,6 +242,7 @@ def test_recipe_config_validation_rejects_bad_weights() -> None:
         efficiency_weights=DEFAULT_RECIPE.efficiency_weights,
         development_weights=DEFAULT_RECIPE.development_weights,
         stability_weights=DEFAULT_RECIPE.stability_weights,
+        cohort_weights=DEFAULT_RECIPE.cohort_weights,
         penalty_weights=DEFAULT_RECIPE.penalty_weights,
         thresholds=DEFAULT_RECIPE.thresholds,
     )
