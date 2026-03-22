@@ -164,6 +164,7 @@ def test_component_scores_output_uses_explicit_weighted_sum() -> None:
         + scored["development_signal"] * COMPONENT_WEIGHTS["development_signal"]
         + scored["stability_signal"] * COMPONENT_WEIGHTS["stability_signal"]
         + scored["cohort_signal"] * COMPONENT_WEIGHTS["cohort_signal"]
+        + scored["role_signal"] * COMPONENT_WEIGHTS["role_signal"]
         + scored["penalty_signal"] * COMPONENT_WEIGHTS["penalty_signal"],
         4,
     )

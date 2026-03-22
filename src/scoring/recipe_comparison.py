@@ -82,8 +82,10 @@ def compare_wr_recipes(
     best_result = select_best_recipe(results)
     base_results = [result for result in results if _recipe_family(result.recipe.name) == "base"]
     cohort_results = [result for result in results if _recipe_family(result.recipe.name) == "cohort"]
+    role_results = [result for result in results if _recipe_family(result.recipe.name) == "role"]
     best_base_result = select_best_recipe(base_results) if base_results else None
     best_cohort_result = select_best_recipe(cohort_results) if cohort_results else None
+    best_role_result = select_best_recipe(role_results) if role_results else None
 
     summary_path = report_dir / "wr_recipe_comparison_summary.json"
     comparison_table_path = report_dir / "wr_recipe_comparison_table.csv"
@@ -122,9 +124,28 @@ def compare_wr_recipes(
                     if best_cohort_result is not None
                     else None
                 ),
+                "best_role_recipe": (
+                    {
+                        "recipe_name": best_role_result.recipe.name,
+                        "scoring_version": best_role_result.recipe.scoring_version,
+                        "metrics": best_role_result.metrics,
+                    }
+                    if best_role_result is not None
+                    else None
+                ),
                 "cohort_vs_base_delta": (
                     _metric_delta(best_cohort_result.metrics, best_base_result.metrics)
                     if best_base_result is not None and best_cohort_result is not None
+                    else None
+                ),
+                "role_vs_base_delta": (
+                    _metric_delta(best_role_result.metrics, best_base_result.metrics)
+                    if best_base_result is not None and best_role_result is not None
+                    else None
+                ),
+                "role_vs_cohort_delta": (
+                    _metric_delta(best_role_result.metrics, best_cohort_result.metrics)
+                    if best_cohort_result is not None and best_role_result is not None
                     else None
                 ),
                 "recipe_metrics": comparison_rows,
@@ -142,6 +163,7 @@ def compare_wr_recipes(
             best_recipe_name=best_result.recipe.name,
             best_base_recipe_name=best_base_result.recipe.name if best_base_result is not None else None,
             best_cohort_recipe_name=best_cohort_result.recipe.name if best_cohort_result is not None else None,
+            best_role_recipe_name=best_role_result.recipe.name if best_role_result is not None else None,
         ),
         encoding="utf-8",
     )
@@ -234,6 +256,7 @@ def _build_failure_modes_markdown(
     best_recipe_name: str,
     best_base_recipe_name: str | None = None,
     best_cohort_recipe_name: str | None = None,
+    best_role_recipe_name: str | None = None,
 ) -> str:
     lines = [
         "# WR Recipe Failure Modes",
@@ -246,6 +269,11 @@ def _build_failure_modes_markdown(
             f"Best cohort-aware recipe: `{best_cohort_recipe_name}`."
             if best_cohort_recipe_name is not None
             else "No cohort-aware recipes were supplied."
+        ),
+        (
+            f"Best role-aware recipe: `{best_role_recipe_name}`."
+            if best_role_recipe_name is not None
+            else "No role-aware recipes were supplied."
         ),
         "",
         "## Metric table",
@@ -350,7 +378,11 @@ def _serialize_value(value: object) -> object:
 
 
 def _recipe_family(recipe_name: str) -> str:
-    return "cohort" if recipe_name.startswith("cohort_") else "base"
+    if recipe_name.startswith("cohort_"):
+        return "cohort"
+    if recipe_name.startswith("role_"):
+        return "role"
+    return "base"
 
 
 def _metric_delta(cohort_metrics: dict[str, object], base_metrics: dict[str, object]) -> dict[str, float | None]:

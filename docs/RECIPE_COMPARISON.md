@@ -6,7 +6,7 @@ A recipe is an explicit deterministic configuration for the WR signal score.
 
 Each recipe defines:
 
-- the final component weights used to combine `usage`, `efficiency`, `development`, `stability`, and `penalty` signals,
+- the final component weights used to combine `usage`, `efficiency`, `development`, `stability`, `cohort`, `role`, and `penalty` signals,
 - the internal sub-weights inside each component family, and
 - the threshold ranges used when raw feature-season values are normalized onto a `0-100` scale.
 
@@ -14,13 +14,22 @@ Recipes live in `src/scoring/recipes.py` so the assumptions stay transparent, fe
 
 ## Included recipes
 
-PR5 compares these named recipes side by side:
+The framework now compares three explicit recipe families side by side:
 
+### Base recipes
 - `baseline_v1`
 - `usage_heavy`
 - `efficiency_heavy`
 - `balanced_conservative`
 - `upside_chaser`
+
+### Cohort-aware recipes
+- `cohort_balanced`
+- `cohort_upside`
+
+### Role-aware recipes
+- `role_balanced`
+- `role_upside`
 
 The `baseline_v1` recipe preserves the PR4 score as the benchmark. The other recipes intentionally shift emphasis in small, readable ways rather than introducing new hidden logic.
 
@@ -35,6 +44,8 @@ They differ only through explicit configuration:
 - **`efficiency_heavy`** gives more credit to PPR per target and players who beat their scoring context efficiently.
 - **`balanced_conservative`** raises the penalty for fragile profiles and already-elite seasons.
 - **`upside_chaser`** gives more credit to development headroom and softens some conservative penalties.
+- **`cohort_balanced` / `cohort_upside`** add historical peer-baseline context.
+- **`role_balanced` / `role_upside`** add prior-season role concentration signals such as route participation, target share, air-yard share, target-earning rate, and route-consistency context.
 
 Because the framework keeps one shared component engine, recipe comparisons isolate the effect of changing explicit weights and thresholds.
 
@@ -44,7 +55,7 @@ Run the comparison from the repository root:
 
 ```bash
 signal-validation compare-wr-recipes \
-  --validation-dataset outputs/validation_reports/wr_validation_dataset.csv \
+  --validation-dataset outputs/validation_reports/wr_validation_dataset_role_enriched.csv \
   --output-dir outputs
 ```
 
@@ -60,7 +71,7 @@ The comparison command writes:
 
 ## Comparison metrics
 
-Each recipe is evaluated against the same PR3 breakout labels using:
+Each recipe is evaluated against the same breakout labels using:
 
 - `recipe_name`
 - `candidate_count`
@@ -91,6 +102,8 @@ The framework chooses one best recipe with a documented deterministic rule:
 
 This rule is implemented in `src/scoring/recipe_comparison.py` and repeated in the summary artifact so the choice is reproducible.
 
+The summary artifact also records the best base, cohort-aware, and role-aware recipes plus family-level deltas such as `cohort_vs_base_delta`, `role_vs_base_delta`, and `role_vs_cohort_delta`.
+
 ## Why this exists before any ML layer
 
 This framework exists before any ML work because it creates a disciplined baseline:
@@ -99,6 +112,6 @@ This framework exists before any ML work because it creates a disciplined baseli
 - every comparison uses the same labeled validation dataset,
 - failure modes can be inspected directly,
 - leakage constraints remain easy to audit, and
-- future ARC / role-opportunity / market-enriched recipes can plug into the same comparison harness.
+- future market-enriched or adapter-based role models can plug into the same comparison harness.
 
 It is still a historical validation tool, not a claim of predictive validity or a production projection system.

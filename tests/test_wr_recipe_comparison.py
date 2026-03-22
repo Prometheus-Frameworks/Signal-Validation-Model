@@ -184,7 +184,9 @@ def test_recipe_comparison_metrics_and_artifacts_are_generated(tmp_path: Path) -
     assert summary["best_recipe"]["recipe_name"] in RECIPES
     assert summary["best_base_recipe"]["recipe_name"] in RECIPES
     assert summary["best_cohort_recipe"]["recipe_name"] in RECIPES
+    assert summary["best_role_recipe"]["recipe_name"] in RECIPES
     assert summary["cohort_vs_base_delta"] is not None
+    assert summary["role_vs_base_delta"] is not None
     assert "# WR Best Recipe Candidates" in best_candidates
     assert "# WR Recipe Failure Modes" in failure_modes
     for recipe_name, path in artifacts.per_recipe_candidate_paths.items():
@@ -243,6 +245,7 @@ def test_recipe_config_validation_rejects_bad_weights() -> None:
         development_weights=DEFAULT_RECIPE.development_weights,
         stability_weights=DEFAULT_RECIPE.stability_weights,
         cohort_weights=DEFAULT_RECIPE.cohort_weights,
+        role_weights=DEFAULT_RECIPE.role_weights,
         penalty_weights=DEFAULT_RECIPE.penalty_weights,
         thresholds=DEFAULT_RECIPE.thresholds,
     )

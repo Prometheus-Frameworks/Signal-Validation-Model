@@ -1,0 +1,65 @@
+{
+  "coverage": {
+    "air_yard_share_season_avg": 2,
+    "opportunity_concentration_score": 2,
+    "route_participation_season_avg": 2,
+    "routes_consistency_index": 2,
+    "target_earning_index": 2,
+    "target_share_season_avg": 2
+  },
+  "distribution": {
+    "opportunity_concentration_score_max": 0.4995,
+    "opportunity_concentration_score_median": 0.4805,
+    "routes_consistency_index_median": 0.9289
+  },
+  "feature_seasons": [
+    2022,
+    2023
+  ],
+  "formulas": {
+    "opportunity_concentration_score": "Weighted average of available route_participation (40%), target_share (35%), and air_yard_share (25%) inputs, renormalized across present fields only.",
+    "opportunity_concentration_weights": {
+      "air_yard_share": 0.25,
+      "route_participation": 0.4,
+      "target_share": 0.35
+    },
+    "routes_consistency_index": "1 - mean absolute deviation divided by mean route participation, clipped to [0, 1], using only feature-season weekly rows with route participation present.",
+    "target_earning_index": "target_share_season_avg divided by route_participation_season_avg when both inputs are present and route participation is positive."
+  },
+  "leakage_guardrails": {
+    "feature_season_only": true,
+    "next_season_outcomes_used": false,
+    "season_input_scope": "Only canonical wr_player_seasons rows from the same feature season are used.",
+    "weekly_input_scope": "Only canonical wr_player_weeks rows from the same feature season are used."
+  },
+  "position": "WR",
+  "role_fields": {
+    "air_yard_share_season_avg": "Average prior-season weekly air-yard share from canonical WR season rows when present.",
+    "opportunity_concentration_score": "Weighted average of available route_participation (40%), target_share (35%), and air_yard_share (25%) inputs, renormalized across present fields only.",
+    "route_participation_season_avg": "Average prior-season route participation from canonical WR season rows.",
+    "routes_consistency_index": "1 - mean absolute deviation divided by mean route participation, clipped to [0, 1], using only feature-season weekly rows with route participation present.",
+    "target_earning_index": "target_share_season_avg divided by route_participation_season_avg when both inputs are present and route participation is positive.",
+    "target_share_season_avg": "Average prior-season weekly target share from canonical WR season rows when present."
+  },
+  "row_count": 3,
+  "top_opportunity_examples": [
+    {
+      "air_yard_share_season_avg": 0.31,
+      "feature_season": 2022,
+      "opportunity_concentration_score": 0.4995,
+      "player_id": "wr_alpha",
+      "player_name": "Alpha Receiver",
+      "route_participation_season_avg": 0.845,
+      "target_share_season_avg": 0.24
+    },
+    {
+      "air_yard_share_season_avg": 0.265,
+      "feature_season": 2023,
+      "opportunity_concentration_score": 0.4615,
+      "player_id": "wr_alpha",
+      "player_name": "Alpha Receiver",
+      "route_participation_season_avg": 0.8,
+      "target_share_season_avg": 0.215
+    }
+  ]
+}
