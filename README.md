@@ -51,8 +51,9 @@ pip install -e .[dev]
 signal-validation run-scaffold
 signal-validation build-wr-tables --input data/raw/player_weekly_history.csv
 signal-validation build-wr-labels --processed-dir data/processed --output-dir outputs/validation_reports
-signal-validation score-wr-candidates --validation-dataset outputs/validation_reports/wr_validation_dataset.csv --output-dir outputs
-signal-validation compare-wr-recipes --validation-dataset outputs/validation_reports/wr_validation_dataset.csv --output-dir outputs
+signal-validation enrich-wr-cohorts --processed-dir data/processed --validation-dataset outputs/validation_reports/wr_validation_dataset.csv --output-dir outputs/validation_reports
+signal-validation compare-wr-recipes --validation-dataset outputs/validation_reports/wr_validation_dataset_enriched.csv --output-dir outputs
+signal-validation build-wr-case-study --validation-dataset outputs/validation_reports/wr_validation_dataset_enriched.csv --comparison-summary outputs/validation_reports/wr_recipe_comparison_summary.json --candidate-dir outputs/candidate_rankings --output-dir outputs/case_studies --feature-season 2024 --outcome-season 2025
 ```
 
 The historical ingestion command writes deterministic canonical outputs to `data/processed/` by default:
@@ -78,13 +79,22 @@ The WR scoring command writes deterministic PR4 artifacts to:
 - `outputs/validation_reports/wr_false_positives.md`
 - `outputs/validation_reports/wr_false_negatives.md`
 
-The WR recipe comparison command writes deterministic PR5 artifacts to:
+The WR recipe comparison command writes deterministic PR5/PR6 artifacts to:
 
 - `outputs/validation_reports/wr_recipe_comparison_summary.json`
 - `outputs/validation_reports/wr_recipe_comparison_table.csv`
 - `outputs/validation_reports/wr_best_recipe_candidates.md`
 - `outputs/validation_reports/wr_recipe_failure_modes.md`
 - `outputs/candidate_rankings/wr_candidate_rankings_<recipe>.csv`
+
+The WR case-study command writes deterministic PR7 artifacts to:
+
+- `outputs/case_studies/wr_breakout_case_study_<feature>_to_<outcome>.md`
+- `outputs/case_studies/wr_breakout_hits_<feature>_to_<outcome>.csv`
+- `outputs/case_studies/wr_breakout_false_positives_<feature>_to_<outcome>.csv`
+- `outputs/case_studies/wr_breakout_false_negatives_<feature>_to_<outcome>.csv`
+- `outputs/case_studies/wr_recipe_winner_<feature>_to_<outcome>.json`
+- `outputs/case_studies/wr_signal_patterns_<feature>_to_<outcome>.md`
 
 The scaffold command still writes deterministic mock outputs to:
 
@@ -102,6 +112,8 @@ The scaffold command still writes deterministic mock outputs to:
 - `docs/BACKTEST_PROTOCOL.md`
 - `docs/DATA_CONTRACT.md`
 - `docs/CANONICAL_TABLES.md`
+- `docs/COHORT_BASELINES.md`
+- `docs/CASE_STUDIES.md`
 
 ## Current status
 
@@ -111,7 +123,8 @@ This repository now provides:
 - deterministic CSV ingestion for historical WR player-week data,
 - canonical processed tables that separate prior-season inputs from next-season outcomes,
 - deterministic WR breakout labels and validation artifacts built from those canonical tables,
-- deterministic WR signal scoring and candidate ranking artifacts evaluated against the PR3 breakout labels.
-- deterministic WR recipe comparison artifacts that evaluate multiple explicit score recipes side by side.
+- deterministic cohort-baseline enrichment artifacts for cohort-aware recipe variants,
+- deterministic WR recipe comparison artifacts that evaluate multiple explicit score recipes side by side, and
+- deterministic season-pair WR case studies that convert the ranking and label outputs into human-readable hit/miss reports.
 
 It still does **not** make production or predictive claims.

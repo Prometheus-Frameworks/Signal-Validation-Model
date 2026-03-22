@@ -1,0 +1,2 @@
+player_id,player_name,feature_season,outcome_season,rank,wr_signal_score,breakout_label_default,breakout_reason,feature_team,feature_ppg,feature_finish,feature_targets_per_game,feature_target_share,expected_ppg_baseline,outcome_ppg,outcome_finish,ppg_delta_next_season,actual_minus_expected_ppg,usage_signal,efficiency_signal,development_signal,stability_signal,cohort_signal,penalty_signal
+wr_alpha,Alpha Receiver,2022,2023,1,36.0378,false,no_breakout_trigger,AAA,18.0000,1,9.5000,0.2400,16.9000,17.0000,1,-1.0000,0.1000,79.1667,80.4180,50.0000,0.0000,0.0000,71.2500
