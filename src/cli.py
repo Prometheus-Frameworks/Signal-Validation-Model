@@ -6,6 +6,7 @@ import argparse
 
 from src.backtest.pipeline import run_scaffold_pipeline
 from src.enrichment import write_wr_cohort_outputs, write_wr_role_outputs
+from src.exports import export_wr_results
 from src.ingestion import build_wr_tables_from_csv
 from src.labels.wr_breakouts import write_wr_label_outputs
 from src.reporting import build_wr_case_study
@@ -147,6 +148,49 @@ def build_parser() -> argparse.ArgumentParser:
         type=int,
         help="Outcome season paired with the feature season, such as 2025.",
     )
+
+    export_parser = subparsers.add_parser(
+        "export-wr-results",
+        help="Export deterministic downstream WR breakout artifacts from existing validated outputs.",
+    )
+    export_parser.add_argument(
+        "--validation-dataset",
+        default="outputs/validation_reports/wr_validation_dataset_role_enriched.csv",
+        help="Path to the validated WR dataset CSV used by downstream exports.",
+    )
+    export_parser.add_argument(
+        "--comparison-summary",
+        default="outputs/validation_reports/wr_recipe_comparison_summary.json",
+        help="Path to the WR recipe comparison summary JSON.",
+    )
+    export_parser.add_argument(
+        "--candidate-dir",
+        default="outputs/candidate_rankings",
+        help="Directory containing best-recipe ranking and component CSV artifacts.",
+    )
+    export_parser.add_argument(
+        "--case-study-dir",
+        default="outputs/case_studies",
+        help="Directory containing season-pair case-study artifacts.",
+    )
+    export_parser.add_argument(
+        "--output-dir",
+        default="outputs/exports",
+        help="Directory for canonical downstream export artifacts.",
+    )
+    export_parser.add_argument(
+        "--feature-season",
+        required=True,
+        type=int,
+        help="Feature season to export, such as 2024.",
+    )
+    export_parser.add_argument(
+        "--outcome-season",
+        required=True,
+        type=int,
+        help="Outcome season paired with the feature season, such as 2025.",
+    )
+
     role_enrich_parser = subparsers.add_parser(
         "enrich-wr-role",
         help="Enrich the WR validation dataset with deterministic role-and-opportunity signals and write PR8 artifacts.",
@@ -253,6 +297,21 @@ def main() -> None:
             outcome_season=args.outcome_season,
         )
         print("Built WR case-study artifacts:")
+        for label, path in sorted(artifacts.__dict__.items()):
+            print(f"- {label}: {path}")
+        return
+
+    if args.command == "export-wr-results":
+        artifacts = export_wr_results(
+            validation_dataset_path=args.validation_dataset,
+            comparison_summary_path=args.comparison_summary,
+            candidate_dir=args.candidate_dir,
+            case_study_dir=args.case_study_dir,
+            output_dir=args.output_dir,
+            feature_season=args.feature_season,
+            outcome_season=args.outcome_season,
+        )
+        print("Built WR export artifacts:")
         for label, path in sorted(artifacts.__dict__.items()):
             print(f"- {label}: {path}")
         return

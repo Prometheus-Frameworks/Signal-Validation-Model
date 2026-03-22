@@ -1,0 +1,26 @@
+{
+  "export_name": "wr_case_study_summary",
+  "schema_version": "wr_exports_v1",
+  "position": "WR",
+  "feature_season": 2022,
+  "outcome_season": 2023,
+  "best_recipe_name": "balanced_conservative",
+  "hit_count": 0,
+  "false_positive_count": 1,
+  "false_negative_count": 0,
+  "top_flagged_names": [
+    "Alpha Receiver",
+    "Beta Wideout"
+  ],
+  "actual_breakout_names": [],
+  "hit_names": [],
+  "false_positive_names": [
+    "Alpha Receiver"
+  ],
+  "false_negative_names": [],
+  "generated_at": "2026-03-22T20:27:51Z",
+  "source_artifacts": {
+    "case_study_dir": "outputs/case_studies",
+    "winner_summary_path": "outputs/case_studies/wr_recipe_winner_2022_to_2023.json"
+  }
+}

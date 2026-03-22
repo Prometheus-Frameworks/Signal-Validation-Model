@@ -1,0 +1,99 @@
+{
+  "export_name": "wr_export_manifest",
+  "schema_version": "wr_exports_v1",
+  "position": "WR",
+  "feature_season": 2022,
+  "outcome_season": 2023,
+  "best_recipe_name": "balanced_conservative",
+  "generated_at": "2026-03-22T20:27:51Z",
+  "artifacts": [
+    {
+      "artifact_name": "wr_breakout_candidates_latest.json",
+      "relative_path": "wr_breakout_candidates_latest.json",
+      "format": "json",
+      "record_count": 2,
+      "primary_keys": [
+        "player_id",
+        "feature_season",
+        "outcome_season"
+      ]
+    },
+    {
+      "artifact_name": "wr_best_recipe_summary.json",
+      "relative_path": "wr_best_recipe_summary.json",
+      "format": "json",
+      "record_count": 1,
+      "primary_keys": [
+        "best_recipe_name"
+      ]
+    },
+    {
+      "artifact_name": "wr_case_study_summary_2022_to_2023.json",
+      "relative_path": "wr_case_study_summary_2022_to_2023.json",
+      "format": "json",
+      "record_count": 1,
+      "primary_keys": [
+        "feature_season",
+        "outcome_season"
+      ]
+    },
+    {
+      "artifact_name": "wr_player_signal_cards_2022.csv",
+      "relative_path": "wr_player_signal_cards_2022.csv",
+      "format": "csv",
+      "record_count": 2,
+      "primary_keys": [
+        "player_id",
+        "feature_season",
+        "outcome_season"
+      ],
+      "field_order": [
+        "player_id",
+        "player_name",
+        "feature_season",
+        "outcome_season",
+        "feature_team",
+        "best_recipe_name",
+        "candidate_rank",
+        "final_signal_score",
+        "breakout_label_default",
+        "breakout_reason",
+        "usage_signal",
+        "efficiency_signal",
+        "development_signal",
+        "stability_signal",
+        "cohort_signal",
+        "role_signal",
+        "penalty_signal",
+        "career_year",
+        "career_year_bucket",
+        "age_bucket",
+        "cohort_key",
+        "cohort_player_count",
+        "feature_ppg",
+        "feature_finish",
+        "feature_targets_per_game",
+        "feature_target_share",
+        "expected_ppg_baseline",
+        "route_participation_season_avg",
+        "target_share_season_avg",
+        "air_yard_share_season_avg",
+        "routes_consistency_index",
+        "target_earning_index",
+        "opportunity_concentration_score",
+        "has_valid_outcome"
+      ]
+    }
+  ],
+  "input_artifacts": {
+    "validation_dataset_path": "outputs/validation_reports/wr_validation_dataset_role_enriched.csv",
+    "comparison_summary_path": "outputs/validation_reports/wr_recipe_comparison_summary.json",
+    "candidate_dir": "outputs/candidate_rankings",
+    "case_study_dir": "outputs/case_studies"
+  },
+  "season_pair_summary": {
+    "hit_count": 0,
+    "false_positive_count": 1,
+    "false_negative_count": 0
+  }
+}
