@@ -9,7 +9,10 @@ description = "Historical signal validation scaffold for fantasy football breako
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [{ name = "OpenAI Codex" }]
-dependencies = []
+dependencies = [
+  "nfl_data_py>=0.3.3",
+  "pandas>=2.0,<3.0",
+]
 
 [project.optional-dependencies]
 dev = [

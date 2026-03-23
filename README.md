@@ -48,6 +48,7 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -e .[dev]
 signal-validation run-scaffold
+python scripts/build_real_wr_data.py
 signal-validation build-wr-tables --input data/raw/player_weekly_history.csv
 signal-validation build-wr-labels --processed-dir data/processed --output-dir outputs/validation_reports
 signal-validation enrich-wr-cohorts --processed-dir data/processed --validation-dataset outputs/validation_reports/wr_validation_dataset.csv --output-dir outputs/validation_reports
@@ -55,6 +56,22 @@ signal-validation enrich-wr-role --processed-dir data/processed --validation-dat
 signal-validation compare-wr-recipes --validation-dataset outputs/validation_reports/wr_validation_dataset_role_enriched.csv --output-dir outputs
 signal-validation build-wr-case-study --validation-dataset outputs/validation_reports/wr_validation_dataset_role_enriched.csv --comparison-summary outputs/validation_reports/wr_recipe_comparison_summary.json --candidate-dir outputs/candidate_rankings --output-dir outputs/case_studies --feature-season 2024 --outcome-season 2025
 ```
+
+## Real data build
+
+To build a real raw WR weekly history file for seasons 2020 through 2024, run:
+
+```bash
+python scripts/build_real_wr_data.py
+```
+
+That script uses `nfl_data_py.import_weekly_data()` as the primary source, writes `data/raw/player_weekly_history.csv`, and preserves optional columns as blanks when the weekly source does not provide them. After the raw file is built, run:
+
+```bash
+signal-validation build-wr-tables --input data/raw/player_weekly_history.csv
+```
+
+See `docs/REAL_DATA_INGESTION.md` for source mapping, validation rules, and assumptions.
 
 The historical ingestion command writes deterministic canonical outputs to `data/processed/` by default:
 
@@ -118,6 +135,7 @@ The scaffold command still writes deterministic mock outputs to:
 - `docs/BACKTEST_PROTOCOL.md`
 - `docs/DATA_CONTRACT.md`
 - `docs/CANONICAL_TABLES.md`
+- `docs/REAL_DATA_INGESTION.md`
 - `docs/COHORT_BASELINES.md`
 - `docs/ROLE_ENRICHMENT.md`
 - `docs/CASE_STUDIES.md`
