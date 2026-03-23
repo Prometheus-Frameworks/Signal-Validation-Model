@@ -18,45 +18,117 @@
     }
   },
   "cohort_counts": {
-    "WR|yr1|age_unknown": 2,
-    "WR|yr2|age_unknown": 1
+    "WR|yr1|age_unknown": 433,
+    "WR|yr2|age_unknown": 293,
+    "WR|yr3|age_unknown": 202,
+    "WR|yr4_plus|age_unknown": 194
   },
   "cohort_examples": {
     "WR|yr1|age_unknown": [
       {
         "expected_ppg_from_cohort": null,
-        "feature_season": 2022,
+        "feature_season": 2020,
         "outcome_ppg_minus_cohort_expected": null,
-        "player_id": "wr_alpha",
-        "player_name": "Alpha Receiver"
+        "player_id": "00-0022921",
+        "player_name": "L.Fitzgerald"
       },
       {
         "expected_ppg_from_cohort": null,
-        "feature_season": 2022,
+        "feature_season": 2020,
         "outcome_ppg_minus_cohort_expected": null,
-        "player_id": "wr_beta",
-        "player_name": "Beta Wideout"
+        "player_id": "00-0025396",
+        "player_name": "T.Ginn"
+      },
+      {
+        "expected_ppg_from_cohort": null,
+        "feature_season": 2020,
+        "outcome_ppg_minus_cohort_expected": null,
+        "player_id": "00-0026035",
+        "player_name": "D.Amendola"
       }
     ],
     "WR|yr2|age_unknown": [
       {
         "expected_ppg_from_cohort": null,
+        "feature_season": 2021,
+        "outcome_ppg_minus_cohort_expected": null,
+        "player_id": "00-0026035",
+        "player_name": "D.Amendola"
+      },
+      {
+        "expected_ppg_from_cohort": null,
+        "feature_season": 2021,
+        "outcome_ppg_minus_cohort_expected": null,
+        "player_id": "00-0026189",
+        "player_name": "D.Jackson"
+      },
+      {
+        "expected_ppg_from_cohort": null,
+        "feature_season": 2021,
+        "outcome_ppg_minus_cohort_expected": null,
+        "player_id": "00-0027685",
+        "player_name": "E.Sanders"
+      }
+    ],
+    "WR|yr3|age_unknown": [
+      {
+        "expected_ppg_from_cohort": null,
+        "feature_season": 2022,
+        "outcome_ppg_minus_cohort_expected": null,
+        "player_id": "00-0026189",
+        "player_name": "D.Jackson"
+      },
+      {
+        "expected_ppg_from_cohort": null,
+        "feature_season": 2022,
+        "outcome_ppg_minus_cohort_expected": null,
+        "player_id": "00-0027942",
+        "player_name": "A.Green"
+      },
+      {
+        "expected_ppg_from_cohort": null,
+        "feature_season": 2022,
+        "outcome_ppg_minus_cohort_expected": null,
+        "player_id": "00-0027944",
+        "player_name": "J.Jones"
+      }
+    ],
+    "WR|yr4_plus|age_unknown": [
+      {
+        "expected_ppg_from_cohort": null,
         "feature_season": 2023,
         "outcome_ppg_minus_cohort_expected": null,
-        "player_id": "wr_alpha",
-        "player_name": "Alpha Receiver"
+        "player_id": "00-0027944",
+        "player_name": "J.Jones"
+      },
+      {
+        "expected_ppg_from_cohort": null,
+        "feature_season": 2023,
+        "outcome_ppg_minus_cohort_expected": null,
+        "player_id": "00-0028002",
+        "player_name": "R.Cobb"
+      },
+      {
+        "expected_ppg_from_cohort": null,
+        "feature_season": 2023,
+        "outcome_ppg_minus_cohort_expected": null,
+        "player_id": "00-0029293",
+        "player_name": "M.Jones"
       }
     ]
   },
   "cohort_history_coverage": {
-    "max_historical_peer_count": 0,
+    "max_historical_peer_count": 383,
     "median_historical_peer_count": 0.0,
-    "rows_with_any_historical_cohort": 0,
-    "rows_without_historical_cohort": 3
+    "rows_with_any_historical_cohort": 504,
+    "rows_without_historical_cohort": 618
   },
   "feature_seasons": [
+    2020,
+    2021,
     2022,
-    2023
+    2023,
+    2024
   ],
   "leakage_guardrails": {
     "historical_rows_only": true,
@@ -64,15 +136,27 @@
     "rule": "Each feature-season row uses only cohort observations with feature_season strictly less than the current feature_season."
   },
   "position": "WR",
-  "row_count": 3,
+  "row_count": 1122,
   "season_coverage": {
-    "2022": {
-      "row_count": 2,
+    "2020": {
+      "row_count": 221,
       "rows_with_history": 0
     },
+    "2021": {
+      "row_count": 236,
+      "rows_with_history": 63
+    },
+    "2022": {
+      "row_count": 226,
+      "rows_with_history": 96
+    },
     "2023": {
-      "row_count": 1,
-      "rows_with_history": 0
+      "row_count": 212,
+      "rows_with_history": 118
+    },
+    "2024": {
+      "row_count": 227,
+      "rows_with_history": 227
     }
   }
 }

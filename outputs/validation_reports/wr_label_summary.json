@@ -1,24 +1,33 @@
 {
   "breakout_reason_counts": {
-    "missing_outcome": 2,
-    "no_breakout_trigger": 1
+    "beat_expected_baseline": 118,
+    "missing_outcome": 462,
+    "no_breakout_trigger": 432,
+    "ppg_jump": 80,
+    "top24_jump": 30
   },
   "feature_seasons": [
+    2020,
+    2021,
     2022,
-    2023
-  ],
-  "label_counts": {
-    "breakout_label_default": 0,
-    "breakout_label_ppg_jump": 0,
-    "breakout_label_top24_jump": 0
-  },
-  "missing_outcome_count": 2,
-  "outcome_seasons": [
     2023,
     2024
   ],
+  "label_counts": {
+    "breakout_label_default": 228,
+    "breakout_label_ppg_jump": 98,
+    "breakout_label_top24_jump": 30
+  },
+  "missing_outcome_count": 462,
+  "outcome_seasons": [
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
   "position": "WR",
-  "row_count": 3,
+  "row_count": 1122,
   "thresholds": {
     "expected_ppg_baseline_weights": {
       "feature_ppg": 0.7,
@@ -29,5 +38,5 @@
     "ppg_jump_threshold": 3.0,
     "top_24_finish_threshold": 24
   },
-  "valid_outcome_count": 1
+  "valid_outcome_count": 660
 }
