@@ -9,7 +9,7 @@ from src.enrichment import write_wr_cohort_outputs, write_wr_role_outputs
 from src.exports import export_wr_results
 from src.ingestion import build_wr_tables_from_csv
 from src.labels.wr_breakouts import write_wr_label_outputs
-from src.public import build_wr_public_report
+from src.public import build_wr_public_findings, build_wr_public_report
 from src.reporting import build_wr_case_study
 from src.scoring import compare_wr_recipes, score_wr_candidates
 
@@ -229,6 +229,48 @@ def build_parser() -> argparse.ArgumentParser:
         help="Outcome season paired with the feature season, such as 2025.",
     )
 
+    public_findings_parser = subparsers.add_parser(
+        "build-wr-public-findings",
+        help="Build a public-facing WR findings/narrative pack from deterministic validated outputs.",
+    )
+    public_findings_parser.add_argument(
+        "--comparison-summary",
+        default="outputs/validation_reports/wr_recipe_comparison_summary.json",
+        help="Path to the WR recipe comparison summary JSON.",
+    )
+    public_findings_parser.add_argument(
+        "--case-study-dir",
+        default="outputs/case_studies",
+        help="Directory containing deterministic WR case-study artifacts.",
+    )
+    public_findings_parser.add_argument(
+        "--exports-dir",
+        default="outputs/exports",
+        help="Directory containing deterministic WR export artifacts.",
+    )
+    public_findings_parser.add_argument(
+        "--public-dir",
+        default="outputs/public",
+        help="Alias for the public output directory used by earlier public-report workflows.",
+    )
+    public_findings_parser.add_argument(
+        "--output-dir",
+        default=None,
+        help="Directory for public-facing WR findings artifacts. Defaults to --public-dir when omitted.",
+    )
+    public_findings_parser.add_argument(
+        "--feature-season",
+        required=True,
+        type=int,
+        help="Feature season to report, such as 2024.",
+    )
+    public_findings_parser.add_argument(
+        "--outcome-season",
+        required=True,
+        type=int,
+        help="Outcome season paired with the feature season, such as 2025.",
+    )
+
     role_enrich_parser = subparsers.add_parser(
         "enrich-wr-role",
         help="Enrich the WR validation dataset with deterministic role-and-opportunity signals and write PR8 artifacts.",
@@ -364,6 +406,20 @@ def main() -> None:
             outcome_season=args.outcome_season,
         )
         print("Built WR public-report artifacts:")
+        for label, path in sorted(artifacts.__dict__.items()):
+            print(f"- {label}: {path}")
+        return
+
+    if args.command == "build-wr-public-findings":
+        artifacts = build_wr_public_findings(
+            comparison_summary_path=args.comparison_summary,
+            case_study_dir=args.case_study_dir,
+            exports_dir=args.exports_dir,
+            output_dir=args.output_dir or args.public_dir,
+            feature_season=args.feature_season,
+            outcome_season=args.outcome_season,
+        )
+        print("Built WR public-findings artifacts:")
         for label, path in sorted(artifacts.__dict__.items()):
             print(f"- {label}: {path}")
         return
