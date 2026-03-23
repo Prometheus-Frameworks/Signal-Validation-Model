@@ -54,7 +54,7 @@ def _base_dataset_row(player_id: str, player_name: str, feature_season: int) -> 
     }
 
 
-def _case_study_fixture_rows() -> list[dict[str, object]]:
+def _case_study_fixture_rows(*, pending_outcomes: bool = False) -> list[dict[str, object]]:
     rows: list[dict[str, object]] = []
 
     season_2024 = [
@@ -73,16 +73,32 @@ def _case_study_fixture_rows() -> list[dict[str, object]]:
         row["feature_total_ppr"] = round(feature_ppg * 17, 4)
         row["feature_finish"] = finish
         row["expected_ppg_baseline"] = round(outcome_ppg - actual_minus_expected, 4)
-        row["outcome_ppg"] = outcome_ppg
-        row["outcome_total_ppr"] = round(outcome_ppg * 17, 4)
-        row["outcome_finish"] = outcome_finish
-        row["finish_delta_next_season"] = finish - outcome_finish
-        row["ppg_delta_next_season"] = round(outcome_ppg - feature_ppg, 4)
-        row["actual_minus_expected_ppg"] = actual_minus_expected
-        row["breakout_reason"] = reason
-        row["breakout_label_default"] = breakout
-        row["breakout_label_ppg_jump"] = ppg_jump
-        row["breakout_label_top24_jump"] = top24_jump
+        if pending_outcomes:
+            row["has_valid_outcome"] = False
+            row["outcome_team"] = None
+            row["outcome_games_played"] = None
+            row["outcome_total_ppr"] = None
+            row["outcome_ppg"] = None
+            row["ppg_delta_next_season"] = None
+            row["outcome_finish"] = None
+            row["finish_delta_next_season"] = None
+            row["outcome_targets_per_game"] = None
+            row["actual_minus_expected_ppg"] = None
+            row["breakout_reason"] = "missing_outcome"
+            row["breakout_label_default"] = False
+            row["breakout_label_ppg_jump"] = False
+            row["breakout_label_top24_jump"] = False
+        else:
+            row["outcome_ppg"] = outcome_ppg
+            row["outcome_total_ppr"] = round(outcome_ppg * 17, 4)
+            row["outcome_finish"] = outcome_finish
+            row["finish_delta_next_season"] = finish - outcome_finish
+            row["ppg_delta_next_season"] = round(outcome_ppg - feature_ppg, 4)
+            row["actual_minus_expected_ppg"] = actual_minus_expected
+            row["breakout_reason"] = reason
+            row["breakout_label_default"] = breakout
+            row["breakout_label_ppg_jump"] = ppg_jump
+            row["breakout_label_top24_jump"] = top24_jump
         rows.append(row)
 
     season_2023 = [
@@ -180,12 +196,12 @@ def _write_candidate_rankings(path: Path, rows: list[dict[str, object]], recipe_
             writer.writerow(payload)
 
 
-def _build_fixture_inputs(tmp_path: Path) -> tuple[Path, Path, Path]:
+def _build_fixture_inputs(tmp_path: Path, *, pending_outcomes: bool = False) -> tuple[Path, Path, Path]:
     dataset_path = tmp_path / "validation" / "wr_validation_dataset_enriched.csv"
     summary_path = tmp_path / "validation" / "wr_recipe_comparison_summary.json"
     candidate_path = tmp_path / "candidate_rankings" / "wr_candidate_rankings_baseline_v1.csv"
 
-    rows = _case_study_fixture_rows()
+    rows = _case_study_fixture_rows(pending_outcomes=pending_outcomes)
     _write_validation_dataset(dataset_path, rows)
     _write_best_recipe_summary(summary_path)
     _write_candidate_rankings(candidate_path, rows)
@@ -308,6 +324,30 @@ def test_case_study_markdown_and_signal_patterns_are_stable_on_fixture(tmp_path:
     assert "| ppg_jump | 1 |" in signal_patterns
     assert "| top24_jump | 1 |" in signal_patterns
     assert "- Below-hit-average usage signal:" in signal_patterns
+
+
+def test_case_study_uses_pending_outcome_wording_when_no_valid_outcomes_exist(tmp_path: Path) -> None:
+    dataset_path, summary_path, candidate_dir = _build_fixture_inputs(tmp_path, pending_outcomes=True)
+
+    artifacts = build_wr_case_study(
+        validation_dataset_path=dataset_path,
+        comparison_summary_path=summary_path,
+        candidate_dir=candidate_dir,
+        output_dir=tmp_path / "case_studies",
+        feature_season=2024,
+        outcome_season=2025,
+        surfaced_rank_cutoff=3,
+    )
+
+    case_study = artifacts.case_study_markdown_path.read_text(encoding="utf-8")
+    winner = json.loads(artifacts.winner_json_path.read_text(encoding="utf-8"))
+
+    assert "forward-looking candidate board" in case_study
+    assert "Outcome evaluation is pending because 0 of 6 rows currently have valid 2025 outcomes." in case_study
+    assert "Outcomes pending: final 2025 breakout evaluation will appear here once valid outcome data is complete." in case_study
+    assert "- Using a surfaced cutoff of top 3, the model produced 2 hits, 1 false positives, and 1 false negatives." not in case_study
+    assert winner["season_pair_summary"]["valid_outcome_rows"] == 0
+    assert winner["season_pair_summary"]["missing_outcome_rows"] == 6
 
 
 def test_cli_parser_includes_build_wr_case_study_command() -> None:

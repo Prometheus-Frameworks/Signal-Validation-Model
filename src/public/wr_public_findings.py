@@ -87,9 +87,16 @@ def build_wr_public_findings(
     comparison_summary = _read_json(comparison_summary_path)
     breakout_candidates = _read_json(exports_dir / "wr_breakout_candidates_latest.json")
     case_study_summary = _read_json(exports_dir / f"wr_case_study_summary_{season_suffix}.json")
+    player_signal_cards = _read_csv_dicts(exports_dir / f"wr_player_signal_cards_{feature_season}.csv")
     hits_rows = _read_csv_dicts(case_study_dir / f"wr_breakout_hits_{season_suffix}.csv")
     false_positive_rows = _read_csv_dicts(case_study_dir / f"wr_breakout_false_positives_{season_suffix}.csv")
     false_negative_rows = _read_csv_dicts(case_study_dir / f"wr_breakout_false_negatives_{season_suffix}.csv")
+
+    outcome_status = _season_pair_outcome_status(
+        player_signal_cards,
+        feature_season=feature_season,
+        outcome_season=outcome_season,
+    )
 
     _validate_requested_pair(breakout_candidates, feature_season, outcome_season, "wr_breakout_candidates_latest.json")
     _validate_requested_pair(case_study_summary, feature_season, outcome_season, f"wr_case_study_summary_{season_suffix}.json")
@@ -108,6 +115,8 @@ def build_wr_public_findings(
         notable_misses=notable_misses,
         case_study_summary=case_study_summary,
         comparison_snapshot=comparison_snapshot,
+        outcomes_pending=outcome_status["outcomes_pending"],
+        outcome_season=outcome_season,
     )
     takeaways_payload = _build_takeaways_json(
         feature_season=feature_season,
@@ -131,6 +140,7 @@ def build_wr_public_findings(
         notable_hits=notable_hits,
         notable_misses=notable_misses,
         signal_takeaways=signal_takeaways,
+        outcomes_pending=outcome_status["outcomes_pending"],
     )
 
     findings_markdown_path = output_dir / f"wr_public_findings_{season_suffix}.md"
@@ -336,21 +346,41 @@ def _build_findings_markdown(
     notable_hits: list[dict[str, Any]],
     notable_misses: list[dict[str, Any]],
     signal_takeaways: list[str],
+    outcomes_pending: bool,
 ) -> str:
     best_overall = comparison_snapshot["best_overall"]
     best_base = comparison_snapshot["best_base"]
     best_cohort = comparison_snapshot["best_cohort"]
     best_role = comparison_snapshot["best_role"]
-    executive_summary = (
-        f"For the {feature_season} to {outcome_season} WR retrospective, "
-        f"`{best_overall['recipe_name']}` finished as the best overall recipe and the winning "
-        f"recipe family was `{best_overall['recipe_family']}`. The season-pair review logged "
-        f"{case_study_summary['hit_count']} hits, {case_study_summary['false_positive_count']} false positives, "
-        f"and {case_study_summary['false_negative_count']} false negatives."
-    )
+    if outcomes_pending:
+        executive_summary = (
+            f"The {feature_season}→{outcome_season} findings pack is a forward-looking candidate-board summary. "
+            f"`{best_overall['recipe_name']}` is the current best overall recipe and the winning recipe family is "
+            f"`{best_overall['recipe_family']}`. Final hit/miss evaluation will be available once {outcome_season} "
+            f"outcome data is complete."
+        )
+    else:
+        executive_summary = (
+            f"For the {feature_season} to {outcome_season} WR retrospective, "
+            f"`{best_overall['recipe_name']}` finished as the best overall recipe and the winning "
+            f"recipe family was `{best_overall['recipe_family']}`. The season-pair review logged "
+            f"{case_study_summary['hit_count']} hits, {case_study_summary['false_positive_count']} false positives, "
+            f"and {case_study_summary['false_negative_count']} false negatives."
+        )
     lines = [
         f"# WR Public Findings: {feature_season} to {outcome_season}",
         "",
+        *(
+            [
+                (
+                    f"The {feature_season}→{outcome_season} report is a forward-looking candidate board. "
+                    f"Final hit/miss evaluation will be available once {outcome_season} outcome data is complete."
+                ),
+                "",
+            ]
+            if outcomes_pending
+            else []
+        ),
         "## Executive summary",
         "",
         executive_summary,
@@ -371,11 +401,11 @@ def _build_findings_markdown(
         "",
         "## Notable player hits",
         "",
-        _markdown_table(notable_hits, PUBLIC_NOTABLE_HIT_COLUMNS),
+        _pending_outcome_note(outcome_season) if outcomes_pending else _markdown_table(notable_hits, PUBLIC_NOTABLE_HIT_COLUMNS),
         "",
         "## Notable player misses",
         "",
-        _markdown_table(notable_misses, PUBLIC_NOTABLE_MISS_COLUMNS),
+        _pending_outcome_note(outcome_season) if outcomes_pending else _markdown_table(notable_misses, PUBLIC_NOTABLE_MISS_COLUMNS),
         "",
         "## Public-safe signal takeaways",
         "",
@@ -399,13 +429,15 @@ def _build_signal_takeaways(
     notable_misses: list[dict[str, Any]],
     case_study_summary: dict[str, Any],
     comparison_snapshot: dict[str, Any],
+    outcomes_pending: bool,
+    outcome_season: int,
 ) -> list[str]:
     top_candidates = list(breakout_candidates["candidates"])[: min(5, len(breakout_candidates["candidates"]))]
     top_role_signal = _average_nested(top_candidates, ("component_scores", "role_signal"))
     top_cohort_signal = _average_nested(top_candidates, ("component_scores", "cohort_signal"))
     hit_outcome_ppg = _average_field(notable_hits, "outcome_ppg")
     miss_outcome_ppg = _average_field(notable_misses, "outcome_ppg")
-    return [
+    takeaways = [
         (
             f"The best overall recipe came from the `{comparison_snapshot['best_overall']['recipe_family']}` family, "
             f"with `{comparison_snapshot['best_overall']['recipe_name']}` winning under the published recipe-selection rule."
@@ -414,16 +446,60 @@ def _build_signal_takeaways(
             "Among the top exported candidates, the average public-safe role signal was "
             f"{top_role_signal} and the average cohort signal was {top_cohort_signal}."
         ),
-        (
-            "The selected notable hits averaged "
-            f"{hit_outcome_ppg} outcome PPG, compared with {miss_outcome_ppg} for the selected notable misses."
-        ),
-        (
-            "The season-pair case study recorded "
-            f"{case_study_summary['hit_count']} hits, {case_study_summary['false_positive_count']} false positives, "
-            f"and {case_study_summary['false_negative_count']} false negatives."
-        ),
     ]
+    if outcomes_pending:
+        takeaways.extend(
+            [
+                (
+                    f"Outcome-based player examples are pending until complete {outcome_season} outcome data is available "
+                    f"for the selected season pair."
+                ),
+                "The current artifact should be read as a candidate board, not a completed retrospective review.",
+            ]
+        )
+    else:
+        takeaways.extend(
+            [
+                (
+                    "The selected notable hits averaged "
+                    f"{hit_outcome_ppg} outcome PPG, compared with {miss_outcome_ppg} for the selected notable misses."
+                ),
+                (
+                    "The season-pair case study recorded "
+                    f"{case_study_summary['hit_count']} hits, {case_study_summary['false_positive_count']} false positives, "
+                    f"and {case_study_summary['false_negative_count']} false negatives."
+                ),
+            ]
+        )
+    return takeaways
+
+
+def _season_pair_outcome_status(
+    rows: list[dict[str, Any]],
+    *,
+    feature_season: int,
+    outcome_season: int,
+) -> dict[str, int | bool]:
+    pair_rows = [
+        row
+        for row in rows
+        if int(row["feature_season"]) == feature_season and int(row["outcome_season"]) == outcome_season
+    ]
+    valid_outcome_rows = sum(1 for row in pair_rows if str(row.get("has_valid_outcome", "")).strip().lower() == "true")
+    missing_outcome_rows = len(pair_rows) - valid_outcome_rows
+    return {
+        "total_pair_rows": len(pair_rows),
+        "valid_outcome_rows": valid_outcome_rows,
+        "missing_outcome_rows": missing_outcome_rows,
+        "outcomes_pending": bool(pair_rows) and valid_outcome_rows == 0 and missing_outcome_rows == len(pair_rows),
+    }
+
+
+def _pending_outcome_note(outcome_season: int) -> str:
+    return (
+        f"Outcomes pending: player-level hit/miss examples will populate once valid {outcome_season} "
+        f"outcome data is complete."
+    )
 
 
 def _public_recipe_snapshot(recipe_block: dict[str, Any] | None) -> dict[str, Any] | None:

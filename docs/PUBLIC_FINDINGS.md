@@ -95,3 +95,4 @@ This rule is explicit, deterministic, and public-safe.
 - Family-improvement statements are derived from the already published comparison deltas.
 - A status can be `improved`, `declined`, `matched`, or `not_available`.
 - The findings pack stays retrospective and should not be treated as a live forecasting system.
+- When the selected season pair has zero completed outcomes and only missing-outcome rows, the markdown wording switches to a forward-looking candidate-board framing and defers player-level hit/miss examples until outcomes are available.

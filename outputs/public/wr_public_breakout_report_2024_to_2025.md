@@ -2,9 +2,11 @@
 
 Season pair: **2024 to 2025**.
 
+The 2024→2025 report is a forward-looking candidate board. Final hit/miss evaluation will be available once 2025 outcome data is complete.
+
 ## Executive summary
 
-Using feature-season 2024 information, the retrospective 2025 review shows role_balanced as the top-performing role recipe. The surfaced list produced 0 hits, 0 false positives, and 0 false negatives.
+The 2024→2025 report is a forward-looking candidate board. Using feature-season 2024 information, role_balanced is the current top-performing role recipe for this pending-outcome season pair. Final hit/miss evaluation will be available once 2025 outcome data is complete.
 
 ## Best recipe
 
@@ -28,35 +30,27 @@ Using feature-season 2024 information, the retrospective 2025 review shows role_
 
 ## Actual breakouts
 
-| category | rank | player_name | team | signal_score | feature_ppg | outcome_ppg | breakout_result | breakout_reason |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
+Outcomes pending: final 2025 hit/miss evaluation will appear here once valid outcome data is complete.
 
 ## Correctly surfaced breakouts
 
-| category | rank | player_name | team | signal_score | feature_ppg | outcome_ppg | breakout_result | breakout_reason |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
+Outcomes pending: final 2025 hit/miss evaluation will appear here once valid outcome data is complete.
 
 ## Notable misses / false positives
 
 ### False positives
 
-| category | rank | player_name | team | signal_score | feature_ppg | outcome_ppg | breakout_result | breakout_reason |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
+Outcomes pending: final 2025 hit/miss evaluation will appear here once valid outcome data is complete.
 
 ### Misses
 
-| category | rank | player_name | team | signal_score | feature_ppg | outcome_ppg | breakout_result | breakout_reason |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
+Outcomes pending: final 2025 hit/miss evaluation will appear here once valid outcome data is complete.
 
 ## Signal takeaways
 
 - The top surfaced candidates averaged 44.41 usage, 83.14 efficiency, and 39.33 development signal.
-- Correctly surfaced breakouts averaged n/a actual-minus-expected PPG, versus n/a for false positives.
-- Missed breakouts outside the surfaced cutoff still carried n/a average usage signal and n/a average development signal.
+- This season pair is still waiting on complete 2025 outcome data, so hit/miss comparisons remain pending.
+- Player-level miss labels will populate after the pending outcome season is complete.
 
 ## Methodology summary
 

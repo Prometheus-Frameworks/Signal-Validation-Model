@@ -76,6 +76,7 @@ def build_wr_public_report(
     season_suffix = f"{feature_season}_to_{outcome_season}"
     breakout_candidates = _read_json(paths.exports_dir / "wr_breakout_candidates_latest.json")
     case_study_summary = _read_json(paths.exports_dir / f"wr_case_study_summary_{season_suffix}.json")
+    player_signal_cards = _read_csv_dicts(paths.exports_dir / f"wr_player_signal_cards_{feature_season}.csv")
     comparison_summary = _read_json(paths.comparison_summary_path)
     hits_rows = _read_csv_dicts(paths.case_study_dir / f"wr_breakout_hits_{season_suffix}.csv")
     false_positive_rows = _read_csv_dicts(paths.case_study_dir / f"wr_breakout_false_positives_{season_suffix}.csv")
@@ -87,6 +88,11 @@ def build_wr_public_report(
     best_recipe = comparison_summary["best_recipe"]
     best_recipe_name = str(best_recipe["recipe_name"])
     recipe_family = _recipe_family(best_recipe)
+    outcome_status = _season_pair_outcome_status(
+        player_signal_cards,
+        feature_season=feature_season,
+        outcome_season=outcome_season,
+    )
 
     all_candidates = list(breakout_candidates["candidates"])
     top_candidates = [
@@ -97,8 +103,6 @@ def build_wr_public_report(
     false_positives = [_public_outcome_row("false_positive", row) for row in false_positive_rows]
     false_negatives = [_public_outcome_row("false_negative", row) for row in false_negative_rows]
     actual_breakouts = _build_actual_breakouts(hits_rows, false_negative_rows)
-    signal_takeaways = _build_signal_takeaways(all_candidates, hits_rows, false_positive_rows, false_negative_rows)
-
     report_json = _build_report_json(
         feature_season=feature_season,
         outcome_season=outcome_season,
@@ -110,9 +114,17 @@ def build_wr_public_report(
         false_positives=false_positives,
         false_negatives=false_negatives,
         actual_breakouts=actual_breakouts,
-        signal_takeaways=signal_takeaways,
+        signal_takeaways=_build_signal_takeaways(
+            all_candidates,
+            hits_rows,
+            false_positive_rows,
+            false_negative_rows,
+            outcomes_pending=outcome_status["outcomes_pending"],
+            outcome_season=outcome_season,
+        ),
+        outcomes_pending=outcome_status["outcomes_pending"],
     )
-    report_markdown = _build_report_markdown(report_json)
+    report_markdown = _build_report_markdown(report_json, outcomes_pending=outcome_status["outcomes_pending"])
     methodology_summary = _build_methodology_summary()
     disclaimer = _build_disclaimer()
 
@@ -157,16 +169,25 @@ def _build_report_json(
     false_negatives: list[dict[str, Any]],
     actual_breakouts: list[dict[str, Any]],
     signal_takeaways: list[str],
+    outcomes_pending: bool,
 ) -> dict[str, Any]:
     hit_count = int(case_study_summary["hit_count"])
     false_positive_count = int(case_study_summary["false_positive_count"])
     false_negative_count = int(case_study_summary["false_negative_count"])
-    executive_summary = (
-        f"Using feature-season {feature_season} information, the retrospective {outcome_season} review "
-        f"shows {best_recipe_name} as the top-performing {recipe_family} recipe. "
-        f"The surfaced list produced {hit_count} hits, {false_positive_count} false positives, "
-        f"and {false_negative_count} false negatives."
-    )
+    if outcomes_pending:
+        executive_summary = (
+            f"The {feature_season}→{outcome_season} report is a forward-looking candidate board. "
+            f"Using feature-season {feature_season} information, {best_recipe_name} is the current top-performing "
+            f"{recipe_family} recipe for this pending-outcome season pair. Final hit/miss evaluation will be "
+            f"available once {outcome_season} outcome data is complete."
+        )
+    else:
+        executive_summary = (
+            f"Using feature-season {feature_season} information, the retrospective {outcome_season} review "
+            f"shows {best_recipe_name} as the top-performing {recipe_family} recipe. "
+            f"The surfaced list produced {hit_count} hits, {false_positive_count} false positives, "
+            f"and {false_negative_count} false negatives."
+        )
     return {
         "report_name": "wr_public_breakout_report",
         "schema_version": PUBLIC_REPORT_SCHEMA_VERSION,
@@ -204,14 +225,26 @@ def _build_report_json(
     }
 
 
-def _build_report_markdown(report: dict[str, Any]) -> str:
+def _build_report_markdown(report: dict[str, Any], *, outcomes_pending: bool) -> str:
     best_recipe = report["best_recipe"]
     pair = f"{report['feature_season']} to {report['outcome_season']}"
+    outcome_season = int(report["outcome_season"])
     sections = [
         f"# {report['title']}",
         "",
         f"Season pair: **{pair}**.",
         "",
+        *(
+            [
+                (
+                    f"The {report['feature_season']}→{report['outcome_season']} report is a forward-looking candidate board. "
+                    f"Final hit/miss evaluation will be available once {report['outcome_season']} outcome data is complete."
+                ),
+                "",
+            ]
+            if outcomes_pending
+            else []
+        ),
         "## Executive summary",
         "",
         report["executive_summary"],
@@ -227,21 +260,21 @@ def _build_report_markdown(report: dict[str, Any]) -> str:
         "",
         "## Actual breakouts",
         "",
-        _markdown_table(report["actual_breakouts"], PUBLIC_HITS_AND_MISSES_COLUMNS),
+        _pending_outcome_note(outcome_season) if outcomes_pending else _markdown_table(report["actual_breakouts"], PUBLIC_HITS_AND_MISSES_COLUMNS),
         "",
         "## Correctly surfaced breakouts",
         "",
-        _markdown_table(report["correctly_surfaced_breakouts"], PUBLIC_HITS_AND_MISSES_COLUMNS),
+        _pending_outcome_note(outcome_season) if outcomes_pending else _markdown_table(report["correctly_surfaced_breakouts"], PUBLIC_HITS_AND_MISSES_COLUMNS),
         "",
         "## Notable misses / false positives",
         "",
         "### False positives",
         "",
-        _markdown_table(report["notable_false_positives"], PUBLIC_HITS_AND_MISSES_COLUMNS),
+        _pending_outcome_note(outcome_season) if outcomes_pending else _markdown_table(report["notable_false_positives"], PUBLIC_HITS_AND_MISSES_COLUMNS),
         "",
         "### Misses",
         "",
-        _markdown_table(report["notable_misses"], PUBLIC_HITS_AND_MISSES_COLUMNS),
+        _pending_outcome_note(outcome_season) if outcomes_pending else _markdown_table(report["notable_misses"], PUBLIC_HITS_AND_MISSES_COLUMNS),
         "",
         "## Signal takeaways",
         "",
@@ -325,6 +358,9 @@ def _build_signal_takeaways(
     hits_rows: list[dict[str, Any]],
     false_positive_rows: list[dict[str, Any]],
     false_negative_rows: list[dict[str, Any]],
+    *,
+    outcomes_pending: bool,
+    outcome_season: int,
 ) -> list[str]:
     top_slice = all_candidates[: min(5, len(all_candidates))]
     takeaways = [
@@ -333,19 +369,62 @@ def _build_signal_takeaways(
             f"{_average_nested(top_slice, ('component_scores', 'usage_signal'))} usage, "
             f"{_average_nested(top_slice, ('component_scores', 'efficiency_signal'))} efficiency, and "
             f"{_average_nested(top_slice, ('component_scores', 'development_signal'))} development signal."
-        ),
-        (
-            "Correctly surfaced breakouts averaged "
-            f"{_average_field(hits_rows, 'actual_minus_expected_ppg')} actual-minus-expected PPG, versus "
-            f"{_average_field(false_positive_rows, 'actual_minus_expected_ppg')} for false positives."
-        ),
-        (
-            "Missed breakouts outside the surfaced cutoff still carried "
-            f"{_average_field(false_negative_rows, 'usage_signal')} average usage signal and "
-            f"{_average_field(false_negative_rows, 'development_signal')} average development signal."
-        ),
+        )
     ]
+    if outcomes_pending:
+        takeaways.extend(
+            [
+                (
+                    f"This season pair is still waiting on complete {outcome_season} outcome data, so hit/miss "
+                    f"comparisons remain pending."
+                ),
+                "Player-level miss labels will populate after the pending outcome season is complete.",
+            ]
+        )
+    else:
+        takeaways.extend(
+            [
+                (
+                    "Correctly surfaced breakouts averaged "
+                    f"{_average_field(hits_rows, 'actual_minus_expected_ppg')} actual-minus-expected PPG, versus "
+                    f"{_average_field(false_positive_rows, 'actual_minus_expected_ppg')} for false positives."
+                ),
+                (
+                    "Missed breakouts outside the surfaced cutoff still carried "
+                    f"{_average_field(false_negative_rows, 'usage_signal')} average usage signal and "
+                    f"{_average_field(false_negative_rows, 'development_signal')} average development signal."
+                ),
+            ]
+        )
     return takeaways
+
+
+def _season_pair_outcome_status(
+    rows: list[dict[str, Any]],
+    *,
+    feature_season: int,
+    outcome_season: int,
+) -> dict[str, int | bool]:
+    pair_rows = [
+        row
+        for row in rows
+        if int(row["feature_season"]) == feature_season and int(row["outcome_season"]) == outcome_season
+    ]
+    valid_outcome_rows = sum(1 for row in pair_rows if _as_bool(row.get("has_valid_outcome")))
+    missing_outcome_rows = len(pair_rows) - valid_outcome_rows
+    return {
+        "total_pair_rows": len(pair_rows),
+        "valid_outcome_rows": valid_outcome_rows,
+        "missing_outcome_rows": missing_outcome_rows,
+        "outcomes_pending": bool(pair_rows) and valid_outcome_rows == 0 and missing_outcome_rows == len(pair_rows),
+    }
+
+
+def _pending_outcome_note(outcome_season: int) -> str:
+    return (
+        f"Outcomes pending: final {outcome_season} hit/miss evaluation will appear here once "
+        f"valid outcome data is complete."
+    )
 
 
 def _public_candidate_row(candidate: dict[str, Any]) -> dict[str, Any]:

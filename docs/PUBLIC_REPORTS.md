@@ -70,6 +70,7 @@ The generator copies ordering and conclusions from those artifacts, then applies
 - Only the most relevant public-facing columns are preserved in CSV outputs.
 - Markdown sections and JSON keys are emitted in stable deterministic order.
 - The tone stays factual, concise, and retrospective.
+- If the selected season pair has zero completed outcomes and all rows are still missing outcome data, the report switches to forward-looking candidate-board wording and labels hit/miss sections as outcomes pending.
 
 ## Limitations
 

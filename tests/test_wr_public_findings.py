@@ -68,7 +68,7 @@ def _base_dataset_row(player_id: str, player_name: str, feature_season: int) -> 
     }
 
 
-def _public_fixture_rows() -> list[dict[str, object]]:
+def _public_fixture_rows(*, pending_outcomes: bool = False) -> list[dict[str, object]]:
     rows: list[dict[str, object]] = []
     season_2024 = [
         ("wr_2024_01", "Nova Star", 10.1, 0.31, 17.2, 5, 21.1, 12, "top24_jump", True, True, True, 3.5, 0.88, 0.31, 0.36, 0.97, 0.35, 0.57),
@@ -90,16 +90,32 @@ def _public_fixture_rows() -> list[dict[str, object]]:
             row["feature_total_ppr"] = round(feature_ppg * 17, 4)
             row["feature_finish"] = finish
             row["expected_ppg_baseline"] = round(outcome_ppg - actual_minus_expected, 4)
-            row["outcome_ppg"] = outcome_ppg
-            row["outcome_total_ppr"] = round(outcome_ppg * 17, 4)
-            row["outcome_finish"] = outcome_finish
-            row["finish_delta_next_season"] = finish - outcome_finish
-            row["ppg_delta_next_season"] = round(outcome_ppg - feature_ppg, 4)
-            row["actual_minus_expected_ppg"] = actual_minus_expected
-            row["breakout_reason"] = reason
-            row["breakout_label_default"] = breakout
-            row["breakout_label_ppg_jump"] = ppg_jump
-            row["breakout_label_top24_jump"] = top24_jump
+            if pending_outcomes and feature_season == 2024:
+                row["has_valid_outcome"] = False
+                row["outcome_team"] = None
+                row["outcome_games_played"] = None
+                row["outcome_total_ppr"] = None
+                row["outcome_ppg"] = None
+                row["ppg_delta_next_season"] = None
+                row["outcome_finish"] = None
+                row["finish_delta_next_season"] = None
+                row["outcome_targets_per_game"] = None
+                row["actual_minus_expected_ppg"] = None
+                row["breakout_reason"] = "missing_outcome"
+                row["breakout_label_default"] = False
+                row["breakout_label_ppg_jump"] = False
+                row["breakout_label_top24_jump"] = False
+            else:
+                row["outcome_ppg"] = outcome_ppg
+                row["outcome_total_ppr"] = round(outcome_ppg * 17, 4)
+                row["outcome_finish"] = outcome_finish
+                row["finish_delta_next_season"] = finish - outcome_finish
+                row["ppg_delta_next_season"] = round(outcome_ppg - feature_ppg, 4)
+                row["actual_minus_expected_ppg"] = actual_minus_expected
+                row["breakout_reason"] = reason
+                row["breakout_label_default"] = breakout
+                row["breakout_label_ppg_jump"] = ppg_jump
+                row["breakout_label_top24_jump"] = top24_jump
             row["route_participation_season_avg"] = route_participation
             row["target_share_season_avg"] = target_share
             row["air_yard_share_season_avg"] = air_yards
@@ -193,9 +209,9 @@ def _overwrite_comparison_summary(summary_path: Path) -> None:
     summary_path.write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
-def _build_public_inputs(tmp_path: Path) -> tuple[Path, Path, Path]:
+def _build_public_inputs(tmp_path: Path, *, pending_outcomes: bool = False) -> tuple[Path, Path, Path]:
     dataset_path = tmp_path / "validation_reports" / "wr_validation_dataset_role_enriched.csv"
-    _write_validation_dataset(dataset_path, _public_fixture_rows())
+    _write_validation_dataset(dataset_path, _public_fixture_rows(pending_outcomes=pending_outcomes))
 
     comparison = compare_wr_recipes(dataset_path, output_dir=tmp_path / "outputs")
     _overwrite_comparison_summary(comparison.summary_path)
@@ -395,6 +411,27 @@ def test_public_findings_key_takeaways_json_schema(tmp_path: Path) -> None:
     assert [row["player_name"] for row in payload["notable_hits"]] == ["Breakout Blaze", "Nova Star"]
     assert [row["player_name"] for row in payload["notable_misses"]] == ["Hidden Surge", "Volume Mirage"]
     assert len(payload["key_takeaways"]) == 4
+
+
+def test_public_findings_use_pending_outcome_wording_for_forward_looking_pairs(tmp_path: Path) -> None:
+    comparison_summary_path, exports_dir, case_study_dir = _build_public_inputs(tmp_path, pending_outcomes=True)
+
+    artifacts = build_wr_public_findings(
+        comparison_summary_path=comparison_summary_path,
+        case_study_dir=case_study_dir,
+        exports_dir=exports_dir,
+        output_dir=tmp_path / "public",
+        feature_season=2024,
+        outcome_season=2025,
+    )
+
+    markdown = artifacts.findings_markdown_path.read_text(encoding="utf-8")
+    payload = json.loads(artifacts.key_takeaways_json_path.read_text(encoding="utf-8"))
+
+    assert "forward-looking candidate board" in markdown
+    assert "Outcomes pending: player-level hit/miss examples will populate once valid 2025 outcome data is complete." in markdown
+    assert "The season-pair review logged 0 hits, 0 false positives, and 0 false negatives." not in markdown
+    assert payload["key_takeaways"][2].startswith("Outcome-based player examples are pending")
 
 
 def test_cli_parser_supports_public_findings_command() -> None:

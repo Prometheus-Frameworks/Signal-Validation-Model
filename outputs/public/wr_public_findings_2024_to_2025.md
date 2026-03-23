@@ -1,8 +1,10 @@
 # WR Public Findings: 2024 to 2025
 
+The 2024→2025 report is a forward-looking candidate board. Final hit/miss evaluation will be available once 2025 outcome data is complete.
+
 ## Executive summary
 
-For the 2024 to 2025 WR retrospective, `role_balanced` finished as the best overall recipe and the winning recipe family was `role`. The season-pair review logged 0 hits, 0 false positives, and 0 false negatives.
+The 2024→2025 findings pack is a forward-looking candidate-board summary. `role_balanced` is the current best overall recipe and the winning recipe family is `role`. Final hit/miss evaluation will be available once 2025 outcome data is complete.
 
 ## Best overall recipe and family
 
@@ -20,22 +22,18 @@ For the 2024 to 2025 WR retrospective, `role_balanced` finished as the best over
 
 ## Notable player hits
 
-| notable_rank | player_name | team | case_type | candidate_rank | signal_score | feature_ppg | outcome_ppg | actual_minus_expected_ppg | breakout_reason |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
+Outcomes pending: player-level hit/miss examples will populate once valid 2025 outcome data is complete.
 
 ## Notable player misses
 
-| notable_rank | player_name | team | miss_type | candidate_rank | signal_score | feature_ppg | outcome_ppg | actual_minus_expected_ppg | breakout_reason |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
+Outcomes pending: player-level hit/miss examples will populate once valid 2025 outcome data is complete.
 
 ## Public-safe signal takeaways
 
 - The best overall recipe came from the `role` family, with `role_balanced` winning under the published recipe-selection rule.
 - Among the top exported candidates, the average public-safe role signal was 0.00 and the average cohort signal was 100.00.
-- The selected notable hits averaged n/a outcome PPG, compared with n/a for the selected notable misses.
-- The season-pair case study recorded 0 hits, 0 false positives, and 0 false negatives.
+- Outcome-based player examples are pending until complete 2025 outcome data is available for the selected season pair.
+- The current artifact should be read as a candidate board, not a completed retrospective review.
 
 ## Limitations and cautions
 

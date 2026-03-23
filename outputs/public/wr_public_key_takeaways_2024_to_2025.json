@@ -65,8 +65,8 @@
   "key_takeaways": [
     "The best overall recipe came from the `role` family, with `role_balanced` winning under the published recipe-selection rule.",
     "Among the top exported candidates, the average public-safe role signal was 0.00 and the average cohort signal was 100.00.",
-    "The selected notable hits averaged n/a outcome PPG, compared with n/a for the selected notable misses.",
-    "The season-pair case study recorded 0 hits, 0 false positives, and 0 false negatives."
+    "Outcome-based player examples are pending until complete 2025 outcome data is available for the selected season pair.",
+    "The current artifact should be read as a candidate board, not a completed retrospective review."
   ],
   "best_recipe_rule": {
     "description": "Best recipe is selected by highest precision@20, then highest recall@20, then lowest average breakout rank, then alphabetical recipe name.",

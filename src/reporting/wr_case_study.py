@@ -404,10 +404,19 @@ def build_case_study_markdown(
     feature_season: int,
     outcome_season: int,
 ) -> str:
+    outcomes_pending = _outcomes_pending(
+        total_pair_rows=len(pair_rows),
+        valid_outcome_rows=len(valid_rows),
+        missing_outcome_rows=len(missing_outcomes),
+    )
     reason_counts = Counter(row.breakout_reason for row in hits)
     top_reason_text = ", ".join(
         f"`{reason}` ({count})" for reason, count in sorted(reason_counts.items())
     ) or "none"
+    forward_looking_note = (
+        f"The {feature_season}→{outcome_season} report is a forward-looking candidate board. "
+        f"Final hit/miss evaluation will be available once {outcome_season} outcome data is complete."
+    )
 
     sections = [
         f"# WR Breakout Case Study: {feature_season} to {outcome_season}",
@@ -422,15 +431,22 @@ def build_case_study_markdown(
             f"- Evaluated {len(valid_rows)} of {len(pair_rows)} rows for this season pair; "
             f"{len(missing_outcomes)} rows were excluded because the outcome season is missing."
         ),
-        (
+        f"- {forward_looking_note}" if outcomes_pending else (
             f"- Using a surfaced cutoff of top {surfaced_rank_cutoff}, the model produced "
             f"{len(hits)} hits, {len(false_positives)} false positives, and {len(false_negatives)} false negatives."
         ),
         (
+            f"- Outcome evaluation is pending because 0 of {len(pair_rows)} rows currently have valid "
+            f"{outcome_season} outcomes."
+        ) if outcomes_pending else (
             f"- Actual breakout count for {outcome_season}: {len(actual_breakouts)}. "
             f"Hit-rate within surfaced candidates: {_ratio(len(hits), len(surfaced_candidates))}."
         ),
-        f"- Breakout reasons represented among hits: {top_reason_text}.",
+        (
+            "- Breakout reasons among surfaced candidates will be summarized after outcomes are complete."
+            if outcomes_pending
+            else f"- Breakout reasons represented among hits: {top_reason_text}."
+        ),
         "",
         "## Best recipe for this season pair",
         "",
@@ -452,40 +468,58 @@ def build_case_study_markdown(
         "",
         "## Actual breakouts",
         "",
-        _markdown_table(actual_breakouts, include_outcome=True),
+        _pending_outcome_note(outcome_season) if outcomes_pending else _markdown_table(actual_breakouts, include_outcome=True),
         "",
         "## Correctly surfaced breakouts",
         "",
-        _markdown_table(hits, include_outcome=True),
+        _pending_outcome_note(outcome_season) if outcomes_pending else _markdown_table(hits, include_outcome=True),
         "",
         "## False positives",
         "",
-        _markdown_table(false_positives, include_outcome=True),
+        _pending_outcome_note(outcome_season) if outcomes_pending else _markdown_table(false_positives, include_outcome=True),
         "",
         "## False negatives",
         "",
-        _markdown_table(false_negatives, include_outcome=True),
+        _pending_outcome_note(outcome_season) if outcomes_pending else _markdown_table(false_negatives, include_outcome=True),
         "",
         "## Key signal patterns in hits vs misses",
         "",
-        f"- Average usage signal — hits: {_mean(hits, 'usage_signal')}, false positives: {_mean(false_positives, 'usage_signal')}, false negatives: {_mean(false_negatives, 'usage_signal')}." ,
-        f"- Average efficiency signal — hits: {_mean(hits, 'efficiency_signal')}, false positives: {_mean(false_positives, 'efficiency_signal')}, false negatives: {_mean(false_negatives, 'efficiency_signal')}." ,
-        f"- Average development signal — hits: {_mean(hits, 'development_signal')}, false positives: {_mean(false_positives, 'development_signal')}, false negatives: {_mean(false_negatives, 'development_signal')}." ,
         (
-            f"- Average actual-minus-expected PPG — hits: {_mean(hits, 'actual_minus_expected_ppg')}, "
-            f"false positives: {_mean(false_positives, 'actual_minus_expected_ppg')}, "
-            f"false negatives: {_mean(false_negatives, 'actual_minus_expected_ppg')}."
+            f"- Outcome-based hit/miss signal comparisons are pending until {outcome_season} outcome data is complete."
+            if outcomes_pending
+            else f"- Average usage signal — hits: {_mean(hits, 'usage_signal')}, false positives: {_mean(false_positives, 'usage_signal')}, false negatives: {_mean(false_negatives, 'usage_signal')}."
         ),
         (
-            f"- False-positive miss pattern counts: below-hit-average usage="
-            f"{_count_below_reference(false_positives, hits, 'usage_signal')}, below-hit-average efficiency="
-            f"{_count_below_reference(false_positives, hits, 'efficiency_signal')}, non-positive actual-minus-expected PPG="
-            f"{_count_non_positive(false_positives, 'actual_minus_expected_ppg')}."
+            f"- Surfaced candidates currently form a forward-looking board rather than a completed retrospective evaluation."
+            if outcomes_pending
+            else f"- Average efficiency signal — hits: {_mean(hits, 'efficiency_signal')}, false positives: {_mean(false_positives, 'efficiency_signal')}, false negatives: {_mean(false_negatives, 'efficiency_signal')}."
+        ),
+        *(
+            []
+            if outcomes_pending
+            else [
+                f"- Average development signal — hits: {_mean(hits, 'development_signal')}, false positives: {_mean(false_positives, 'development_signal')}, false negatives: {_mean(false_negatives, 'development_signal')}.",
+                (
+                    f"- Average actual-minus-expected PPG — hits: {_mean(hits, 'actual_minus_expected_ppg')}, "
+                    f"false positives: {_mean(false_positives, 'actual_minus_expected_ppg')}, "
+                    f"false negatives: {_mean(false_negatives, 'actual_minus_expected_ppg')}."
+                ),
+                (
+                    f"- False-positive miss pattern counts: below-hit-average usage="
+                    f"{_count_below_reference(false_positives, hits, 'usage_signal')}, below-hit-average efficiency="
+                    f"{_count_below_reference(false_positives, hits, 'efficiency_signal')}, non-positive actual-minus-expected PPG="
+                    f"{_count_non_positive(false_positives, 'actual_minus_expected_ppg')}."
+                ),
+            ]
         ),
         "",
         "## Limitations / cautions",
         "",
-        "- This report is a deterministic retrospective validation slice, not a live projection engine or a claim of predictive certainty.",
+        (
+            "- This report is a deterministic forward-looking candidate board until the requested outcome season is complete."
+            if outcomes_pending
+            else "- This report is a deterministic retrospective validation slice, not a live projection engine or a claim of predictive certainty."
+        ),
         (
             f"- Hits, false positives, and false negatives are defined relative to the surfaced cutoff of top {surfaced_rank_cutoff}; changing that cutoff changes the case-study counts."
         ),
@@ -494,6 +528,17 @@ def build_case_study_markdown(
         "",
     ]
     return "\n".join(sections)
+
+
+def _outcomes_pending(*, total_pair_rows: int, valid_outcome_rows: int, missing_outcome_rows: int) -> bool:
+    return total_pair_rows > 0 and valid_outcome_rows == 0 and missing_outcome_rows == total_pair_rows
+
+
+def _pending_outcome_note(outcome_season: int) -> str:
+    return (
+        f"Outcomes pending: final {outcome_season} breakout evaluation will appear here once "
+        f"valid outcome data is complete."
+    )
 
 
 def build_signal_patterns_markdown(

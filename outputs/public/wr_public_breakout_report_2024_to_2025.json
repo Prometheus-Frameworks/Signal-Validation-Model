@@ -5,7 +5,7 @@
   "title": "WR Public Breakout Report: 2024 to 2025",
   "feature_season": 2024,
   "outcome_season": 2025,
-  "executive_summary": "Using feature-season 2024 information, the retrospective 2025 review shows role_balanced as the top-performing role recipe. The surfaced list produced 0 hits, 0 false positives, and 0 false negatives.",
+  "executive_summary": "The 2024\u21922025 report is a forward-looking candidate board. Using feature-season 2024 information, role_balanced is the current top-performing role recipe for this pending-outcome season pair. Final hit/miss evaluation will be available once 2025 outcome data is complete.",
   "best_recipe": {
     "recipe_name": "role_balanced",
     "recipe_family": "role"
@@ -124,8 +124,8 @@
   "notable_misses": [],
   "signal_takeaways": [
     "The top surfaced candidates averaged 44.41 usage, 83.14 efficiency, and 39.33 development signal.",
-    "Correctly surfaced breakouts averaged n/a actual-minus-expected PPG, versus n/a for false positives.",
-    "Missed breakouts outside the surfaced cutoff still carried n/a average usage signal and n/a average development signal."
+    "This season pair is still waiting on complete 2025 outcome data, so hit/miss comparisons remain pending.",
+    "Player-level miss labels will populate after the pending outcome season is complete."
   ],
   "methodology_summary_artifact": "wr_public_methodology_summary.md",
   "disclaimer_artifact": "wr_public_disclaimer.md",
