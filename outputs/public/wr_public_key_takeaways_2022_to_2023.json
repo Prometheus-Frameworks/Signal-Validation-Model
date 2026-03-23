@@ -1,0 +1,98 @@
+{
+  "report_name": "wr_public_key_takeaways",
+  "schema_version": "wr_public_findings_v1",
+  "position": "WR",
+  "feature_season": 2022,
+  "outcome_season": 2023,
+  "best_overall_recipe": {
+    "recipe_name": "balanced_conservative",
+    "recipe_family": "base",
+    "precision_at_20": "0.00",
+    "recall_at_20": "0.00",
+    "average_breakout_rank": "n/a"
+  },
+  "best_base_recipe": {
+    "recipe_name": "balanced_conservative",
+    "recipe_family": "base",
+    "precision_at_20": "0.00",
+    "recall_at_20": "0.00",
+    "average_breakout_rank": "n/a"
+  },
+  "best_cohort_recipe": {
+    "recipe_name": "cohort_balanced",
+    "recipe_family": "cohort",
+    "precision_at_20": "0.00",
+    "recall_at_20": "0.00",
+    "average_breakout_rank": "n/a"
+  },
+  "best_role_recipe": {
+    "recipe_name": "role_balanced",
+    "recipe_family": "role",
+    "precision_at_20": "0.00",
+    "recall_at_20": "0.00",
+    "average_breakout_rank": "n/a"
+  },
+  "family_improvement_checks": {
+    "cohort_vs_base": {
+      "status": "matched",
+      "improved": false,
+      "reason": "best cohort-aware recipe vs. best base recipe matched on the published comparison metrics"
+    },
+    "role_vs_base": {
+      "status": "matched",
+      "improved": false,
+      "reason": "best role-aware recipe vs. best base recipe matched on the published comparison metrics"
+    },
+    "role_vs_cohort": {
+      "status": "matched",
+      "improved": false,
+      "reason": "best role-aware recipe vs. best cohort-aware recipe matched on the published comparison metrics"
+    }
+  },
+  "season_pair_summary": {
+    "hit_count": 0,
+    "false_positive_count": 1,
+    "false_negative_count": 0
+  },
+  "notable_selection_rule": {
+    "hit_rule": "Hits are sorted by highest actual_minus_expected_ppg, then highest outcome_ppg, then best candidate rank, then alphabetical player name.",
+    "miss_rule": "Misses reserve half the list for false negatives sorted by highest actual_minus_expected_ppg and half for false positives sorted by lowest actual_minus_expected_ppg; any unused slots are refilled by the remaining rows with the largest miss magnitude.",
+    "notable_hit_limit": 5,
+    "notable_miss_limit": 6
+  },
+  "notable_hits": [],
+  "notable_misses": [
+    {
+      "notable_rank": 1,
+      "player_name": "Alpha Receiver",
+      "team": "AAA",
+      "miss_type": "false_positive",
+      "candidate_rank": 1,
+      "signal_score": "36.04",
+      "feature_ppg": "18.0",
+      "outcome_ppg": "17.0",
+      "actual_minus_expected_ppg": "0.10",
+      "breakout_reason": "no_breakout_trigger"
+    }
+  ],
+  "key_takeaways": [
+    "The best overall recipe came from the `base` family, with `balanced_conservative` winning under the published recipe-selection rule.",
+    "Among the top exported candidates, the average public-safe role signal was 39.17 and the average cohort signal was 0.00.",
+    "The selected notable hits averaged n/a outcome PPG, compared with 17.00 for the selected notable misses.",
+    "The season-pair case study recorded 0 hits, 1 false positives, and 0 false negatives."
+  ],
+  "best_recipe_rule": {
+    "description": "Best recipe is selected by highest precision@20, then highest recall@20, then lowest average breakout rank, then alphabetical recipe name.",
+    "primary_metric": "precision_at_20",
+    "tie_breakers": [
+      "recall_at_20",
+      "lowest_average_breakout_rank",
+      "recipe_name"
+    ]
+  },
+  "source_artifacts": {
+    "comparison_summary": "outputs/validation_reports/wr_recipe_comparison_summary.json",
+    "case_study_dir": "outputs/case_studies",
+    "exports_dir": "outputs/exports"
+  }
+}

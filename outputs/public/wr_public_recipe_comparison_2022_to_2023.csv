@@ -1,0 +1,10 @@
+comparison_scope,recipe_name,recipe_family,precision_at_20,recall_at_20,average_breakout_rank,false_positives_in_top_20,false_negatives_outside_top_30,is_best_overall,is_best_in_family
+family_recipe,balanced_conservative,base,0.00,0.00,n/a,1,0,true,true
+family_recipe,baseline_v1,base,0.00,0.00,n/a,1,0,false,false
+family_recipe,efficiency_heavy,base,0.00,0.00,n/a,1,0,false,false
+family_recipe,upside_chaser,base,0.00,0.00,n/a,1,0,false,false
+family_recipe,usage_heavy,base,0.00,0.00,n/a,1,0,false,false
+family_recipe,cohort_balanced,cohort,0.00,0.00,n/a,1,0,false,true
+family_recipe,cohort_upside,cohort,0.00,0.00,n/a,1,0,false,false
+family_recipe,role_balanced,role,0.00,0.00,n/a,1,0,false,true
+family_recipe,role_upside,role,0.00,0.00,n/a,1,0,false,false
