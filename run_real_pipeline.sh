@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-python scripts/build_real_wr_data.py
+signal-validation build-real-wr-history --source preferred
 
 signal-validation build-wr-tables --input data/raw/player_weekly_history.csv
 signal-validation build-wr-labels --processed-dir data/processed --output-dir outputs/validation_reports

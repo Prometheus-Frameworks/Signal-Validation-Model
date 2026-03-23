@@ -7,7 +7,7 @@ import argparse
 from src.backtest.pipeline import run_scaffold_pipeline
 from src.enrichment import write_wr_cohort_outputs, write_wr_role_outputs
 from src.exports import export_wr_results
-from src.ingestion import build_wr_tables_from_csv
+from src.ingestion import build_real_wr_history_with_preferred_source, build_wr_tables_from_csv
 from src.labels.wr_breakouts import write_wr_label_outputs
 from src.public import build_wr_public_findings, build_wr_public_report
 from src.reporting import build_wr_case_study
@@ -45,6 +45,44 @@ def build_parser() -> argparse.ArgumentParser:
         "--output-dir",
         default="data/processed",
         help="Directory for canonical WR processed tables.",
+    )
+
+    history_parser = subparsers.add_parser(
+        "build-real-wr-history",
+        help="Build the raw WR weekly history CSV from the preferred TIBER-Data upstream with explicit fallback.",
+    )
+    history_parser.add_argument(
+        "--source",
+        choices=["preferred", "tiber-data", "local-builder"],
+        default="preferred",
+        help="Source selection. preferred tries TIBER-Data first, then explicitly falls back to the local builder.",
+    )
+    history_parser.add_argument(
+        "--output",
+        default="data/raw/player_weekly_history.csv",
+        help="Path for the normalized raw WR weekly CSV.",
+    )
+    history_parser.add_argument(
+        "--provenance-output",
+        default="data/raw/player_weekly_history.provenance.json",
+        help="Path for the ingestion provenance JSON sidecar.",
+    )
+    history_parser.add_argument(
+        "--tiber-export-path",
+        default=None,
+        help="Stable local path or URL for a TIBER-Data WR export artifact.",
+    )
+    history_parser.add_argument(
+        "--tiber-api-url",
+        default=None,
+        help="Read-only TIBER-Data API endpoint returning WR rows or a top-level data list.",
+    )
+    history_parser.add_argument(
+        "--local-seasons",
+        nargs="+",
+        type=int,
+        default=None,
+        help="Optional explicit season list for the local nfl_data_py fallback builder.",
     )
 
     label_parser = subparsers.add_parser(
@@ -303,6 +341,26 @@ def main() -> None:
             "Scaffold only: executed deterministic mock backtest flow. "
             f"Wrote rankings to {result.candidate_ranking_path} and summary to {result.validation_report_path}."
         )
+        return
+
+    if args.command == "build-real-wr-history":
+        result = build_real_wr_history_with_preferred_source(
+            output_path=args.output,
+            provenance_path=args.provenance_output,
+            source=args.source,
+            tiber_export_path=args.tiber_export_path,
+            tiber_api_url=args.tiber_api_url,
+            local_seasons=args.local_seasons,
+        )
+        print("Built raw WR weekly history:")
+        print(f"- source_type: {result.source_type}")
+        print(f"- source_location: {result.source_location}")
+        print(f"- row_count: {result.row_count}")
+        print(f"- seasons: {list(result.seasons)}")
+        print(f"- raw_csv_path: {result.raw_csv_path}")
+        print(f"- provenance_path: {result.provenance_path}")
+        if result.used_fallback:
+            print(f"- fallback_reason: {result.fallback_reason}")
         return
 
     if args.command == "build-wr-tables":

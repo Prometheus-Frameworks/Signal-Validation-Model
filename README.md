@@ -31,7 +31,7 @@ The repository remains limited to:
 
 - **Position:** Wide receivers (WR)
 - **Research posture:** historical validation only
-- **Ingestion:** local CSV files under `data/raw/` or another explicit path
+- **Ingestion:** preferred TIBER-Data exports/APIs normalized into `data/raw/`, with an explicit local-builder fallback
 - **Processed outputs:** canonical weekly, season, feature-season, and outcome-season tables
 
 Still out of scope:
@@ -48,7 +48,7 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -e .[dev]
 signal-validation run-scaffold
-python scripts/build_real_wr_data.py
+signal-validation build-real-wr-history --source preferred --tiber-export-path /path/to/tiber-data/wr_player_weekly_history.csv
 signal-validation build-wr-tables --input data/raw/player_weekly_history.csv
 signal-validation build-wr-labels --processed-dir data/processed --output-dir outputs/validation_reports
 signal-validation enrich-wr-cohorts --processed-dir data/processed --validation-dataset outputs/validation_reports/wr_validation_dataset.csv --output-dir outputs/validation_reports
@@ -59,19 +59,25 @@ signal-validation build-wr-case-study --validation-dataset outputs/validation_re
 
 ## Real data build
 
-To build a real raw WR weekly history file for seasons 2020 through 2024, run:
+Preferred path:
 
 ```bash
-python scripts/build_real_wr_data.py
-```
-
-That script uses `nfl_data_py.import_weekly_data()` as the primary source, writes `data/raw/player_weekly_history.csv`, and preserves optional columns as blanks when the weekly source does not provide them. After the raw file is built, run:
-
-```bash
+signal-validation build-real-wr-history --source preferred --tiber-export-path /path/to/tiber-data/wr_player_weekly_history.csv
 signal-validation build-wr-tables --input data/raw/player_weekly_history.csv
 ```
 
-See `docs/REAL_DATA_INGESTION.md` for source mapping, validation rules, and assumptions.
+Fallback/bootstrap path:
+
+```bash
+signal-validation build-real-wr-history --source local-builder
+signal-validation build-wr-tables --input data/raw/player_weekly_history.csv
+```
+
+The TIBER-Data adapter writes `data/raw/player_weekly_history.csv` plus `data/raw/player_weekly_history.provenance.json`, preserves optional columns when supplied, and prints the exact source used so the repository never switches sources silently.
+
+The legacy `scripts/build_real_wr_data.py` path remains available for direct bootstrap use and also supports `--seasons` when an explicit fallback season list is needed.
+
+See `docs/REAL_DATA_INGESTION.md` and `docs/TIBER_DATA_ADAPTER.md` for source mapping, validation rules, provenance, and architecture.
 
 The historical ingestion command writes deterministic canonical outputs to `data/processed/` by default:
 
@@ -136,6 +142,7 @@ The scaffold command still writes deterministic mock outputs to:
 - `docs/DATA_CONTRACT.md`
 - `docs/CANONICAL_TABLES.md`
 - `docs/REAL_DATA_INGESTION.md`
+- `docs/TIBER_DATA_ADAPTER.md`
 - `docs/COHORT_BASELINES.md`
 - `docs/ROLE_ENRICHMENT.md`
 - `docs/CASE_STUDIES.md`

@@ -7,7 +7,8 @@ import argparse
 from pathlib import Path
 from typing import Any
 
-SEASONS = [2020, 2021, 2022, 2023, 2024]
+DEFAULT_SEASONS = [2020, 2021, 2022, 2023, 2024]
+SEASONS = DEFAULT_SEASONS
 OUTPUT_PATH = Path("data/raw/player_weekly_history.csv")
 REQUIRED_COLUMNS = [
     "player_id",
@@ -53,13 +54,17 @@ OPTIONAL_SOURCE_COLUMNS = {
 }
 
 
-def build_real_wr_history(output_path: Path = OUTPUT_PATH) -> Path:
+def build_real_wr_history(
+    output_path: Path = OUTPUT_PATH,
+    seasons: list[int] | None = None,
+) -> Path:
     pandas, nfl = _import_dependencies()
 
+    selected_seasons = list(seasons) if seasons is not None else list(DEFAULT_SEASONS)
     source_columns = list(SOURCE_COLUMN_MAP) + ["season_type"]
-    weekly = nfl.import_weekly_data(SEASONS, columns=source_columns, downcast=False)
-    wr_history = _transform_weekly_data(weekly, pandas)
-    _validate_output_frame(wr_history)
+    weekly = nfl.import_weekly_data(selected_seasons, columns=source_columns, downcast=False)
+    wr_history = _transform_weekly_data(weekly, pandas, seasons=selected_seasons)
+    _validate_output_frame(wr_history, seasons=selected_seasons)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     wr_history.to_csv(output_path, index=False)
@@ -85,7 +90,7 @@ def _import_dependencies() -> tuple[Any, Any]:
     return pandas, nfl
 
 
-def _transform_weekly_data(weekly: Any, pandas: Any) -> Any:
+def _transform_weekly_data(weekly: Any, pandas: Any, seasons: list[int]) -> Any:
     frame = weekly.copy()
     if "season_type" in frame.columns:
         frame = frame.loc[frame["season_type"].fillna("REG") == "REG"].copy()
@@ -93,7 +98,7 @@ def _transform_weekly_data(weekly: Any, pandas: Any) -> Any:
     frame = frame.rename(columns=SOURCE_COLUMN_MAP)
     frame = frame.loc[frame["position"].fillna("").astype(str).str.upper() == "WR"].copy()
     frame["position"] = "WR"
-    frame = frame.loc[frame["season"].isin(SEASONS)].copy()
+    frame = frame.loc[frame["season"].isin(seasons)].copy()
 
     for output_column, source_column in OPTIONAL_SOURCE_COLUMNS.items():
         if source_column in weekly.columns:
@@ -118,15 +123,15 @@ def _transform_weekly_data(weekly: Any, pandas: Any) -> Any:
     return frame
 
 
-def _validate_output_frame(frame: Any) -> None:
+def _validate_output_frame(frame: Any, seasons: list[int]) -> None:
     if list(frame.columns) != OUTPUT_COLUMNS:
         raise ValueError(f"unexpected output columns: {list(frame.columns)}")
     if frame.empty:
         raise ValueError("weekly WR output is empty")
     if set(frame["position"].dropna().unique()) != {"WR"}:
         raise ValueError("output contains non-WR rows")
-    if not frame["season"].isin(SEASONS).all():
-        raise ValueError("output contains seasons outside 2020-2024")
+    if not frame["season"].isin(seasons).all():
+        raise ValueError(f"output contains seasons outside {sorted(seasons)}")
 
     duplicate_count = int(frame.duplicated(subset=["player_id", "season", "week"]).sum())
     if duplicate_count:
@@ -190,6 +195,13 @@ def build_parser() -> argparse.ArgumentParser:
         default=str(OUTPUT_PATH),
         help="Output CSV path. Defaults to data/raw/player_weekly_history.csv.",
     )
+    parser.add_argument(
+        "--seasons",
+        nargs="+",
+        type=int,
+        default=None,
+        help="Optional explicit season list for the local nfl_data_py fallback path.",
+    )
     return parser
 
 
@@ -197,7 +209,7 @@ def build_parser() -> argparse.ArgumentParser:
 def main() -> int:
     parser = build_parser()
     args = parser.parse_args()
-    build_real_wr_history(Path(args.output))
+    build_real_wr_history(Path(args.output), seasons=args.seasons)
     return 0
 
 
