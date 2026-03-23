@@ -40,7 +40,8 @@ def test_builder_declares_contract_columns_in_expected_order() -> None:
         "target_share",
         "air_yard_share",
     ]
-    assert module.SEASONS == [2020, 2021, 2022, 2023, 2024]
+    assert module.DEFAULT_SEASONS == [2020, 2021, 2022, 2023, 2024]
+    assert module.SEASONS == module.DEFAULT_SEASONS
 
 
 def test_fixture_matches_required_column_presence() -> None:

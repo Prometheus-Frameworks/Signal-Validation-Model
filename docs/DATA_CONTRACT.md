@@ -70,4 +70,4 @@ This ingestion contract does **not**:
 - infer unavailable market-share metrics,
 - create breakout labels,
 - train projections or ML models,
-- fetch data from remote APIs or databases.
+- define how upstream adapters fetch data from remote APIs or exported artifacts. That behavior now lives in `docs/TIBER_DATA_ADAPTER.md`.
