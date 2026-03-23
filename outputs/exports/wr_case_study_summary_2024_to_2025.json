@@ -1,0 +1,32 @@
+{
+  "export_name": "wr_case_study_summary",
+  "schema_version": "wr_exports_v1",
+  "position": "WR",
+  "feature_season": 2024,
+  "outcome_season": 2025,
+  "best_recipe_name": "role_balanced",
+  "hit_count": 0,
+  "false_positive_count": 0,
+  "false_negative_count": 0,
+  "top_flagged_names": [
+    "J.Chase",
+    "J.Jefferson",
+    "A.St. Brown",
+    "D.London",
+    "C.Lamb",
+    "B.Thomas",
+    "M.Nabers",
+    "D.Adams",
+    "T.McLaurin",
+    "M.Evans"
+  ],
+  "actual_breakout_names": [],
+  "hit_names": [],
+  "false_positive_names": [],
+  "false_negative_names": [],
+  "generated_at": "2026-03-23T01:40:41Z",
+  "source_artifacts": {
+    "case_study_dir": "outputs/case_studies",
+    "winner_summary_path": "outputs/case_studies/wr_recipe_winner_2024_to_2025.json"
+  }
+}

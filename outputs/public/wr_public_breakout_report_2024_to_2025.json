@@ -1,0 +1,140 @@
+{
+  "report_name": "wr_public_breakout_report",
+  "schema_version": "wr_public_reports_v1",
+  "position": "WR",
+  "title": "WR Public Breakout Report: 2024 to 2025",
+  "feature_season": 2024,
+  "outcome_season": 2025,
+  "executive_summary": "Using feature-season 2024 information, the retrospective 2025 review shows role_balanced as the top-performing role recipe. The surfaced list produced 0 hits, 0 false positives, and 0 false negatives.",
+  "best_recipe": {
+    "recipe_name": "role_balanced",
+    "recipe_family": "role"
+  },
+  "season_pair_summary": {
+    "hit_count": 0,
+    "false_positive_count": 0,
+    "false_negative_count": 0,
+    "actual_breakout_count": 0
+  },
+  "top_candidates": [
+    {
+      "rank": 1,
+      "player_name": "J.Chase",
+      "team": "CIN",
+      "signal_score": "59.19",
+      "feature_ppg": "23.7",
+      "feature_targets_per_game": "10.3",
+      "breakout_result": "no_breakout",
+      "breakout_reason": "missing_outcome"
+    },
+    {
+      "rank": 2,
+      "player_name": "J.Jefferson",
+      "team": "MIN",
+      "signal_score": "57.14",
+      "feature_ppg": "18.7",
+      "feature_targets_per_game": "9.1",
+      "breakout_result": "no_breakout",
+      "breakout_reason": "missing_outcome"
+    },
+    {
+      "rank": 3,
+      "player_name": "A.St. Brown",
+      "team": "DET",
+      "signal_score": "56.74",
+      "feature_ppg": "18.6",
+      "feature_targets_per_game": "8.3",
+      "breakout_result": "no_breakout",
+      "breakout_reason": "missing_outcome"
+    },
+    {
+      "rank": 4,
+      "player_name": "D.London",
+      "team": "ATL",
+      "signal_score": "56.61",
+      "feature_ppg": "16.5",
+      "feature_targets_per_game": "9.3",
+      "breakout_result": "no_breakout",
+      "breakout_reason": "missing_outcome"
+    },
+    {
+      "rank": 5,
+      "player_name": "C.Lamb",
+      "team": "DAL",
+      "signal_score": "56.30",
+      "feature_ppg": "17.6",
+      "feature_targets_per_game": "10.1",
+      "breakout_result": "no_breakout",
+      "breakout_reason": "missing_outcome"
+    },
+    {
+      "rank": 6,
+      "player_name": "B.Thomas",
+      "team": "JAX",
+      "signal_score": "55.87",
+      "feature_ppg": "16.7",
+      "feature_targets_per_game": "7.8",
+      "breakout_result": "no_breakout",
+      "breakout_reason": "missing_outcome"
+    },
+    {
+      "rank": 7,
+      "player_name": "M.Nabers",
+      "team": "NYG",
+      "signal_score": "55.70",
+      "feature_ppg": "18.2",
+      "feature_targets_per_game": "11.3",
+      "breakout_result": "no_breakout",
+      "breakout_reason": "missing_outcome"
+    },
+    {
+      "rank": 8,
+      "player_name": "D.Adams",
+      "team": "LV",
+      "signal_score": "55.10",
+      "feature_ppg": "17.2",
+      "feature_targets_per_game": "10.1",
+      "breakout_result": "no_breakout",
+      "breakout_reason": "missing_outcome"
+    },
+    {
+      "rank": 9,
+      "player_name": "T.McLaurin",
+      "team": "WAS",
+      "signal_score": "53.67",
+      "feature_ppg": "15.8",
+      "feature_targets_per_game": "6.9",
+      "breakout_result": "no_breakout",
+      "breakout_reason": "missing_outcome"
+    },
+    {
+      "rank": 10,
+      "player_name": "M.Evans",
+      "team": "TB",
+      "signal_score": "53.31",
+      "feature_ppg": "17.2",
+      "feature_targets_per_game": "7.9",
+      "breakout_result": "no_breakout",
+      "breakout_reason": "missing_outcome"
+    }
+  ],
+  "actual_breakouts": [],
+  "correctly_surfaced_breakouts": [],
+  "notable_false_positives": [],
+  "notable_misses": [],
+  "signal_takeaways": [
+    "The top surfaced candidates averaged 44.41 usage, 83.14 efficiency, and 39.33 development signal.",
+    "Correctly surfaced breakouts averaged n/a actual-minus-expected PPG, versus n/a for false positives.",
+    "Missed breakouts outside the surfaced cutoff still carried n/a average usage signal and n/a average development signal."
+  ],
+  "methodology_summary_artifact": "wr_public_methodology_summary.md",
+  "disclaimer_artifact": "wr_public_disclaimer.md",
+  "source_artifacts": {
+    "breakout_candidates": "wr_breakout_candidates_latest.json",
+    "case_study_summary": "wr_case_study_summary_2024_to_2025.json",
+    "hits_csv": "wr_breakout_hits_2024_to_2025.csv",
+    "false_positives_csv": "wr_breakout_false_positives_2024_to_2025.csv",
+    "false_negatives_csv": "wr_breakout_false_negatives_2024_to_2025.csv",
+    "comparison_summary": "wr_recipe_comparison_summary.json"
+  }
+}

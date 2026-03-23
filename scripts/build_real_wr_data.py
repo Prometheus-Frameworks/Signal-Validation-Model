@@ -56,7 +56,7 @@ OPTIONAL_SOURCE_COLUMNS = {
 def build_real_wr_history(output_path: Path = OUTPUT_PATH) -> Path:
     pandas, nfl = _import_dependencies()
 
-    source_columns = list(SOURCE_COLUMN_MAP)
+    source_columns = list(SOURCE_COLUMN_MAP) + ["season_type"]
     weekly = nfl.import_weekly_data(SEASONS, columns=source_columns, downcast=False)
     wr_history = _transform_weekly_data(weekly, pandas)
     _validate_output_frame(wr_history)

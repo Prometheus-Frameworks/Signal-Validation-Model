@@ -2,16 +2,16 @@
   "export_name": "wr_export_manifest",
   "schema_version": "wr_exports_v1",
   "position": "WR",
-  "feature_season": 2022,
-  "outcome_season": 2023,
-  "best_recipe_name": "balanced_conservative",
-  "generated_at": "2026-03-22T20:27:51Z",
+  "feature_season": 2024,
+  "outcome_season": 2025,
+  "best_recipe_name": "role_balanced",
+  "generated_at": "2026-03-23T01:40:41Z",
   "artifacts": [
     {
       "artifact_name": "wr_breakout_candidates_latest.json",
       "relative_path": "wr_breakout_candidates_latest.json",
       "format": "json",
-      "record_count": 2,
+      "record_count": 227,
       "primary_keys": [
         "player_id",
         "feature_season",
@@ -28,8 +28,8 @@
       ]
     },
     {
-      "artifact_name": "wr_case_study_summary_2022_to_2023.json",
-      "relative_path": "wr_case_study_summary_2022_to_2023.json",
+      "artifact_name": "wr_case_study_summary_2024_to_2025.json",
+      "relative_path": "wr_case_study_summary_2024_to_2025.json",
       "format": "json",
       "record_count": 1,
       "primary_keys": [
@@ -38,10 +38,10 @@
       ]
     },
     {
-      "artifact_name": "wr_player_signal_cards_2022.csv",
-      "relative_path": "wr_player_signal_cards_2022.csv",
+      "artifact_name": "wr_player_signal_cards_2024.csv",
+      "relative_path": "wr_player_signal_cards_2024.csv",
       "format": "csv",
-      "record_count": 2,
+      "record_count": 227,
       "primary_keys": [
         "player_id",
         "feature_season",
@@ -93,7 +93,7 @@
   },
   "season_pair_summary": {
     "hit_count": 0,
-    "false_positive_count": 1,
+    "false_positive_count": 0,
     "false_negative_count": 0
   }
 }

@@ -1,0 +1,11 @@
+rank,player_name,team,signal_score,feature_ppg,feature_targets_per_game,breakout_result,breakout_reason
+1,J.Chase,CIN,59.19,23.7,10.3,no_breakout,missing_outcome
+2,J.Jefferson,MIN,57.14,18.7,9.1,no_breakout,missing_outcome
+3,A.St. Brown,DET,56.74,18.6,8.3,no_breakout,missing_outcome
+4,D.London,ATL,56.61,16.5,9.3,no_breakout,missing_outcome
+5,C.Lamb,DAL,56.30,17.6,10.1,no_breakout,missing_outcome
+6,B.Thomas,JAX,55.87,16.7,7.8,no_breakout,missing_outcome
+7,M.Nabers,NYG,55.70,18.2,11.3,no_breakout,missing_outcome
+8,D.Adams,LV,55.10,17.2,10.1,no_breakout,missing_outcome
+9,T.McLaurin,WAS,53.67,15.8,6.9,no_breakout,missing_outcome
+10,M.Evans,TB,53.31,17.2,7.9,no_breakout,missing_outcome
