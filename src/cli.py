@@ -10,7 +10,7 @@ from src.exports import export_wr_results
 from src.ingestion import build_real_wr_history_with_preferred_source, build_wr_tables_from_csv
 from src.labels.wr_breakouts import write_wr_label_outputs
 from src.public import build_wr_public_findings, build_wr_public_report
-from src.reporting import build_wr_case_study
+from src.reporting import build_late_veteran_wr_breakout_v0, build_wr_case_study
 from src.scoring import compare_wr_recipes, score_wr_candidates
 
 
@@ -328,6 +328,26 @@ def build_parser() -> argparse.ArgumentParser:
         default="outputs/validation_reports",
         help="Directory for role-enriched WR validation artifacts.",
     )
+
+    late_veteran_parser = subparsers.add_parser(
+        "build-late-veteran-wr-breakout-v0",
+        help="Build the bounded, leakage-safe late-veteran WR breakout v0 research artifacts.",
+    )
+    late_veteran_parser.add_argument(
+        "--player-season-input",
+        required=True,
+        help="Path to the exact digest-pinned TIBER-Data player_season_coverage_v0 artifact.",
+    )
+    late_veteran_parser.add_argument(
+        "--pilot-receipts-input",
+        default="data/raw/late_veteran_wr_breakout_2026_pilot_receipts_v0.json",
+        help="Path to the checked-in, cutoff-bounded manual 2026 pilot receipt packet.",
+    )
+    late_veteran_parser.add_argument(
+        "--output-dir",
+        default="outputs",
+        help="Base directory for the six deterministic research artifacts.",
+    )
     return parser
 
 
@@ -480,6 +500,22 @@ def main() -> None:
         print("Built WR public-findings artifacts:")
         for label, path in sorted(artifacts.__dict__.items()):
             print(f"- {label}: {path}")
+        return
+
+    if args.command == "build-late-veteran-wr-breakout-v0":
+        artifacts = build_late_veteran_wr_breakout_v0(
+            player_season_input=args.player_season_input,
+            pilot_receipts_input=args.pilot_receipts_input,
+            output_dir=args.output_dir,
+        )
+        print("Built bounded late-veteran WR breakout v0 research artifacts:")
+        for label, path in sorted(
+            (label, path)
+            for label, path in artifacts.__dict__.items()
+            if label.endswith("_path")
+        ):
+            print(f"- {label}: {path}")
+        print(f"- terminal_decision: {artifacts.terminal_decision}")
         return
 
     raise ValueError(f"Unsupported command: {args.command}")

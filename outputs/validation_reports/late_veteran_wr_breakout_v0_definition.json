@@ -1,0 +1,81 @@
+{
+  "artifact_id": "late_veteran_wr_breakout_v0_definition",
+  "declared_observed_row_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+  "eligibility_states": {
+    "football_archetype_eligible": "Uses source-backed tenure, complete exposure history, prior production, feature PPG, and feature target share only.",
+    "market_qualified_eligible": "Unavailable in v0 because no governed comparable redraft ADP input is bound."
+  },
+  "frozen_at": "2026-08-09T19:28:02Z",
+  "leakage_boundary": {
+    "feature_side_only": [
+      "position",
+      "season_type",
+      "rookie_year",
+      "career_year",
+      "season_ppg",
+      "target_share",
+      "complete_prior_history"
+    ],
+    "outcome_fields_used_for_feature_eligibility": false,
+    "outcome_side_only": [
+      "outcome_games_played",
+      "outcome_season_ppg",
+      "outcome_target_share"
+    ]
+  },
+  "outcome_labels": {
+    "archetype_hit": "Requires fantasy_breakout and confirmed role_expansion.",
+    "fantasy_breakout": "Outcome games, PPR PPG floor, and PPG increase are evaluated together.",
+    "role_expansion": "Outcome target-share level and increase are evaluated separately."
+  },
+  "primary_hypothesis": {
+    "feature_ppg_ceiling": 7.0,
+    "feature_ppg_sensitivity": [
+      5.0,
+      7.0,
+      9.0
+    ],
+    "feature_target_share_ceiling": 0.1,
+    "feature_target_share_sensitivity": [
+      0.08,
+      0.1,
+      0.12
+    ],
+    "market_adp_cutoff": 200,
+    "market_adp_sensitivity": [
+      180,
+      200,
+      240
+    ],
+    "market_unranked_sensitivity_declared": true,
+    "minimum_feature_career_year": 2,
+    "minimum_target_career_year": 3,
+    "outcome_games_floor": 8,
+    "outcome_ppg_floor": 10.0,
+    "outcome_ppg_increase_floor": 3.0,
+    "outcome_ppg_sensitivity": [
+      10.0,
+      12.0
+    ],
+    "outcome_target_share_floor": 0.15,
+    "position": "WR",
+    "prior_established_ppg_floor": 10.0,
+    "prior_established_target_share_floor": 0.15,
+    "target_share_increase_floor": 0.05,
+    "target_share_increase_sensitivity": [
+      0.04,
+      0.05,
+      0.06,
+      0.08
+    ],
+    "version": "late_veteran_wr_breakout_v0"
+  },
+  "research_issue": "https://github.com/Prometheus-Frameworks/Signal-Validation-Model/issues/16",
+  "sensitivity_posture": {
+    "diagnostic_only": true,
+    "market_grid_state": "not_evaluated_governed_market_input_unavailable",
+    "may_replace_primary_v0": false
+  },
+  "spec_version": "late_veteran_wr_breakout_v0",
+  "status": "frozen_research_definition_not_promoted"
+}

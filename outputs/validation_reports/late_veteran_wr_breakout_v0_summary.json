@@ -1,0 +1,3564 @@
+{
+  "artifact_id": "late_veteran_wr_breakout_v0_summary",
+  "descriptive_feature_comparison": {
+    "causal_or_predictive_claim": false,
+    "ppg_only": {
+      "archetype_hit_count": 2,
+      "archetype_hit_rate": 0.0345,
+      "fantasy_breakout_count": 4,
+      "fantasy_breakout_rate": 0.069,
+      "role_expansion_count": 2,
+      "role_expansion_rate": 0.0345,
+      "row_count": 58
+    },
+    "ppg_plus_feature_target_share": {
+      "archetype_hit_count": 2,
+      "archetype_hit_rate": 0.0385,
+      "fantasy_breakout_count": 2,
+      "fantasy_breakout_rate": 0.0385,
+      "role_expansion_count": 2,
+      "role_expansion_rate": 0.0385,
+      "row_count": 52
+    },
+    "purpose": "Descriptive check of whether adding feature target-share concentration changes outcomes relative to the same prior-history-safe PPG screen."
+  },
+  "diagnostic_sensitivity": {
+    "configuration_count": 72,
+    "configurations": [
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 9,
+          "false_positives": 45,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0,
+          "prediction_positive_count": 45,
+          "recall": 0.0,
+          "small_sample_warning": null,
+          "true_negatives": 70,
+          "true_positives": 0,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0,
+              "upper": 0.0787
+            },
+            "recall": {
+              "lower": 0.0,
+              "upper": 0.2992
+            }
+          }
+        },
+        "feature_ppg_ceiling": 5.0,
+        "feature_target_share_ceiling": 0.08,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.04
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 9,
+          "false_positives": 45,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0,
+          "prediction_positive_count": 45,
+          "recall": 0.0,
+          "small_sample_warning": null,
+          "true_negatives": 70,
+          "true_positives": 0,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0,
+              "upper": 0.0787
+            },
+            "recall": {
+              "lower": 0.0,
+              "upper": 0.2992
+            }
+          }
+        },
+        "feature_ppg_ceiling": 5.0,
+        "feature_target_share_ceiling": 0.08,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.05
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 9,
+          "false_positives": 45,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0,
+          "prediction_positive_count": 45,
+          "recall": 0.0,
+          "small_sample_warning": null,
+          "true_negatives": 70,
+          "true_positives": 0,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0,
+              "upper": 0.0787
+            },
+            "recall": {
+              "lower": 0.0,
+              "upper": 0.2992
+            }
+          }
+        },
+        "feature_ppg_ceiling": 5.0,
+        "feature_target_share_ceiling": 0.08,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.06
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 5,
+          "base_rate": 0.0403,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 5,
+          "false_positives": 45,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0,
+          "prediction_positive_count": 45,
+          "recall": 0.0,
+          "small_sample_warning": null,
+          "true_negatives": 74,
+          "true_positives": 0,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0173,
+              "upper": 0.0909
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0,
+              "upper": 0.0787
+            },
+            "recall": {
+              "lower": 0.0,
+              "upper": 0.4345
+            }
+          }
+        },
+        "feature_ppg_ceiling": 5.0,
+        "feature_target_share_ceiling": 0.08,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.08
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 8,
+          "false_positives": 45,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0,
+          "prediction_positive_count": 45,
+          "recall": 0.0,
+          "small_sample_warning": null,
+          "true_negatives": 71,
+          "true_positives": 0,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0,
+              "upper": 0.0787
+            },
+            "recall": {
+              "lower": 0.0,
+              "upper": 0.3244
+            }
+          }
+        },
+        "feature_ppg_ceiling": 5.0,
+        "feature_target_share_ceiling": 0.08,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.04
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 8,
+          "false_positives": 45,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0,
+          "prediction_positive_count": 45,
+          "recall": 0.0,
+          "small_sample_warning": null,
+          "true_negatives": 71,
+          "true_positives": 0,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0,
+              "upper": 0.0787
+            },
+            "recall": {
+              "lower": 0.0,
+              "upper": 0.3244
+            }
+          }
+        },
+        "feature_ppg_ceiling": 5.0,
+        "feature_target_share_ceiling": 0.08,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.05
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 8,
+          "false_positives": 45,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0,
+          "prediction_positive_count": 45,
+          "recall": 0.0,
+          "small_sample_warning": null,
+          "true_negatives": 71,
+          "true_positives": 0,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0,
+              "upper": 0.0787
+            },
+            "recall": {
+              "lower": 0.0,
+              "upper": 0.3244
+            }
+          }
+        },
+        "feature_ppg_ceiling": 5.0,
+        "feature_target_share_ceiling": 0.08,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.06
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 5,
+          "base_rate": 0.0403,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 5,
+          "false_positives": 45,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0,
+          "prediction_positive_count": 45,
+          "recall": 0.0,
+          "small_sample_warning": null,
+          "true_negatives": 74,
+          "true_positives": 0,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0173,
+              "upper": 0.0909
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0,
+              "upper": 0.0787
+            },
+            "recall": {
+              "lower": 0.0,
+              "upper": 0.4345
+            }
+          }
+        },
+        "feature_ppg_ceiling": 5.0,
+        "feature_target_share_ceiling": 0.08,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.08
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 9,
+          "false_positives": 45,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0,
+          "prediction_positive_count": 45,
+          "recall": 0.0,
+          "small_sample_warning": null,
+          "true_negatives": 70,
+          "true_positives": 0,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0,
+              "upper": 0.0787
+            },
+            "recall": {
+              "lower": 0.0,
+              "upper": 0.2992
+            }
+          }
+        },
+        "feature_ppg_ceiling": 5.0,
+        "feature_target_share_ceiling": 0.1,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.04
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 9,
+          "false_positives": 45,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0,
+          "prediction_positive_count": 45,
+          "recall": 0.0,
+          "small_sample_warning": null,
+          "true_negatives": 70,
+          "true_positives": 0,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0,
+              "upper": 0.0787
+            },
+            "recall": {
+              "lower": 0.0,
+              "upper": 0.2992
+            }
+          }
+        },
+        "feature_ppg_ceiling": 5.0,
+        "feature_target_share_ceiling": 0.1,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.05
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 9,
+          "false_positives": 45,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0,
+          "prediction_positive_count": 45,
+          "recall": 0.0,
+          "small_sample_warning": null,
+          "true_negatives": 70,
+          "true_positives": 0,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0,
+              "upper": 0.0787
+            },
+            "recall": {
+              "lower": 0.0,
+              "upper": 0.2992
+            }
+          }
+        },
+        "feature_ppg_ceiling": 5.0,
+        "feature_target_share_ceiling": 0.1,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.06
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 5,
+          "base_rate": 0.0403,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 5,
+          "false_positives": 45,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0,
+          "prediction_positive_count": 45,
+          "recall": 0.0,
+          "small_sample_warning": null,
+          "true_negatives": 74,
+          "true_positives": 0,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0173,
+              "upper": 0.0909
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0,
+              "upper": 0.0787
+            },
+            "recall": {
+              "lower": 0.0,
+              "upper": 0.4345
+            }
+          }
+        },
+        "feature_ppg_ceiling": 5.0,
+        "feature_target_share_ceiling": 0.1,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.08
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 8,
+          "false_positives": 45,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0,
+          "prediction_positive_count": 45,
+          "recall": 0.0,
+          "small_sample_warning": null,
+          "true_negatives": 71,
+          "true_positives": 0,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0,
+              "upper": 0.0787
+            },
+            "recall": {
+              "lower": 0.0,
+              "upper": 0.3244
+            }
+          }
+        },
+        "feature_ppg_ceiling": 5.0,
+        "feature_target_share_ceiling": 0.1,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.04
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 8,
+          "false_positives": 45,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0,
+          "prediction_positive_count": 45,
+          "recall": 0.0,
+          "small_sample_warning": null,
+          "true_negatives": 71,
+          "true_positives": 0,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0,
+              "upper": 0.0787
+            },
+            "recall": {
+              "lower": 0.0,
+              "upper": 0.3244
+            }
+          }
+        },
+        "feature_ppg_ceiling": 5.0,
+        "feature_target_share_ceiling": 0.1,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.05
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 8,
+          "false_positives": 45,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0,
+          "prediction_positive_count": 45,
+          "recall": 0.0,
+          "small_sample_warning": null,
+          "true_negatives": 71,
+          "true_positives": 0,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0,
+              "upper": 0.0787
+            },
+            "recall": {
+              "lower": 0.0,
+              "upper": 0.3244
+            }
+          }
+        },
+        "feature_ppg_ceiling": 5.0,
+        "feature_target_share_ceiling": 0.1,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.06
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 5,
+          "base_rate": 0.0403,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 5,
+          "false_positives": 45,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0,
+          "prediction_positive_count": 45,
+          "recall": 0.0,
+          "small_sample_warning": null,
+          "true_negatives": 74,
+          "true_positives": 0,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0173,
+              "upper": 0.0909
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0,
+              "upper": 0.0787
+            },
+            "recall": {
+              "lower": 0.0,
+              "upper": 0.4345
+            }
+          }
+        },
+        "feature_ppg_ceiling": 5.0,
+        "feature_target_share_ceiling": 0.1,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.08
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 9,
+          "false_positives": 45,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0,
+          "prediction_positive_count": 45,
+          "recall": 0.0,
+          "small_sample_warning": null,
+          "true_negatives": 70,
+          "true_positives": 0,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0,
+              "upper": 0.0787
+            },
+            "recall": {
+              "lower": 0.0,
+              "upper": 0.2992
+            }
+          }
+        },
+        "feature_ppg_ceiling": 5.0,
+        "feature_target_share_ceiling": 0.12,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.04
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 9,
+          "false_positives": 45,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0,
+          "prediction_positive_count": 45,
+          "recall": 0.0,
+          "small_sample_warning": null,
+          "true_negatives": 70,
+          "true_positives": 0,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0,
+              "upper": 0.0787
+            },
+            "recall": {
+              "lower": 0.0,
+              "upper": 0.2992
+            }
+          }
+        },
+        "feature_ppg_ceiling": 5.0,
+        "feature_target_share_ceiling": 0.12,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.05
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 9,
+          "false_positives": 45,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0,
+          "prediction_positive_count": 45,
+          "recall": 0.0,
+          "small_sample_warning": null,
+          "true_negatives": 70,
+          "true_positives": 0,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0,
+              "upper": 0.0787
+            },
+            "recall": {
+              "lower": 0.0,
+              "upper": 0.2992
+            }
+          }
+        },
+        "feature_ppg_ceiling": 5.0,
+        "feature_target_share_ceiling": 0.12,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.06
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 5,
+          "base_rate": 0.0403,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 5,
+          "false_positives": 45,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0,
+          "prediction_positive_count": 45,
+          "recall": 0.0,
+          "small_sample_warning": null,
+          "true_negatives": 74,
+          "true_positives": 0,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0173,
+              "upper": 0.0909
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0,
+              "upper": 0.0787
+            },
+            "recall": {
+              "lower": 0.0,
+              "upper": 0.4345
+            }
+          }
+        },
+        "feature_ppg_ceiling": 5.0,
+        "feature_target_share_ceiling": 0.12,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.08
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 8,
+          "false_positives": 45,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0,
+          "prediction_positive_count": 45,
+          "recall": 0.0,
+          "small_sample_warning": null,
+          "true_negatives": 71,
+          "true_positives": 0,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0,
+              "upper": 0.0787
+            },
+            "recall": {
+              "lower": 0.0,
+              "upper": 0.3244
+            }
+          }
+        },
+        "feature_ppg_ceiling": 5.0,
+        "feature_target_share_ceiling": 0.12,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.04
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 8,
+          "false_positives": 45,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0,
+          "prediction_positive_count": 45,
+          "recall": 0.0,
+          "small_sample_warning": null,
+          "true_negatives": 71,
+          "true_positives": 0,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0,
+              "upper": 0.0787
+            },
+            "recall": {
+              "lower": 0.0,
+              "upper": 0.3244
+            }
+          }
+        },
+        "feature_ppg_ceiling": 5.0,
+        "feature_target_share_ceiling": 0.12,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.05
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 8,
+          "false_positives": 45,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0,
+          "prediction_positive_count": 45,
+          "recall": 0.0,
+          "small_sample_warning": null,
+          "true_negatives": 71,
+          "true_positives": 0,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0,
+              "upper": 0.0787
+            },
+            "recall": {
+              "lower": 0.0,
+              "upper": 0.3244
+            }
+          }
+        },
+        "feature_ppg_ceiling": 5.0,
+        "feature_target_share_ceiling": 0.12,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.06
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 5,
+          "base_rate": 0.0403,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 5,
+          "false_positives": 45,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0,
+          "prediction_positive_count": 45,
+          "recall": 0.0,
+          "small_sample_warning": null,
+          "true_negatives": 74,
+          "true_positives": 0,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0173,
+              "upper": 0.0909
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0,
+              "upper": 0.0787
+            },
+            "recall": {
+              "lower": 0.0,
+              "upper": 0.4345
+            }
+          }
+        },
+        "feature_ppg_ceiling": 5.0,
+        "feature_target_share_ceiling": 0.12,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.08
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 8,
+          "false_positives": 49,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.02,
+          "prediction_positive_count": 50,
+          "recall": 0.1111,
+          "small_sample_warning": null,
+          "true_negatives": 66,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0035,
+              "upper": 0.105
+            },
+            "recall": {
+              "lower": 0.0199,
+              "upper": 0.435
+            }
+          }
+        },
+        "feature_ppg_ceiling": 7.0,
+        "feature_target_share_ceiling": 0.08,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.04
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 8,
+          "false_positives": 49,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.02,
+          "prediction_positive_count": 50,
+          "recall": 0.1111,
+          "small_sample_warning": null,
+          "true_negatives": 66,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0035,
+              "upper": 0.105
+            },
+            "recall": {
+              "lower": 0.0199,
+              "upper": 0.435
+            }
+          }
+        },
+        "feature_ppg_ceiling": 7.0,
+        "feature_target_share_ceiling": 0.08,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.05
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 8,
+          "false_positives": 49,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.02,
+          "prediction_positive_count": 50,
+          "recall": 0.1111,
+          "small_sample_warning": null,
+          "true_negatives": 66,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0035,
+              "upper": 0.105
+            },
+            "recall": {
+              "lower": 0.0199,
+              "upper": 0.435
+            }
+          }
+        },
+        "feature_ppg_ceiling": 7.0,
+        "feature_target_share_ceiling": 0.08,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.06
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 5,
+          "base_rate": 0.0403,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 4,
+          "false_positives": 49,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.02,
+          "prediction_positive_count": 50,
+          "recall": 0.2,
+          "small_sample_warning": null,
+          "true_negatives": 70,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0173,
+              "upper": 0.0909
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0035,
+              "upper": 0.105
+            },
+            "recall": {
+              "lower": 0.0362,
+              "upper": 0.6245
+            }
+          }
+        },
+        "feature_ppg_ceiling": 7.0,
+        "feature_target_share_ceiling": 0.08,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.08
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 7,
+          "false_positives": 49,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.02,
+          "prediction_positive_count": 50,
+          "recall": 0.125,
+          "small_sample_warning": null,
+          "true_negatives": 67,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0035,
+              "upper": 0.105
+            },
+            "recall": {
+              "lower": 0.0224,
+              "upper": 0.4709
+            }
+          }
+        },
+        "feature_ppg_ceiling": 7.0,
+        "feature_target_share_ceiling": 0.08,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.04
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 7,
+          "false_positives": 49,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.02,
+          "prediction_positive_count": 50,
+          "recall": 0.125,
+          "small_sample_warning": null,
+          "true_negatives": 67,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0035,
+              "upper": 0.105
+            },
+            "recall": {
+              "lower": 0.0224,
+              "upper": 0.4709
+            }
+          }
+        },
+        "feature_ppg_ceiling": 7.0,
+        "feature_target_share_ceiling": 0.08,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.05
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 7,
+          "false_positives": 49,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.02,
+          "prediction_positive_count": 50,
+          "recall": 0.125,
+          "small_sample_warning": null,
+          "true_negatives": 67,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0035,
+              "upper": 0.105
+            },
+            "recall": {
+              "lower": 0.0224,
+              "upper": 0.4709
+            }
+          }
+        },
+        "feature_ppg_ceiling": 7.0,
+        "feature_target_share_ceiling": 0.08,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.06
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 5,
+          "base_rate": 0.0403,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 4,
+          "false_positives": 49,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.02,
+          "prediction_positive_count": 50,
+          "recall": 0.2,
+          "small_sample_warning": null,
+          "true_negatives": 70,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0173,
+              "upper": 0.0909
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0035,
+              "upper": 0.105
+            },
+            "recall": {
+              "lower": 0.0362,
+              "upper": 0.6245
+            }
+          }
+        },
+        "feature_ppg_ceiling": 7.0,
+        "feature_target_share_ceiling": 0.08,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.08
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 7,
+          "false_positives": 50,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0385,
+          "prediction_positive_count": 52,
+          "recall": 0.2222,
+          "small_sample_warning": null,
+          "true_negatives": 65,
+          "true_positives": 2,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0106,
+              "upper": 0.1298
+            },
+            "recall": {
+              "lower": 0.0632,
+              "upper": 0.5474
+            }
+          }
+        },
+        "feature_ppg_ceiling": 7.0,
+        "feature_target_share_ceiling": 0.1,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.04
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 7,
+          "false_positives": 50,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0385,
+          "prediction_positive_count": 52,
+          "recall": 0.2222,
+          "small_sample_warning": null,
+          "true_negatives": 65,
+          "true_positives": 2,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0106,
+              "upper": 0.1298
+            },
+            "recall": {
+              "lower": 0.0632,
+              "upper": 0.5474
+            }
+          }
+        },
+        "feature_ppg_ceiling": 7.0,
+        "feature_target_share_ceiling": 0.1,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.05
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 7,
+          "false_positives": 50,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0385,
+          "prediction_positive_count": 52,
+          "recall": 0.2222,
+          "small_sample_warning": null,
+          "true_negatives": 65,
+          "true_positives": 2,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0106,
+              "upper": 0.1298
+            },
+            "recall": {
+              "lower": 0.0632,
+              "upper": 0.5474
+            }
+          }
+        },
+        "feature_ppg_ceiling": 7.0,
+        "feature_target_share_ceiling": 0.1,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.06
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 5,
+          "base_rate": 0.0403,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 4,
+          "false_positives": 51,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0192,
+          "prediction_positive_count": 52,
+          "recall": 0.2,
+          "small_sample_warning": null,
+          "true_negatives": 68,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0173,
+              "upper": 0.0909
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0034,
+              "upper": 0.1012
+            },
+            "recall": {
+              "lower": 0.0362,
+              "upper": 0.6245
+            }
+          }
+        },
+        "feature_ppg_ceiling": 7.0,
+        "feature_target_share_ceiling": 0.1,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.08
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 7,
+          "false_positives": 51,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0192,
+          "prediction_positive_count": 52,
+          "recall": 0.125,
+          "small_sample_warning": null,
+          "true_negatives": 65,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0034,
+              "upper": 0.1012
+            },
+            "recall": {
+              "lower": 0.0224,
+              "upper": 0.4709
+            }
+          }
+        },
+        "feature_ppg_ceiling": 7.0,
+        "feature_target_share_ceiling": 0.1,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.04
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 7,
+          "false_positives": 51,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0192,
+          "prediction_positive_count": 52,
+          "recall": 0.125,
+          "small_sample_warning": null,
+          "true_negatives": 65,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0034,
+              "upper": 0.1012
+            },
+            "recall": {
+              "lower": 0.0224,
+              "upper": 0.4709
+            }
+          }
+        },
+        "feature_ppg_ceiling": 7.0,
+        "feature_target_share_ceiling": 0.1,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.05
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 7,
+          "false_positives": 51,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0192,
+          "prediction_positive_count": 52,
+          "recall": 0.125,
+          "small_sample_warning": null,
+          "true_negatives": 65,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0034,
+              "upper": 0.1012
+            },
+            "recall": {
+              "lower": 0.0224,
+              "upper": 0.4709
+            }
+          }
+        },
+        "feature_ppg_ceiling": 7.0,
+        "feature_target_share_ceiling": 0.1,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.06
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 5,
+          "base_rate": 0.0403,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 4,
+          "false_positives": 51,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0192,
+          "prediction_positive_count": 52,
+          "recall": 0.2,
+          "small_sample_warning": null,
+          "true_negatives": 68,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0173,
+              "upper": 0.0909
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0034,
+              "upper": 0.1012
+            },
+            "recall": {
+              "lower": 0.0362,
+              "upper": 0.6245
+            }
+          }
+        },
+        "feature_ppg_ceiling": 7.0,
+        "feature_target_share_ceiling": 0.1,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.08
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 7,
+          "false_positives": 55,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0351,
+          "prediction_positive_count": 57,
+          "recall": 0.2222,
+          "small_sample_warning": null,
+          "true_negatives": 60,
+          "true_positives": 2,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0097,
+              "upper": 0.1192
+            },
+            "recall": {
+              "lower": 0.0632,
+              "upper": 0.5474
+            }
+          }
+        },
+        "feature_ppg_ceiling": 7.0,
+        "feature_target_share_ceiling": 0.12,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.04
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 7,
+          "false_positives": 55,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0351,
+          "prediction_positive_count": 57,
+          "recall": 0.2222,
+          "small_sample_warning": null,
+          "true_negatives": 60,
+          "true_positives": 2,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0097,
+              "upper": 0.1192
+            },
+            "recall": {
+              "lower": 0.0632,
+              "upper": 0.5474
+            }
+          }
+        },
+        "feature_ppg_ceiling": 7.0,
+        "feature_target_share_ceiling": 0.12,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.05
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 7,
+          "false_positives": 55,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0351,
+          "prediction_positive_count": 57,
+          "recall": 0.2222,
+          "small_sample_warning": null,
+          "true_negatives": 60,
+          "true_positives": 2,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0097,
+              "upper": 0.1192
+            },
+            "recall": {
+              "lower": 0.0632,
+              "upper": 0.5474
+            }
+          }
+        },
+        "feature_ppg_ceiling": 7.0,
+        "feature_target_share_ceiling": 0.12,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.06
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 5,
+          "base_rate": 0.0403,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 4,
+          "false_positives": 56,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0175,
+          "prediction_positive_count": 57,
+          "recall": 0.2,
+          "small_sample_warning": null,
+          "true_negatives": 63,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0173,
+              "upper": 0.0909
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0031,
+              "upper": 0.0929
+            },
+            "recall": {
+              "lower": 0.0362,
+              "upper": 0.6245
+            }
+          }
+        },
+        "feature_ppg_ceiling": 7.0,
+        "feature_target_share_ceiling": 0.12,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.08
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 7,
+          "false_positives": 56,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0175,
+          "prediction_positive_count": 57,
+          "recall": 0.125,
+          "small_sample_warning": null,
+          "true_negatives": 60,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0031,
+              "upper": 0.0929
+            },
+            "recall": {
+              "lower": 0.0224,
+              "upper": 0.4709
+            }
+          }
+        },
+        "feature_ppg_ceiling": 7.0,
+        "feature_target_share_ceiling": 0.12,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.04
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 7,
+          "false_positives": 56,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0175,
+          "prediction_positive_count": 57,
+          "recall": 0.125,
+          "small_sample_warning": null,
+          "true_negatives": 60,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0031,
+              "upper": 0.0929
+            },
+            "recall": {
+              "lower": 0.0224,
+              "upper": 0.4709
+            }
+          }
+        },
+        "feature_ppg_ceiling": 7.0,
+        "feature_target_share_ceiling": 0.12,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.05
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 7,
+          "false_positives": 56,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0175,
+          "prediction_positive_count": 57,
+          "recall": 0.125,
+          "small_sample_warning": null,
+          "true_negatives": 60,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0031,
+              "upper": 0.0929
+            },
+            "recall": {
+              "lower": 0.0224,
+              "upper": 0.4709
+            }
+          }
+        },
+        "feature_ppg_ceiling": 7.0,
+        "feature_target_share_ceiling": 0.12,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.06
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 5,
+          "base_rate": 0.0403,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 4,
+          "false_positives": 56,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0175,
+          "prediction_positive_count": 57,
+          "recall": 0.2,
+          "small_sample_warning": null,
+          "true_negatives": 63,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0173,
+              "upper": 0.0909
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0031,
+              "upper": 0.0929
+            },
+            "recall": {
+              "lower": 0.0362,
+              "upper": 0.6245
+            }
+          }
+        },
+        "feature_ppg_ceiling": 7.0,
+        "feature_target_share_ceiling": 0.12,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.08
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 8,
+          "false_positives": 52,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0189,
+          "prediction_positive_count": 53,
+          "recall": 0.1111,
+          "small_sample_warning": null,
+          "true_negatives": 63,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0033,
+              "upper": 0.0994
+            },
+            "recall": {
+              "lower": 0.0199,
+              "upper": 0.435
+            }
+          }
+        },
+        "feature_ppg_ceiling": 9.0,
+        "feature_target_share_ceiling": 0.08,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.04
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 8,
+          "false_positives": 52,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0189,
+          "prediction_positive_count": 53,
+          "recall": 0.1111,
+          "small_sample_warning": null,
+          "true_negatives": 63,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0033,
+              "upper": 0.0994
+            },
+            "recall": {
+              "lower": 0.0199,
+              "upper": 0.435
+            }
+          }
+        },
+        "feature_ppg_ceiling": 9.0,
+        "feature_target_share_ceiling": 0.08,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.05
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 8,
+          "false_positives": 52,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0189,
+          "prediction_positive_count": 53,
+          "recall": 0.1111,
+          "small_sample_warning": null,
+          "true_negatives": 63,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0033,
+              "upper": 0.0994
+            },
+            "recall": {
+              "lower": 0.0199,
+              "upper": 0.435
+            }
+          }
+        },
+        "feature_ppg_ceiling": 9.0,
+        "feature_target_share_ceiling": 0.08,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.06
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 5,
+          "base_rate": 0.0403,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 4,
+          "false_positives": 52,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0189,
+          "prediction_positive_count": 53,
+          "recall": 0.2,
+          "small_sample_warning": null,
+          "true_negatives": 67,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0173,
+              "upper": 0.0909
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0033,
+              "upper": 0.0994
+            },
+            "recall": {
+              "lower": 0.0362,
+              "upper": 0.6245
+            }
+          }
+        },
+        "feature_ppg_ceiling": 9.0,
+        "feature_target_share_ceiling": 0.08,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.08
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 7,
+          "false_positives": 52,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0189,
+          "prediction_positive_count": 53,
+          "recall": 0.125,
+          "small_sample_warning": null,
+          "true_negatives": 64,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0033,
+              "upper": 0.0994
+            },
+            "recall": {
+              "lower": 0.0224,
+              "upper": 0.4709
+            }
+          }
+        },
+        "feature_ppg_ceiling": 9.0,
+        "feature_target_share_ceiling": 0.08,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.04
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 7,
+          "false_positives": 52,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0189,
+          "prediction_positive_count": 53,
+          "recall": 0.125,
+          "small_sample_warning": null,
+          "true_negatives": 64,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0033,
+              "upper": 0.0994
+            },
+            "recall": {
+              "lower": 0.0224,
+              "upper": 0.4709
+            }
+          }
+        },
+        "feature_ppg_ceiling": 9.0,
+        "feature_target_share_ceiling": 0.08,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.05
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 7,
+          "false_positives": 52,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0189,
+          "prediction_positive_count": 53,
+          "recall": 0.125,
+          "small_sample_warning": null,
+          "true_negatives": 64,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0033,
+              "upper": 0.0994
+            },
+            "recall": {
+              "lower": 0.0224,
+              "upper": 0.4709
+            }
+          }
+        },
+        "feature_ppg_ceiling": 9.0,
+        "feature_target_share_ceiling": 0.08,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.06
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 5,
+          "base_rate": 0.0403,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 4,
+          "false_positives": 52,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0189,
+          "prediction_positive_count": 53,
+          "recall": 0.2,
+          "small_sample_warning": null,
+          "true_negatives": 67,
+          "true_positives": 1,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0173,
+              "upper": 0.0909
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0033,
+              "upper": 0.0994
+            },
+            "recall": {
+              "lower": 0.0362,
+              "upper": 0.6245
+            }
+          }
+        },
+        "feature_ppg_ceiling": 9.0,
+        "feature_target_share_ceiling": 0.08,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.08
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 6,
+          "false_positives": 56,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0508,
+          "prediction_positive_count": 59,
+          "recall": 0.3333,
+          "small_sample_warning": null,
+          "true_negatives": 59,
+          "true_positives": 3,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0174,
+              "upper": 0.1392
+            },
+            "recall": {
+              "lower": 0.1206,
+              "upper": 0.6458
+            }
+          }
+        },
+        "feature_ppg_ceiling": 9.0,
+        "feature_target_share_ceiling": 0.1,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.04
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 6,
+          "false_positives": 56,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0508,
+          "prediction_positive_count": 59,
+          "recall": 0.3333,
+          "small_sample_warning": null,
+          "true_negatives": 59,
+          "true_positives": 3,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0174,
+              "upper": 0.1392
+            },
+            "recall": {
+              "lower": 0.1206,
+              "upper": 0.6458
+            }
+          }
+        },
+        "feature_ppg_ceiling": 9.0,
+        "feature_target_share_ceiling": 0.1,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.05
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 6,
+          "false_positives": 56,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0508,
+          "prediction_positive_count": 59,
+          "recall": 0.3333,
+          "small_sample_warning": null,
+          "true_negatives": 59,
+          "true_positives": 3,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0174,
+              "upper": 0.1392
+            },
+            "recall": {
+              "lower": 0.1206,
+              "upper": 0.6458
+            }
+          }
+        },
+        "feature_ppg_ceiling": 9.0,
+        "feature_target_share_ceiling": 0.1,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.06
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 5,
+          "base_rate": 0.0403,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 3,
+          "false_positives": 57,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0339,
+          "prediction_positive_count": 59,
+          "recall": 0.4,
+          "small_sample_warning": null,
+          "true_negatives": 62,
+          "true_positives": 2,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0173,
+              "upper": 0.0909
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0093,
+              "upper": 0.1154
+            },
+            "recall": {
+              "lower": 0.1176,
+              "upper": 0.7693
+            }
+          }
+        },
+        "feature_ppg_ceiling": 9.0,
+        "feature_target_share_ceiling": 0.1,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.08
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 6,
+          "false_positives": 57,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0339,
+          "prediction_positive_count": 59,
+          "recall": 0.25,
+          "small_sample_warning": null,
+          "true_negatives": 59,
+          "true_positives": 2,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0093,
+              "upper": 0.1154
+            },
+            "recall": {
+              "lower": 0.0715,
+              "upper": 0.5907
+            }
+          }
+        },
+        "feature_ppg_ceiling": 9.0,
+        "feature_target_share_ceiling": 0.1,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.04
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 6,
+          "false_positives": 57,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0339,
+          "prediction_positive_count": 59,
+          "recall": 0.25,
+          "small_sample_warning": null,
+          "true_negatives": 59,
+          "true_positives": 2,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0093,
+              "upper": 0.1154
+            },
+            "recall": {
+              "lower": 0.0715,
+              "upper": 0.5907
+            }
+          }
+        },
+        "feature_ppg_ceiling": 9.0,
+        "feature_target_share_ceiling": 0.1,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.05
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 6,
+          "false_positives": 57,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0339,
+          "prediction_positive_count": 59,
+          "recall": 0.25,
+          "small_sample_warning": null,
+          "true_negatives": 59,
+          "true_positives": 2,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0093,
+              "upper": 0.1154
+            },
+            "recall": {
+              "lower": 0.0715,
+              "upper": 0.5907
+            }
+          }
+        },
+        "feature_ppg_ceiling": 9.0,
+        "feature_target_share_ceiling": 0.1,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.06
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 5,
+          "base_rate": 0.0403,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 3,
+          "false_positives": 57,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0339,
+          "prediction_positive_count": 59,
+          "recall": 0.4,
+          "small_sample_warning": null,
+          "true_negatives": 62,
+          "true_positives": 2,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0173,
+              "upper": 0.0909
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0093,
+              "upper": 0.1154
+            },
+            "recall": {
+              "lower": 0.1176,
+              "upper": 0.7693
+            }
+          }
+        },
+        "feature_ppg_ceiling": 9.0,
+        "feature_target_share_ceiling": 0.1,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.08
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 6,
+          "false_positives": 61,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0469,
+          "prediction_positive_count": 64,
+          "recall": 0.3333,
+          "small_sample_warning": null,
+          "true_negatives": 54,
+          "true_positives": 3,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0161,
+              "upper": 0.129
+            },
+            "recall": {
+              "lower": 0.1206,
+              "upper": 0.6458
+            }
+          }
+        },
+        "feature_ppg_ceiling": 9.0,
+        "feature_target_share_ceiling": 0.12,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.04
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 6,
+          "false_positives": 61,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0469,
+          "prediction_positive_count": 64,
+          "recall": 0.3333,
+          "small_sample_warning": null,
+          "true_negatives": 54,
+          "true_positives": 3,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0161,
+              "upper": 0.129
+            },
+            "recall": {
+              "lower": 0.1206,
+              "upper": 0.6458
+            }
+          }
+        },
+        "feature_ppg_ceiling": 9.0,
+        "feature_target_share_ceiling": 0.12,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.05
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 9,
+          "base_rate": 0.0726,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 6,
+          "false_positives": 61,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0469,
+          "prediction_positive_count": 64,
+          "recall": 0.3333,
+          "small_sample_warning": null,
+          "true_negatives": 54,
+          "true_positives": 3,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0387,
+              "upper": 0.1322
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0161,
+              "upper": 0.129
+            },
+            "recall": {
+              "lower": 0.1206,
+              "upper": 0.6458
+            }
+          }
+        },
+        "feature_ppg_ceiling": 9.0,
+        "feature_target_share_ceiling": 0.12,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.06
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 5,
+          "base_rate": 0.0403,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 3,
+          "false_positives": 62,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0312,
+          "prediction_positive_count": 64,
+          "recall": 0.4,
+          "small_sample_warning": null,
+          "true_negatives": 57,
+          "true_positives": 2,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0173,
+              "upper": 0.0909
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0086,
+              "upper": 0.107
+            },
+            "recall": {
+              "lower": 0.1176,
+              "upper": 0.7693
+            }
+          }
+        },
+        "feature_ppg_ceiling": 9.0,
+        "feature_target_share_ceiling": 0.12,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 10.0,
+        "target_share_increase_floor": 0.08
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 6,
+          "false_positives": 62,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0312,
+          "prediction_positive_count": 64,
+          "recall": 0.25,
+          "small_sample_warning": null,
+          "true_negatives": 54,
+          "true_positives": 2,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0086,
+              "upper": 0.107
+            },
+            "recall": {
+              "lower": 0.0715,
+              "upper": 0.5907
+            }
+          }
+        },
+        "feature_ppg_ceiling": 9.0,
+        "feature_target_share_ceiling": 0.12,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.04
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 6,
+          "false_positives": 62,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0312,
+          "prediction_positive_count": 64,
+          "recall": 0.25,
+          "small_sample_warning": null,
+          "true_negatives": 54,
+          "true_positives": 2,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0086,
+              "upper": 0.107
+            },
+            "recall": {
+              "lower": 0.0715,
+              "upper": 0.5907
+            }
+          }
+        },
+        "feature_ppg_ceiling": 9.0,
+        "feature_target_share_ceiling": 0.12,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.05
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 8,
+          "base_rate": 0.0645,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 6,
+          "false_positives": 62,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0312,
+          "prediction_positive_count": 64,
+          "recall": 0.25,
+          "small_sample_warning": null,
+          "true_negatives": 54,
+          "true_positives": 2,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0331,
+              "upper": 0.1222
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0086,
+              "upper": 0.107
+            },
+            "recall": {
+              "lower": 0.0715,
+              "upper": 0.5907
+            }
+          }
+        },
+        "feature_ppg_ceiling": 9.0,
+        "feature_target_share_ceiling": 0.12,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.06
+      },
+      {
+        "diagnostic_only": true,
+        "evaluation": {
+          "actual_hit_count": 5,
+          "base_rate": 0.0403,
+          "coverage_exclusion_count": 1067,
+          "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+          "definition_version": "late_veteran_wr_breakout_v0",
+          "evaluable_pair_count": 124,
+          "exclusion_reason_counts": {
+            "missing_outcome": 115,
+            "outside_declared_population": 198,
+            "prior_history_incomplete": 754
+          },
+          "false_negatives": 3,
+          "false_positives": 62,
+          "market_status": "unavailable",
+          "observed_pair_count": 1191,
+          "precision": 0.0312,
+          "prediction_positive_count": 64,
+          "recall": 0.4,
+          "small_sample_warning": null,
+          "true_negatives": 57,
+          "true_positives": 2,
+          "uncertainty": {
+            "base_rate": {
+              "lower": 0.0173,
+              "upper": 0.0909
+            },
+            "method": "wilson_95_percent_interval",
+            "precision": {
+              "lower": 0.0086,
+              "upper": 0.107
+            },
+            "recall": {
+              "lower": 0.1176,
+              "upper": 0.7693
+            }
+          }
+        },
+        "feature_ppg_ceiling": 9.0,
+        "feature_target_share_ceiling": 0.12,
+        "market_status": "unavailable",
+        "outcome_ppg_floor": 12.0,
+        "target_share_increase_floor": 0.08
+      }
+    ],
+    "market_dimension": {
+      "declared_cutoffs": [
+        180,
+        200,
+        240
+      ],
+      "state": "not_evaluated_governed_market_input_unavailable",
+      "unranked_case_declared": true
+    },
+    "primary_definition_replaced": false
+  },
+  "evidence_cutoff_at": "2026-08-09T19:28:02Z",
+  "historical_run_blockers": [],
+  "input_coverage": {
+    "all_position_record_count": 3016,
+    "artifact_id": "player_season_coverage_v0",
+    "content_sha256": "d45f612b207085df00b4b080e4f55ce1abbd060dcbf30b0bee777ff833ddd8ac",
+    "seasons": [
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "source_blob_sha": "f7b2918b978d842cd8753a7f3dedd3836934859b",
+    "source_commit_sha": "3606b6a0af5add2ebea1f7de141a299cebe70a34",
+    "wr_record_count": 1191
+  },
+  "interpretation_limits": [
+    "The evaluation universe is the pinned observed stat-row population, not a historical active-roster census.",
+    "Coverage exclusions are not false negatives.",
+    "No predictive-power claim is made.",
+    "Market-qualified eligibility remains unavailable.",
+    "Routes, route participation, and snap share do not influence any result because their promoted coverage is absent."
+  ],
+  "missingness": {
+    "optional_role_fields": {
+      "route_participation": 1191,
+      "routes_run": 1191,
+      "snap_share": 1191
+    },
+    "pair_level": {
+      "market_evidence_unavailable": 1191,
+      "missing_adjacent_outcome_row": 492,
+      "prior_history_incomplete": 754,
+      "tenure_conflict": 0
+    },
+    "required_player_season_fields": {
+      "air_yards_share": 0,
+      "career_year": 0,
+      "games_played": 0,
+      "player_id": 0,
+      "player_name": 0,
+      "primary_team": 0,
+      "receiving_tds": 0,
+      "receiving_yards": 0,
+      "receptions": 0,
+      "rookie_year": 0,
+      "season": 0,
+      "season_ppg": 0,
+      "season_ppr": 0,
+      "target_share": 0,
+      "targets": 0,
+      "wopr": 0
+    },
+    "unsupported_context_fields": {
+      "age": "unavailable_no_source_backed_field_bound",
+      "current_active_roster_status": "unavailable_historical_stat_rows_are_not_roster_truth",
+      "current_official_depth_chart": "unavailable_no_governed_receipt_bound"
+    }
+  },
+  "no_leakage_receipt": {
+    "accepted_parameters": [
+      "feature",
+      "player_history",
+      "definition"
+    ],
+    "feature_decision_built_before_outcome_join": true,
+    "feature_eligibility_function": "src.labels.late_veteran_wr_breakout.evaluate_feature_eligibility",
+    "outcome_labels_stored_separately": true,
+    "outcome_parameter_accepted": false
+  },
+  "population": {
+    "by_feature_season": {
+      "2021": {
+        "coverage_exclusion_count": 256,
+        "eligibility_state_counts": {
+          "outside_declared_population": 38,
+          "prior_history_incomplete": 218
+        },
+        "exclusion_reason_counts": {
+          "outside_declared_population": 38,
+          "prior_history_incomplete": 218
+        },
+        "included_count": 0,
+        "observed_pair_count": 256
+      },
+      "2022": {
+        "coverage_exclusion_count": 217,
+        "eligibility_state_counts": {
+          "eligible": 18,
+          "ineligible": 11,
+          "outside_declared_population": 39,
+          "prior_history_incomplete": 170
+        },
+        "exclusion_reason_counts": {
+          "missing_outcome": 8,
+          "outside_declared_population": 39,
+          "prior_history_incomplete": 170
+        },
+        "included_count": 21,
+        "observed_pair_count": 238
+      },
+      "2023": {
+        "coverage_exclusion_count": 181,
+        "eligibility_state_counts": {
+          "eligible": 26,
+          "ineligible": 22,
+          "outside_declared_population": 39,
+          "prior_history_incomplete": 136
+        },
+        "exclusion_reason_counts": {
+          "missing_outcome": 6,
+          "outside_declared_population": 39,
+          "prior_history_incomplete": 136
+        },
+        "included_count": 42,
+        "observed_pair_count": 223
+      },
+      "2024": {
+        "coverage_exclusion_count": 173,
+        "eligibility_state_counts": {
+          "eligible": 32,
+          "ineligible": 41,
+          "outside_declared_population": 38,
+          "prior_history_incomplete": 123
+        },
+        "exclusion_reason_counts": {
+          "missing_outcome": 12,
+          "outside_declared_population": 38,
+          "prior_history_incomplete": 123
+        },
+        "included_count": 61,
+        "observed_pair_count": 234
+      },
+      "2025": {
+        "coverage_exclusion_count": 240,
+        "eligibility_state_counts": {
+          "eligible": 36,
+          "ineligible": 53,
+          "outside_declared_population": 44,
+          "prior_history_incomplete": 107
+        },
+        "exclusion_reason_counts": {
+          "missing_outcome": 89,
+          "outside_declared_population": 44,
+          "prior_history_incomplete": 107
+        },
+        "included_count": 0,
+        "observed_pair_count": 240
+      }
+    },
+    "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+    "eligibility_state_counts": {
+      "eligible": 112,
+      "ineligible": 127,
+      "outside_declared_population": 198,
+      "prior_history_incomplete": 754
+    },
+    "evaluation_exclusion_counts": {
+      "missing_outcome": 115,
+      "outside_declared_population": 198,
+      "prior_history_incomplete": 754
+    }
+  },
+  "primary_cohort_evaluation": {
+    "actual_hit_count": 9,
+    "base_rate": 0.0726,
+    "coverage_exclusion_count": 1067,
+    "declared_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+    "definition_version": "late_veteran_wr_breakout_v0",
+    "evaluable_pair_count": 124,
+    "exclusion_reason_counts": {
+      "missing_outcome": 115,
+      "outside_declared_population": 198,
+      "prior_history_incomplete": 754
+    },
+    "false_negatives": 7,
+    "false_positives": 50,
+    "market_status": "unavailable",
+    "observed_pair_count": 1191,
+    "precision": 0.0385,
+    "prediction_positive_count": 52,
+    "recall": 0.2222,
+    "small_sample_warning": null,
+    "true_negatives": 65,
+    "true_positives": 2,
+    "uncertainty": {
+      "base_rate": {
+        "lower": 0.0387,
+        "upper": 0.1322
+      },
+      "method": "wilson_95_percent_interval",
+      "precision": {
+        "lower": 0.0106,
+        "upper": 0.1298
+      },
+      "recall": {
+        "lower": 0.0632,
+        "upper": 0.5474
+      }
+    }
+  },
+  "repository_base_commit_sha": "0b8f600a4779df4c64420844649b732edeb6c3e2",
+  "research_issue": "https://github.com/Prometheus-Frameworks/Signal-Validation-Model/issues/16",
+  "spec_version": "late_veteran_wr_breakout_v0",
+  "status": "research_result_not_promoted",
+  "terminal_decision": "late_veteran_wr_breakout_v0_requires_data_or_definition_followup",
+  "terminal_decision_basis": [
+    "governed_comparable_redraft_market_unavailable",
+    "route_and_snap_role_fields_have_zero_coverage",
+    "primary_result_is_descriptive_only_2_of_52_screen_positives_were_hits"
+  ]
+}
