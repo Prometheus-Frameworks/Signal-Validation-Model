@@ -31,7 +31,7 @@ The repository remains limited to:
 
 - **Position:** Wide receivers (WR)
 - **Research posture:** historical validation only
-- **Ingestion:** preferred TIBER-Data exports/APIs normalized into `data/raw/`, with an explicit local-builder fallback
+- **Ingestion:** preferred TIBER-Data exports/APIs normalized into `data/raw/`; the deprecated local builder is an explicit optional extra
 - **Processed outputs:** canonical weekly, season, feature-season, and outcome-season tables
 
 Still out of scope:
@@ -66,16 +66,17 @@ signal-validation build-real-wr-history --source preferred --tiber-export-path /
 signal-validation build-wr-tables --input data/raw/player_weekly_history.csv
 ```
 
-Fallback/bootstrap path:
+Optional deprecated bootstrap path (Python 3.10 or 3.11 only):
 
 ```bash
+python -m pip install -e '.[legacy-local-builder]'
 signal-validation build-real-wr-history --source local-builder
 signal-validation build-wr-tables --input data/raw/player_weekly_history.csv
 ```
 
 The TIBER-Data adapter writes `data/raw/player_weekly_history.csv` plus `data/raw/player_weekly_history.provenance.json`, preserves optional columns when supplied, and prints the exact source used so the repository never switches sources silently.
 
-The legacy `scripts/build_real_wr_data.py` path remains available for direct bootstrap use and also supports `--seasons` when an explicit fallback season list is needed.
+The legacy `scripts/build_real_wr_data.py` path is deprecated and excluded from the core install. It is retained only as an explicitly requested Python 3.10/3.11 bootstrap path through the `legacy-local-builder` extra; it is not governed source truth.
 
 See `docs/REAL_DATA_INGESTION.md` and `docs/TIBER_DATA_ADAPTER.md` for source mapping, validation rules, provenance, and architecture.
 
