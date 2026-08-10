@@ -107,3 +107,38 @@ def test_explicit_tiber_source_does_not_silently_fallback(tmp_path: Path) -> Non
             provenance_path=tmp_path / "player_weekly_history.provenance.json",
             source="tiber-data",
         )
+
+def test_preferred_source_fails_closed_when_legacy_extra_is_unavailable(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    output_path = tmp_path / "player_weekly_history.csv"
+    provenance_path = tmp_path / "player_weekly_history.provenance.json"
+
+    def unavailable_local_builder(
+        output_path: Path,
+        seasons: list[int] | None = None,
+    ) -> Path:
+        from scripts.build_real_wr_data import LegacyLocalBuilderUnavailable
+
+        raise LegacyLocalBuilderUnavailable(
+            "install .[legacy-local-builder] or use --source tiber-data"
+        )
+
+    monkeypatch.setattr(
+        "scripts.build_real_wr_data.build_real_wr_history",
+        unavailable_local_builder,
+    )
+
+    with pytest.raises(
+        TiberDataSourceUnavailable,
+        match="legacy fallback is also unavailable",
+    ):
+        build_real_wr_history_with_preferred_source(
+            output_path=output_path,
+            provenance_path=provenance_path,
+            source="preferred",
+        )
+
+    assert not output_path.exists()
+    assert not provenance_path.exists()
