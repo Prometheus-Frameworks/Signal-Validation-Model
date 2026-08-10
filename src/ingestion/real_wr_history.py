@@ -17,6 +17,7 @@ from src.ingestion.tiber_data_adapter import (
 from src.validation import read_raw_wr_week_rows
 
 LOCAL_BUILDER_SOURCE_TYPE = "local-builder"
+LOCAL_BUILDER_SOURCE_LOCATION = "src.ingestion.legacy_local_builder"
 
 
 
@@ -81,14 +82,30 @@ def _build_from_local_builder(
     local_seasons: Sequence[int] | None,
     fallback_reason: str | None,
 ) -> TiberDataIngestionResult:
-    from scripts.build_real_wr_data import build_real_wr_history  # local import to avoid circular CLI/script coupling
+    from src.ingestion.legacy_local_builder import (
+        LegacyLocalBuilderUnavailable,
+        build_real_wr_history,
+    )
 
-    build_real_wr_history(output_path=output_path, seasons=list(local_seasons) if local_seasons else None)
+    try:
+        build_real_wr_history(
+            output_path=output_path,
+            seasons=list(local_seasons) if local_seasons else None,
+        )
+    except LegacyLocalBuilderUnavailable as exc:
+        detail = str(exc)
+        if fallback_reason is not None:
+            detail = (
+                f"TIBER-Data source was unavailable ({fallback_reason}); "
+                f"legacy fallback is also unavailable. {detail}"
+            )
+        raise TiberDataSourceUnavailable(detail) from exc
+
     rows = read_raw_wr_week_rows(output_path)
     seasons = tuple(sorted({int(row["season"]) for row in rows}))
     provenance = {
         "source_type": LOCAL_BUILDER_SOURCE_TYPE,
-        "source_location": "scripts/build_real_wr_data.py",
+        "source_location": LOCAL_BUILDER_SOURCE_LOCATION,
         "row_count": len(rows),
         "seasons": list(seasons),
         "used_fallback": fallback_reason is not None,
@@ -100,7 +117,7 @@ def _build_from_local_builder(
         raw_csv_path=output_path,
         provenance_path=provenance_path,
         source_type=LOCAL_BUILDER_SOURCE_TYPE,
-        source_location="scripts/build_real_wr_data.py",
+        source_location=LOCAL_BUILDER_SOURCE_LOCATION,
         row_count=len(rows),
         seasons=seasons,
         used_fallback=fallback_reason is not None,
