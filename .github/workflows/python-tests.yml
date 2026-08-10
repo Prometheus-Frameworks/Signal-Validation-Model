@@ -28,9 +28,38 @@ jobs:
           cache: pip
       - run: python -m pip install --upgrade pip
       - run: python -m pip install -e '.[dev]'
+      - name: Verify installed dependency metadata boundary
+        run: |
+          python - <<'PY'
+          from importlib.metadata import distribution
+
+          from packaging.requirements import Requirement
+
+          requirements = [
+              Requirement(value)
+              for value in (distribution("signal-validation-model").requires or [])
+          ]
+          by_name = {requirement.name: requirement for requirement in requirements}
+          assert set(by_name) == {"pytest", "nfl_data_py", "pandas"}
+
+          for name in ("nfl_data_py", "pandas"):
+              requirement = by_name[name]
+              assert requirement.marker is not None
+              assert not requirement.marker.evaluate({"extra": "", "python_version": "3.11"})
+              assert requirement.marker.evaluate(
+                  {"extra": "legacy-local-builder", "python_version": "3.11"}
+              )
+              assert not requirement.marker.evaluate(
+                  {"extra": "legacy-local-builder", "python_version": "3.12"}
+              )
+          print("installed dependency metadata boundary passed")
+          PY
       - run: python -m pip check
       - run: python -m pytest -q
       - run: signal-validation --help
+      - run: python scripts/build_real_wr_data.py --help
+      - name: Verify repository remains clean
+        run: test -z "$(git status --porcelain --untracked-files=all)"
 
   legacy-local-builder:
     name: Legacy extra dependency smoke
@@ -55,3 +84,56 @@ jobs:
           print("legacy dependency smoke passed")
           PY
       - run: python -m pytest -q
+      - name: Verify repository remains clean
+        run: test -z "$(git status --porcelain --untracked-files=all)"
+
+  unsupported-legacy-extra:
+    name: Legacy extra fail-closed on Python 3.12
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -e '.[dev,legacy-local-builder]'
+      - run: python -m pip check
+      - name: Verify marked dependencies stay absent and runtime fails closed
+        run: |
+          python - <<'PY'
+          import importlib.util
+          from pathlib import Path
+          from tempfile import TemporaryDirectory
+
+          from src.ingestion import build_real_wr_history_with_preferred_source
+          from src.ingestion.tiber_data_adapter import TiberDataSourceUnavailable
+
+          assert importlib.util.find_spec("nfl_data_py") is None
+          assert importlib.util.find_spec("pandas") is None
+
+          with TemporaryDirectory() as temp_dir:
+              root = Path(temp_dir)
+              output_path = root / "player_weekly_history.csv"
+              provenance_path = root / "player_weekly_history.provenance.json"
+              try:
+                  build_real_wr_history_with_preferred_source(
+                      output_path=output_path,
+                      provenance_path=provenance_path,
+                      source="local-builder",
+                  )
+              except TiberDataSourceUnavailable as exc:
+                  message = str(exc)
+                  assert "Python 3.10 or 3.11" in message
+                  assert ".[legacy-local-builder]" in message
+                  assert "--source tiber-data" in message
+              else:
+                  raise AssertionError("unsupported legacy builder did not fail closed")
+
+              assert not output_path.exists()
+              assert not provenance_path.exists()
+          print("unsupported legacy extra fail-closed boundary passed")
+          PY
+      - run: python -m pytest -q
+      - name: Verify repository remains clean
+        run: test -z "$(git status --porcelain --untracked-files=all)"

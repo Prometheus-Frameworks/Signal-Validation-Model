@@ -69,6 +69,7 @@ def test_raw_fixture_rows_are_sorted_by_player_season_week_after_validation() ->
     rows = read_raw_wr_week_rows(FIXTURE_PATH)
     assert rows == sorted(rows, key=lambda row: (row["player_id"], row["season"], row["week"]))
 
+
 def test_core_dependency_metadata_excludes_legacy_builder_stack() -> None:
     pyproject = Path("pyproject.toml").read_text(encoding="utf-8")
     core_metadata, optional_metadata = pyproject.split(
@@ -79,8 +80,24 @@ def test_core_dependency_metadata_excludes_legacy_builder_stack() -> None:
     assert "nfl_data_py" not in core_metadata
     assert "pandas" not in core_metadata
     assert "legacy-local-builder" in optional_metadata
-    assert '"nfl_data_py==0.3.3"' in optional_metadata
-    assert '"pandas>=1.5,<2.0"' in optional_metadata
+    assert (
+        '"nfl_data_py==0.3.3; python_version >= \'3.10\' and '
+        'python_version < \'3.12\'"'
+    ) in optional_metadata
+    assert (
+        '"pandas>=1.5,<2.0; python_version >= \'3.10\' and '
+        'python_version < \'3.12\'"'
+    ) in optional_metadata
+
+
+def test_deprecated_builder_help_exposes_optional_boundary() -> None:
+    module = _load_script_module()
+
+    help_text = module.build_parser().format_help()
+    assert "Deprecated optional local WR-history builder" in help_text
+    assert "Python 3.10-3.11" in help_text
+    assert "--source tiber-data" in help_text
+    assert "not governed source truth" in help_text
 
 
 def test_legacy_builder_rejects_unsupported_python(

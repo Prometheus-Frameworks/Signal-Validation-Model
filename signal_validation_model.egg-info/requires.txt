@@ -1,5 +1,0 @@
-nfl_data_py>=0.3.3
-pandas<3.0,>=2.0
-
-[dev]
-pytest<10.0,>=8.0

@@ -8,6 +8,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
+
 class LegacyLocalBuilderUnavailable(RuntimeError):
     """Raised when the optional deprecated local-builder stack is unavailable."""
 
@@ -105,6 +106,7 @@ def _import_dependencies() -> tuple[Any, Any]:
         )
 
     return pandas, nfl
+
 
 def _transform_weekly_data(weekly: Any, pandas: Any, seasons: list[int]) -> Any:
     frame = weekly.copy()
@@ -204,7 +206,15 @@ def _print_summary(frame: Any, output_path: Path) -> None:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Build a real WR weekly history CSV from nfl_data_py weekly data.",
+        description=(
+            "Deprecated optional local WR-history builder via nfl_data_py. "
+            "Supported only on Python 3.10-3.11; prefer the governed "
+            "signal-validation build-real-wr-history --source tiber-data path."
+        ),
+        epilog=(
+            "This bootstrap path is not governed source truth. Install "
+            ".[legacy-local-builder] only when deliberately reproducing it."
+        ),
     )
     parser.add_argument(
         "--output",
@@ -225,7 +235,10 @@ def build_parser() -> argparse.ArgumentParser:
 def main() -> int:
     parser = build_parser()
     args = parser.parse_args()
-    build_real_wr_history(Path(args.output), seasons=args.seasons)
+    try:
+        build_real_wr_history(Path(args.output), seasons=args.seasons)
+    except LegacyLocalBuilderUnavailable as exc:
+        parser.exit(status=2, message=f"error: {exc}\n")
     return 0
 
 
