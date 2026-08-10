@@ -1,11 +1,27 @@
 #!/usr/bin/env python3
-"""Build a real historical WR weekly CSV from nfl_data_py weekly data."""
+"""Deprecated bootstrap builder for WR weekly CSVs via nfl_data_py."""
 
 from __future__ import annotations
 
 import argparse
+import sys
 from pathlib import Path
 from typing import Any
+
+class LegacyLocalBuilderUnavailable(RuntimeError):
+    """Raised when the optional deprecated local-builder stack is unavailable."""
+
+
+LEGACY_EXTRA_NAME = "legacy-local-builder"
+LEGACY_SUPPORTED_PYTHON = {(3, 10), (3, 11)}
+LEGACY_INSTALL_MESSAGE = (
+    "The deprecated local WR builder is an optional bootstrap path. "
+    "Use Python 3.10 or 3.11 and install it with "
+    "pip install -e '.[legacy-local-builder]', or use the governed "
+    "--source tiber-data path. The core Signal-Validation install does "
+    "not include nfl_data_py or pandas."
+)
+
 
 DEFAULT_SEASONS = [2020, 2021, 2022, 2023, 2024]
 SEASONS = DEFAULT_SEASONS
@@ -73,22 +89,22 @@ def build_real_wr_history(
 
 
 def _import_dependencies() -> tuple[Any, Any]:
+    if tuple(sys.version_info[:2]) not in LEGACY_SUPPORTED_PYTHON:
+        raise LegacyLocalBuilderUnavailable(LEGACY_INSTALL_MESSAGE)
+
     try:
         import pandas  # type: ignore
-    except ModuleNotFoundError as exc:  # pragma: no cover - environment dependent
-        raise SystemExit(
-            "pandas is required to build real WR history. Install project dependencies first."
-        ) from exc
-
-    try:
         import nfl_data_py as nfl  # type: ignore
-    except ModuleNotFoundError as exc:  # pragma: no cover - environment dependent
-        raise SystemExit(
-            "nfl_data_py is required to build real WR history. Install project dependencies first."
-        ) from exc
+    except (ImportError, ModuleNotFoundError) as exc:  # pragma: no cover - environment dependent
+        raise LegacyLocalBuilderUnavailable(LEGACY_INSTALL_MESSAGE) from exc
+
+    version_parts = tuple(int(part) for part in pandas.__version__.split(".")[:2])
+    if not ((1, 5) <= version_parts < (2, 0)):
+        raise LegacyLocalBuilderUnavailable(
+            f"{LEGACY_INSTALL_MESSAGE} Found pandas {pandas.__version__}."
+        )
 
     return pandas, nfl
-
 
 def _transform_weekly_data(weekly: Any, pandas: Any, seasons: list[int]) -> Any:
     frame = weekly.copy()
