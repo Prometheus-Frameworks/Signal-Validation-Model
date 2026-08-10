@@ -81,9 +81,25 @@ def _build_from_local_builder(
     local_seasons: Sequence[int] | None,
     fallback_reason: str | None,
 ) -> TiberDataIngestionResult:
-    from scripts.build_real_wr_data import build_real_wr_history  # local import to avoid circular CLI/script coupling
+    from scripts.build_real_wr_data import (  # local import to avoid circular CLI/script coupling
+        LegacyLocalBuilderUnavailable,
+        build_real_wr_history,
+    )
 
-    build_real_wr_history(output_path=output_path, seasons=list(local_seasons) if local_seasons else None)
+    try:
+        build_real_wr_history(
+            output_path=output_path,
+            seasons=list(local_seasons) if local_seasons else None,
+        )
+    except LegacyLocalBuilderUnavailable as exc:
+        detail = str(exc)
+        if fallback_reason is not None:
+            detail = (
+                f"TIBER-Data source was unavailable ({fallback_reason}); "
+                f"legacy fallback is also unavailable. {detail}"
+            )
+        raise TiberDataSourceUnavailable(detail) from exc
+
     rows = read_raw_wr_week_rows(output_path)
     seasons = tuple(sorted({int(row["season"]) for row in rows}))
     provenance = {
