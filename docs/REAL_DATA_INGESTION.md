@@ -5,7 +5,7 @@
 Signal-Validation-Model now supports two explicit raw-input paths for WR weekly history:
 
 1. **Preferred:** a formal `TIBER-Data` adapter that consumes a stable export or read-only API.
-2. **Fallback/bootstrap:** the existing local `nfl_data_py` builder in `scripts/build_real_wr_data.py`.
+2. **Optional deprecated bootstrap:** the local `nfl_data_py` builder in `scripts/build_real_wr_data.py`, excluded from the core install.
 
 The repository should now align around:
 
@@ -32,13 +32,16 @@ Then ingest the normalized raw CSV into canonical processed tables:
 signal-validation build-wr-tables --input data/raw/player_weekly_history.csv
 ```
 
-## Fallback/bootstrap command
+## Optional deprecated bootstrap command
+
+The legacy builder is supported only on Python 3.10 or 3.11 and must be installed explicitly:
 
 ```bash
+python -m pip install -e '.[legacy-local-builder]'
 signal-validation build-real-wr-history --source local-builder
 ```
 
-This path still uses `nfl_data_py.import_weekly_data(...)` and remains available for bootstrap or local recovery workflows.
+This path still uses the archived `nfl_data_py.import_weekly_data(...)` interface. It is retained for bounded bootstrap/recovery use, is not installed with the core project, and is not governed TIBER-Data truth. Missing or unsupported legacy dependencies fail closed before any output or provenance file is written.
 
 ## Column mapping
 
@@ -87,4 +90,4 @@ The provenance sidecar records:
 
 ## Local builder note
 
-The local builder is retained intentionally, but it is no longer the preferred architectural source when a TIBER-Data artifact or endpoint is available.
+The local builder is retained only as a deprecated optional compatibility path. The normal core/dev install has no pandas or `nfl_data_py` dependency; TIBER-Data remains the supported architectural upstream.
