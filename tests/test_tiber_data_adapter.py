@@ -4,7 +4,11 @@ from pathlib import Path
 
 import pytest
 
-from src.ingestion.real_wr_history import LOCAL_BUILDER_SOURCE_TYPE, build_real_wr_history_with_preferred_source
+from src.ingestion.real_wr_history import (
+    LOCAL_BUILDER_SOURCE_LOCATION,
+    LOCAL_BUILDER_SOURCE_TYPE,
+    build_real_wr_history_with_preferred_source,
+)
 from src.ingestion.tiber_data_adapter import (
     TIBER_DATA_EXPORT_SOURCE_TYPE,
     TiberDataSourceUnavailable,
@@ -84,7 +88,10 @@ def test_preferred_source_explicitly_falls_back_to_local_builder(tmp_path: Path,
         )
         return output_path
 
-    monkeypatch.setattr("scripts.build_real_wr_data.build_real_wr_history", fake_local_builder)
+    monkeypatch.setattr(
+        "src.ingestion.legacy_local_builder.build_real_wr_history",
+        fake_local_builder,
+    )
 
     result = build_real_wr_history_with_preferred_source(
         output_path=output_path,
@@ -94,8 +101,10 @@ def test_preferred_source_explicitly_falls_back_to_local_builder(tmp_path: Path,
 
     provenance = json.loads(provenance_path.read_text(encoding="utf-8"))
     assert result.source_type == LOCAL_BUILDER_SOURCE_TYPE
+    assert result.source_location == LOCAL_BUILDER_SOURCE_LOCATION
     assert result.used_fallback is True
     assert provenance["source_type"] == LOCAL_BUILDER_SOURCE_TYPE
+    assert provenance["source_location"] == LOCAL_BUILDER_SOURCE_LOCATION
     assert provenance["used_fallback"] is True
     assert "requires either an export path/URL or an API URL" in provenance["fallback_reason"]
 
@@ -119,14 +128,14 @@ def test_preferred_source_fails_closed_when_legacy_extra_is_unavailable(
         output_path: Path,
         seasons: list[int] | None = None,
     ) -> Path:
-        from scripts.build_real_wr_data import LegacyLocalBuilderUnavailable
+        from src.ingestion.legacy_local_builder import LegacyLocalBuilderUnavailable
 
         raise LegacyLocalBuilderUnavailable(
             "install .[legacy-local-builder] or use --source tiber-data"
         )
 
     monkeypatch.setattr(
-        "scripts.build_real_wr_data.build_real_wr_history",
+        "src.ingestion.legacy_local_builder.build_real_wr_history",
         unavailable_local_builder,
     )
 

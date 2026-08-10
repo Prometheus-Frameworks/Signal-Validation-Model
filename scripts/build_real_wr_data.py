@@ -1,245 +1,33 @@
 #!/usr/bin/env python3
-"""Deprecated bootstrap builder for WR weekly CSVs via nfl_data_py."""
+"""Thin CLI wrapper for the packaged deprecated local WR builder."""
 
 from __future__ import annotations
 
-import argparse
 import sys
-from pathlib import Path
-from typing import Any
 
-
-class LegacyLocalBuilderUnavailable(RuntimeError):
-    """Raised when the optional deprecated local-builder stack is unavailable."""
-
-
-LEGACY_EXTRA_NAME = "legacy-local-builder"
-LEGACY_SUPPORTED_PYTHON = {(3, 10), (3, 11)}
-LEGACY_INSTALL_MESSAGE = (
-    "The deprecated local WR builder is an optional bootstrap path. "
-    "Use Python 3.10 or 3.11 and install it with "
-    "pip install -e '.[legacy-local-builder]', or use the governed "
-    "--source tiber-data path. The core Signal-Validation install does "
-    "not include nfl_data_py or pandas."
+from src.ingestion.legacy_local_builder import (
+    DEFAULT_SEASONS,
+    OUTPUT_COLUMNS,
+    REQUIRED_COLUMNS,
+    SEASONS,
+    LegacyLocalBuilderUnavailable,
+    _import_dependencies,
+    build_parser,
+    build_real_wr_history,
+    main,
 )
 
-
-DEFAULT_SEASONS = [2020, 2021, 2022, 2023, 2024]
-SEASONS = DEFAULT_SEASONS
-OUTPUT_PATH = Path("data/raw/player_weekly_history.csv")
-REQUIRED_COLUMNS = [
-    "player_id",
-    "player_name",
-    "team",
-    "season",
-    "week",
-    "position",
-    "fantasy_points_ppr",
-    "targets",
-    "receptions",
-    "receiving_yards",
-    "receiving_tds",
+__all__ = [
+    "DEFAULT_SEASONS",
+    "OUTPUT_COLUMNS",
+    "REQUIRED_COLUMNS",
+    "SEASONS",
+    "LegacyLocalBuilderUnavailable",
+    "_import_dependencies",
+    "build_parser",
+    "build_real_wr_history",
+    "main",
 ]
-OPTIONAL_COLUMNS = [
-    "games",
-    "snap_share",
-    "route_participation",
-    "target_share",
-    "air_yard_share",
-]
-OUTPUT_COLUMNS = REQUIRED_COLUMNS + OPTIONAL_COLUMNS
-
-SOURCE_COLUMN_MAP = {
-    "player_id": "player_id",
-    "player_name": "player_name",
-    "recent_team": "team",
-    "season": "season",
-    "week": "week",
-    "position": "position",
-    "fantasy_points_ppr": "fantasy_points_ppr",
-    "targets": "targets",
-    "receptions": "receptions",
-    "receiving_yards": "receiving_yards",
-    "receiving_tds": "receiving_tds",
-}
-OPTIONAL_SOURCE_COLUMNS = {
-    "games": "games",
-    "snap_share": "snap_share",
-    "route_participation": "route_participation",
-    "target_share": "target_share",
-    "air_yard_share": "air_yard_share",
-}
-
-
-def build_real_wr_history(
-    output_path: Path = OUTPUT_PATH,
-    seasons: list[int] | None = None,
-) -> Path:
-    pandas, nfl = _import_dependencies()
-
-    selected_seasons = list(seasons) if seasons is not None else list(DEFAULT_SEASONS)
-    source_columns = list(SOURCE_COLUMN_MAP) + ["season_type"]
-    weekly = nfl.import_weekly_data(selected_seasons, columns=source_columns, downcast=False)
-    wr_history = _transform_weekly_data(weekly, pandas, seasons=selected_seasons)
-    _validate_output_frame(wr_history, seasons=selected_seasons)
-
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    wr_history.to_csv(output_path, index=False)
-    _print_summary(wr_history, output_path)
-    return output_path
-
-
-def _import_dependencies() -> tuple[Any, Any]:
-    if tuple(sys.version_info[:2]) not in LEGACY_SUPPORTED_PYTHON:
-        raise LegacyLocalBuilderUnavailable(LEGACY_INSTALL_MESSAGE)
-
-    try:
-        import pandas  # type: ignore
-        import nfl_data_py as nfl  # type: ignore
-    except (ImportError, ModuleNotFoundError) as exc:  # pragma: no cover - environment dependent
-        raise LegacyLocalBuilderUnavailable(LEGACY_INSTALL_MESSAGE) from exc
-
-    version_parts = tuple(int(part) for part in pandas.__version__.split(".")[:2])
-    if not ((1, 5) <= version_parts < (2, 0)):
-        raise LegacyLocalBuilderUnavailable(
-            f"{LEGACY_INSTALL_MESSAGE} Found pandas {pandas.__version__}."
-        )
-
-    return pandas, nfl
-
-
-def _transform_weekly_data(weekly: Any, pandas: Any, seasons: list[int]) -> Any:
-    frame = weekly.copy()
-    if "season_type" in frame.columns:
-        frame = frame.loc[frame["season_type"].fillna("REG") == "REG"].copy()
-
-    frame = frame.rename(columns=SOURCE_COLUMN_MAP)
-    frame = frame.loc[frame["position"].fillna("").astype(str).str.upper() == "WR"].copy()
-    frame["position"] = "WR"
-    frame = frame.loc[frame["season"].isin(seasons)].copy()
-
-    for output_column, source_column in OPTIONAL_SOURCE_COLUMNS.items():
-        if source_column in weekly.columns:
-            frame[output_column] = weekly[source_column]
-        else:
-            frame[output_column] = pandas.NA
-
-    frame = frame[OUTPUT_COLUMNS].copy()
-    frame["team"] = frame["team"].fillna("").astype(str).str.strip()
-
-    frame["season"] = frame["season"].astype(int)
-    frame["week"] = frame["week"].astype(int)
-    for column in ["targets", "receptions", "receiving_tds"]:
-        frame[column] = frame[column].fillna(0).astype(int)
-    for column in ["fantasy_points_ppr", "receiving_yards"]:
-        frame[column] = frame[column].fillna(0.0).astype(float)
-
-    frame = frame.sort_values(
-        by=["season", "week", "player_name", "player_id"],
-        kind="mergesort",
-    ).reset_index(drop=True)
-    return frame
-
-
-def _validate_output_frame(frame: Any, seasons: list[int]) -> None:
-    if list(frame.columns) != OUTPUT_COLUMNS:
-        raise ValueError(f"unexpected output columns: {list(frame.columns)}")
-    if frame.empty:
-        raise ValueError("weekly WR output is empty")
-    if set(frame["position"].dropna().unique()) != {"WR"}:
-        raise ValueError("output contains non-WR rows")
-    if not frame["season"].isin(seasons).all():
-        raise ValueError(f"output contains seasons outside {sorted(seasons)}")
-
-    duplicate_count = int(frame.duplicated(subset=["player_id", "season", "week"]).sum())
-    if duplicate_count:
-        raise ValueError(f"output contains {duplicate_count} duplicate player-week keys")
-
-    if not (frame["targets"] >= frame["receptions"]).all():
-        raise ValueError("output contains rows with receptions greater than targets")
-
-    for column in ["targets", "receptions", "receiving_tds"]:
-        if (frame[column] < 0).any():
-            raise ValueError(f"output contains negative values in {column}")
-
-    sorted_frame = frame.sort_values(
-        by=["season", "week", "player_name", "player_id"],
-        kind="mergesort",
-    ).reset_index(drop=True)
-    if not frame.equals(sorted_frame):
-        raise ValueError("output is not deterministically sorted")
-
-    blank_optional = frame[OPTIONAL_COLUMNS].isna() | (frame[OPTIONAL_COLUMNS] == "")
-    for column in OPTIONAL_COLUMNS:
-        non_blank_mask = ~blank_optional[column]
-        if not non_blank_mask.any():
-            continue
-        if column == "games":
-            if (frame.loc[non_blank_mask, column].astype(int) < 0).any():
-                raise ValueError("games cannot be negative when present")
-            continue
-
-        values = frame.loc[non_blank_mask, column].astype(float)
-        if ((values < 0.0) | (values > 1.0)).any():
-            raise ValueError(f"{column} must be between 0 and 1 when present")
-
-
-
-def _print_summary(frame: Any, output_path: Path) -> None:
-    duplicate_count = int(frame.duplicated(subset=["player_id", "season", "week"]).sum())
-    seasons = sorted(int(season) for season in frame["season"].drop_duplicates().tolist())
-    optional_null_counts = {
-        column: int((frame[column].isna() | (frame[column] == "")).sum())
-        for column in OPTIONAL_COLUMNS
-    }
-
-    print(f"row count: {len(frame)}")
-    print(f"distinct WR count: {frame['player_id'].nunique()}")
-    print(f"seasons covered: {seasons}")
-    print("optional null counts:")
-    for column in OPTIONAL_COLUMNS:
-        print(f"  - {column}: {optional_null_counts[column]}")
-    print(f"duplicate count check: {duplicate_count}")
-    print(f"output path written: {output_path}")
-
-
-
-def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        description=(
-            "Deprecated optional local WR-history builder via nfl_data_py. "
-            "Supported only on Python 3.10-3.11; prefer the governed "
-            "signal-validation build-real-wr-history --source tiber-data path."
-        ),
-        epilog=(
-            "This bootstrap path is not governed source truth. Install "
-            ".[legacy-local-builder] only when deliberately reproducing it."
-        ),
-    )
-    parser.add_argument(
-        "--output",
-        default=str(OUTPUT_PATH),
-        help="Output CSV path. Defaults to data/raw/player_weekly_history.csv.",
-    )
-    parser.add_argument(
-        "--seasons",
-        nargs="+",
-        type=int,
-        default=None,
-        help="Optional explicit season list for the local nfl_data_py fallback path.",
-    )
-    return parser
-
-
-
-def main() -> int:
-    parser = build_parser()
-    args = parser.parse_args()
-    try:
-        build_real_wr_history(Path(args.output), seasons=args.seasons)
-    except LegacyLocalBuilderUnavailable as exc:
-        parser.exit(status=2, message=f"error: {exc}\n")
-    return 0
 
 
 if __name__ == "__main__":

@@ -83,6 +83,10 @@ jobs:
           assert (1, 5) <= (major, minor) < (2, 0)
           print("legacy dependency smoke passed")
           PY
+      - name: Verify installed legacy CLI outside checkout
+        run: >-
+          python -m pytest -q
+          tests/test_installed_cli_boundary.py::test_installed_cli_reaches_packaged_legacy_builder_outside_checkout
       - run: python -m pytest -q
       - name: Verify repository remains clean
         run: test -z "$(git status --porcelain --untracked-files=all)"
@@ -99,41 +103,19 @@ jobs:
       - run: python -m pip install --upgrade pip
       - run: python -m pip install -e '.[dev,legacy-local-builder]'
       - run: python -m pip check
-      - name: Verify marked dependencies stay absent and runtime fails closed
+      - name: Verify marked dependencies stay absent
         run: |
           python - <<'PY'
           import importlib.util
-          from pathlib import Path
-          from tempfile import TemporaryDirectory
-
-          from src.ingestion import build_real_wr_history_with_preferred_source
-          from src.ingestion.tiber_data_adapter import TiberDataSourceUnavailable
 
           assert importlib.util.find_spec("nfl_data_py") is None
           assert importlib.util.find_spec("pandas") is None
-
-          with TemporaryDirectory() as temp_dir:
-              root = Path(temp_dir)
-              output_path = root / "player_weekly_history.csv"
-              provenance_path = root / "player_weekly_history.provenance.json"
-              try:
-                  build_real_wr_history_with_preferred_source(
-                      output_path=output_path,
-                      provenance_path=provenance_path,
-                      source="local-builder",
-                  )
-              except TiberDataSourceUnavailable as exc:
-                  message = str(exc)
-                  assert "Python 3.10 or 3.11" in message
-                  assert ".[legacy-local-builder]" in message
-                  assert "--source tiber-data" in message
-              else:
-                  raise AssertionError("unsupported legacy builder did not fail closed")
-
-              assert not output_path.exists()
-              assert not provenance_path.exists()
-          print("unsupported legacy extra fail-closed boundary passed")
+          print("unsupported legacy extra dependencies remain absent")
           PY
+      - name: Verify installed CLI fails closed outside checkout
+        run: >-
+          python -m pytest -q
+          tests/test_installed_cli_boundary.py::test_installed_cli_fails_closed_outside_checkout_on_unsupported_python
       - run: python -m pytest -q
       - name: Verify repository remains clean
         run: test -z "$(git status --porcelain --untracked-files=all)"

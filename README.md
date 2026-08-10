@@ -76,7 +76,7 @@ signal-validation build-wr-tables --input data/raw/player_weekly_history.csv
 
 The TIBER-Data adapter writes `data/raw/player_weekly_history.csv` plus `data/raw/player_weekly_history.provenance.json`, preserves optional columns when supplied, and prints the exact source used so the repository never switches sources silently.
 
-The legacy `scripts/build_real_wr_data.py` path is deprecated and excluded from the core install. It is retained only as an explicitly requested Python 3.10/3.11 bootstrap path through the `legacy-local-builder` extra; it is not governed source truth.
+The deprecated implementation is packaged as `src.ingestion.legacy_local_builder` so the installed CLI behaves consistently outside the repository checkout. Its pandas/`nfl_data_py` stack remains excluded from the core install and is available only as an explicitly requested Python 3.10/3.11 bootstrap path through the `legacy-local-builder` extra. `scripts/build_real_wr_data.py` is a thin direct-CLI wrapper; neither path is governed source truth.
 
 See `docs/REAL_DATA_INGESTION.md` and `docs/TIBER_DATA_ADAPTER.md` for source mapping, validation rules, provenance, and architecture.
 

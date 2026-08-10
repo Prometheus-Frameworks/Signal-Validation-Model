@@ -54,7 +54,7 @@ signal-validation build-wr-public-findings --public-dir outputs/public --compari
 
 ## Optional legacy fallback
 
-The core project does not install pandas or `nfl_data_py`. The archived local builder is retained only as an explicit bootstrap/recovery option for Python 3.10 or 3.11:
+The core project does not install pandas or `nfl_data_py`. The archived local builder is packaged under `src.ingestion.legacy_local_builder` so the installed CLI is independent of the current working directory, but it remains only an explicit bootstrap/recovery option for Python 3.10 or 3.11:
 
 ```bash
 python -m pip install -e '.[legacy-local-builder]'

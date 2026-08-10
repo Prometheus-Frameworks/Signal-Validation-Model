@@ -5,7 +5,7 @@
 Signal-Validation-Model now supports two explicit raw-input paths for WR weekly history:
 
 1. **Preferred:** a formal `TIBER-Data` adapter that consumes a stable export or read-only API.
-2. **Optional deprecated bootstrap:** the local `nfl_data_py` builder in `scripts/build_real_wr_data.py`, excluded from the core install.
+2. **Optional deprecated bootstrap:** the packaged `src.ingestion.legacy_local_builder` compatibility module, with `scripts/build_real_wr_data.py` retained as a thin direct-CLI wrapper. Its pandas/`nfl_data_py` dependencies are excluded from the core install.
 
 The repository should now align around:
 
