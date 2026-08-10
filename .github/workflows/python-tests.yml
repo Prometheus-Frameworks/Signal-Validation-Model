@@ -1,0 +1,57 @@
+name: Python tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  core:
+    name: Core Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version:
+          - "3.10"
+          - "3.11"
+          - "3.12"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -e '.[dev]'
+      - run: python -m pip check
+      - run: python -m pytest -q
+      - run: signal-validation --help
+
+  legacy-local-builder:
+    name: Legacy extra dependency smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -e '.[dev,legacy-local-builder]'
+      - run: python -m pip check
+      - name: Verify legacy dependency envelope
+        run: |
+          python - <<'PY'
+          import pandas
+          import nfl_data_py
+
+          major, minor = (int(part) for part in pandas.__version__.split(".")[:2])
+          assert (1, 5) <= (major, minor) < (2, 0)
+          print("legacy dependency smoke passed")
+          PY
+      - run: python -m pytest -q
