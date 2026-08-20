@@ -13,6 +13,10 @@
     {
       "content_sha256": "3174eb8e329ddad132c4efe5960f1e65eee58448a383ab818e255653a9de6863",
       "relative_path": "src/reporting/late_veteran_wr_breakout.py"
+    },
+    {
+      "content_sha256": "6855cbfbbe9dc0d2026a4dcbd18ea7fa6a682be817b60523e80c8dc37f275c01",
+      "relative_path": "src/reporting/late_veteran_wr_breakout_portable.py"
     }
   ],
   "input_bindings": {
