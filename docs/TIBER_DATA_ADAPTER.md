@@ -52,25 +52,22 @@ signal-validation build-wr-public-report --exports-dir outputs/exports --case-st
 signal-validation build-wr-public-findings --public-dir outputs/public --comparison-summary outputs/validation_reports/wr_recipe_comparison_summary.json --case-study-dir outputs/case_studies --exports-dir outputs/exports --feature-season 2024 --outcome-season 2025
 ```
 
-## Fallback behavior
+## Optional legacy fallback
 
-The legacy `scripts/build_real_wr_data.py` path remains available as a bootstrap/fallback source.
+The core project does not install pandas or `nfl_data_py`. The archived local builder is packaged under `src.ingestion.legacy_local_builder` so the installed CLI is independent of the current working directory, but it remains only an explicit bootstrap/recovery option for Python 3.10 or 3.11:
 
 ```bash
+python -m pip install -e '.[legacy-local-builder]'
 signal-validation build-real-wr-history --source local-builder
 ```
 
-Or, to prefer TIBER-Data while remaining explicit about fallback:
+Behavior is explicit and fail-closed:
 
-```bash
-signal-validation build-real-wr-history --source preferred
-```
+- `--source preferred`: try TIBER-Data first; if it is unavailable, attempt the optional legacy builder. When the extra is absent or unsupported, stop with an actionable error and write no output/provenance.
+- `--source tiber-data`: require TIBER-Data and never fall back.
+- `--source local-builder`: request the deprecated builder directly and require its compatible optional extra.
 
-Behavior is intentionally strict:
-
-- `--source preferred`: try TIBER-Data first; if unavailable, print an explicit fallback message and use `local-builder`.
-- `--source tiber-data`: require TIBER-Data; do **not** silently fall back.
-- `--source local-builder`: use the existing `nfl_data_py` builder directly.
+The legacy builder is not a governed source and must not be treated as a production promotion path. A future `nflreadpy` migration would require a separate schema-equivalence and provenance review; this dependency repair does not create another shadow ingest.
 
 ## Provenance rules
 
@@ -131,4 +128,4 @@ Signal-Validation-Model no longer needs to behave as if it must independently di
 - No UI work is included.
 - No scoring changes are introduced beyond field normalization/provenance.
 - The adapter currently supports deterministic CSV/JSON exports and JSON API payloads. If TIBER-Data later standardizes another artifact shape, extend the adapter explicitly rather than silently remapping data.
-- The local builder remains useful for bootstrap workflows, but it is no longer the preferred architectural upstream when TIBER-Data is available.
+- The deprecated local builder is optional, Python-version-bounded, and excluded from the core dependency set.

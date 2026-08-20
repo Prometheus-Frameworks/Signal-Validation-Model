@@ -49,13 +49,13 @@ def build_parser() -> argparse.ArgumentParser:
 
     history_parser = subparsers.add_parser(
         "build-real-wr-history",
-        help="Build the raw WR weekly history CSV from the preferred TIBER-Data upstream with explicit fallback.",
+        help="Build the raw WR weekly history CSV from TIBER-Data, with an optional deprecated local fallback.",
     )
     history_parser.add_argument(
         "--source",
         choices=["preferred", "tiber-data", "local-builder"],
         default="preferred",
-        help="Source selection. preferred tries TIBER-Data first, then explicitly falls back to the local builder.",
+        help="Source selection. preferred tries TIBER-Data first, then the optional deprecated local builder.",
     )
     history_parser.add_argument(
         "--output",
@@ -82,7 +82,7 @@ def build_parser() -> argparse.ArgumentParser:
         nargs="+",
         type=int,
         default=None,
-        help="Optional explicit season list for the local nfl_data_py fallback builder.",
+        help="Optional season list for the deprecated local builder; requires the legacy-local-builder extra.",
     )
 
     label_parser = subparsers.add_parser(
