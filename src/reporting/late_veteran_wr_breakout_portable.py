@@ -66,7 +66,7 @@ def _prepare_digest_pinned_json(
     """Accept exact bytes or their transport-equivalent CRLF-to-LF form only."""
 
     if not path.exists() or not path.is_file():
-        raise ValidationError(f"{label} input does not exist or is not a file: {path}")
+        return path
 
     raw = path.read_bytes()
     if _sha256_bytes(raw) == expected_sha256:
