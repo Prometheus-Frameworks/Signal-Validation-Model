@@ -1,0 +1,4 @@
+# Keep digest-pinned research inputs and generated artifacts byte-stable.
+data/raw/late_veteran_wr_breakout_2026_pilot_receipts_v0.json text eol=lf
+outputs/validation_reports/late_veteran_wr_breakout_v0_* text eol=lf
+outputs/case_studies/late_veteran_wr_breakout_* text eol=lf
