@@ -164,7 +164,8 @@ def _require_binding_list(
 def _as_posix_relative(value: str) -> str:
     normalized = value.replace("\\", "/")
     path = PurePosixPath(normalized)
-    if path.is_absolute() or ".." in path.parts:
+    has_drive_prefix = bool(path.parts and ":" in path.parts[0])
+    if path.is_absolute() or ".." in path.parts or has_drive_prefix:
         raise ValidationError(f"receipt path must remain relative and bounded: {value}")
     return path.as_posix()
 
