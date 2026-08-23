@@ -1,0 +1,234 @@
+{
+  "artifact_id": "late_veteran_wr_breakout_2026_pilot_receipts_v0",
+  "spec_version": "late_veteran_wr_breakout_2026_pilot_receipts_v0",
+  "status": "candidate_external_observations_not_promoted",
+  "research_issue": {
+    "repository": "Prometheus-Frameworks/Signal-Validation-Model",
+    "issue_number": 16,
+    "url": "https://github.com/Prometheus-Frameworks/Signal-Validation-Model/issues/16"
+  },
+  "evidence_cutoff_date": "2026-08-09",
+  "evidence_cutoff_at": "2026-08-09T19:28:02Z",
+  "evidence_cutoff_basis": "GitHub issue #16 created_at boundary",
+  "cutoff_rule": "Only receipts published at or before evidence_cutoff_at may enter this v0 packet. Later evidence requires a separately versioned packet and must not be backfilled here.",
+  "curation": {
+    "method": "manual_bounded_receipt_selection",
+    "population_claim": "not_exhaustive",
+    "source_scope": "official Baltimore Ravens editorial pages selected for the Devontez Walker pilot",
+    "interpretation_rule": "Source statements are paraphrased and retained only as candidate external observations. They are not promoted TIBER truth, an official depth chart, a route projection, a forecast, a ranking, or advice."
+  },
+  "pilot": {
+    "player_id": "00-0039792",
+    "player_name": "Devontez Walker",
+    "designation": "research_only_pilot",
+    "claim_boundaries": {
+      "observed": [
+        {
+          "claim_id": "walker_observed_external_001",
+          "claim": "A July 1 Ravens editorial identified Walker as a returning player with an opportunity to earn a larger offensive role in 2026.",
+          "evidence_status": "candidate_external_observation",
+          "receipt_ids": [
+            "ravens_2026-07-01_five_in_line_for_bigger_roles"
+          ]
+        },
+        {
+          "claim_id": "walker_observed_external_002",
+          "claim": "A July 28 Ravens camp preview described Walker as one of the young receivers competing for the No. 3 receiver role and said training camp would help determine the pass-catcher order after Zay Flowers.",
+          "evidence_status": "candidate_external_observation",
+          "receipt_ids": [
+            "ravens_2026-07-28_training_camp_preview"
+          ]
+        }
+      ],
+      "inferred": [
+        {
+          "claim_id": "walker_inferred_001",
+          "claim": "The two receipts support a plausible path to role expansion, but they do not establish that Walker will earn materially more routes, targets, snaps, or fantasy points.",
+          "evidence_status": "research_inference",
+          "basis_receipt_ids": [
+            "ravens_2026-07-01_five_in_line_for_bigger_roles",
+            "ravens_2026-07-28_training_camp_preview"
+          ],
+          "basis_observed_claim_ids": [
+            "walker_observed_external_001",
+            "walker_observed_external_002"
+          ]
+        }
+      ],
+      "operator": {
+        "state": "not_supplied",
+        "claims": [],
+        "note": "No operator thesis or correction is encoded in this raw receipt packet."
+      },
+      "forecast": {
+        "state": "not_activated",
+        "claims": [],
+        "note": "No TIBER-Forecast output is bound to this pilot."
+      },
+      "unknown": [
+        {
+          "field": "2026_routes_run",
+          "reason": "No governed current route source is bound."
+        },
+        {
+          "field": "2026_route_participation",
+          "reason": "No governed current route-participation source is bound."
+        },
+        {
+          "field": "2026_snap_share",
+          "reason": "Editorial opportunity language does not establish future snap share."
+        },
+        {
+          "field": "2026_age",
+          "reason": "No source-backed age field is bound to this research packet."
+        },
+        {
+          "field": "2026_active_roster_status",
+          "reason": "The historical stat-row artifact is not a governed current active-roster census."
+        },
+        {
+          "field": "2026_official_depth_chart_status",
+          "reason": "No governed current official depth-chart receipt is bound."
+        },
+        {
+          "field": "2026_depth_chart_to_usage_translation",
+          "reason": "The receipts describe an unresolved competition, not a guaranteed role."
+        },
+        {
+          "field": "2026_target_share",
+          "reason": "No governed future target allocation exists."
+        },
+        {
+          "field": "2026_redraft_market_status",
+          "reason": "No governed dated, format-specific redraft ADP input is bound."
+        },
+        {
+          "field": "2026_injury_contingency_share",
+          "reason": "No supported replacement-share model is bound."
+        }
+      ]
+    }
+  },
+  "comparisons": [
+    {
+      "player_id": "00-0039739",
+      "player_name": "Roman Wilson",
+      "designation": "declared_comparison",
+      "external_observation_state": "unavailable_in_this_manual_packet",
+      "receipt_ids": []
+    },
+    {
+      "player_id": "00-0039751",
+      "player_name": "Jordan Whittington",
+      "designation": "declared_comparison",
+      "external_observation_state": "unavailable_in_this_manual_packet",
+      "receipt_ids": []
+    },
+    {
+      "player_id": "00-0039355",
+      "player_name": "Luke McCaffrey",
+      "designation": "declared_comparison",
+      "external_observation_state": "unavailable_in_this_manual_packet",
+      "receipt_ids": []
+    },
+    {
+      "player_id": "00-0039365",
+      "player_name": "Jacob Cowing",
+      "designation": "declared_comparison",
+      "external_observation_state": "unavailable_in_this_manual_packet",
+      "receipt_ids": []
+    },
+    {
+      "player_id": "00-0038104",
+      "player_name": "Tyquan Thornton",
+      "designation": "declared_comparison",
+      "external_observation_state": "unavailable_in_this_manual_packet",
+      "receipt_ids": []
+    },
+    {
+      "player_id": "00-0039410",
+      "player_name": "Ryan Flournoy",
+      "designation": "declared_comparison",
+      "external_observation_state": "unavailable_in_this_manual_packet",
+      "receipt_ids": []
+    }
+  ],
+  "receipts": [
+    {
+      "receipt_id": "ravens_2026-07-01_five_in_line_for_bigger_roles",
+      "player_id": "00-0039792",
+      "player_name": "Devontez Walker",
+      "publisher": "Baltimore Ravens",
+      "source_type": "official_team_editorial",
+      "evidence_status": "candidate_external_observation",
+      "title": "Five Ravens in Line for Bigger Roles",
+      "url": "https://www.baltimoreravens.com/news/ravens-bigger-roles-devontez-walker-trenton-simpson-mike-green-tj-tampa-keondere-jackson-2026",
+      "published_at": "2026-07-01T13:00:00-04:00",
+      "included_under_cutoff": "2026-08-09T19:28:02Z",
+      "paraphrased_claims": [
+        {
+          "claim_id": "ravens_2026-07-01_claim_001",
+          "claim": "The team editorial framed Walker, entering his third season, as having an opportunity to become a larger part of the offense.",
+          "evidence_status": "candidate_external_observation"
+        },
+        {
+          "claim_id": "ravens_2026-07-01_claim_002",
+          "claim": "The article reported that Walker was the most impressive member of a named receiver-competition group during OTAs and mandatory minicamp.",
+          "evidence_status": "candidate_external_observation"
+        },
+        {
+          "claim_id": "ravens_2026-07-01_claim_003",
+          "claim": "The article reported a 16.1 percent offensive snap share for Walker in 2025 and treated a major increase as conditional on continued improvement and Baltimore not adding a veteran receiver.",
+          "evidence_status": "candidate_external_observation"
+        }
+      ],
+      "limitations": [
+        "This is team editorial reporting, not a promoted TIBER artifact.",
+        "Spring-practice assessment does not establish regular-season routes or targets.",
+        "The article itself describes competition and conditions; it does not award Walker a role."
+      ]
+    },
+    {
+      "receipt_id": "ravens_2026-07-28_training_camp_preview",
+      "player_id": "00-0039792",
+      "player_name": "Devontez Walker",
+      "publisher": "Baltimore Ravens",
+      "source_type": "official_team_editorial",
+      "evidence_status": "candidate_external_observation",
+      "title": "Everything You Need to Know About Ravens Training Camp",
+      "url": "https://www.baltimoreravens.com/news/lamar-jackson-jesse-minter-declan-doyle-maryland-practice-ravens-training-camp-preview-2026",
+      "published_at": "2026-07-28T14:17:00-04:00",
+      "included_under_cutoff": "2026-08-09T19:28:02Z",
+      "paraphrased_claims": [
+        {
+          "claim_id": "ravens_2026-07-28_claim_001",
+          "claim": "The camp preview described Walker as a candidate who could win Baltimore's No. 3 receiver role, not as the established holder of that role.",
+          "evidence_status": "candidate_external_observation"
+        },
+        {
+          "claim_id": "ravens_2026-07-28_claim_002",
+          "claim": "The preview placed Walker with Ja'Kobi Lane, Elijah Sarratt, and LaJohntay Wester in an unsettled young-pass-catcher competition behind Zay Flowers.",
+          "evidence_status": "candidate_external_observation"
+        },
+        {
+          "claim_id": "ravens_2026-07-28_claim_003",
+          "claim": "The preview said training camp would help determine the receiving pecking order, leaving the outcome unresolved at publication time.",
+          "evidence_status": "candidate_external_observation"
+        }
+      ],
+      "limitations": [
+        "This is a pre-camp team editorial preview, not a depth-chart contract or usage result.",
+        "The role competition remained unresolved in the source.",
+        "The receipt cannot support a route, target, fantasy-point, or injury-contingency forecast."
+      ]
+    }
+  ],
+  "non_authorizations": [
+    "No ordinal ranking or blended candidate score.",
+    "No draft, waiver, start-sit, trade, or betting advice.",
+    "No Forecast binding or output mutation.",
+    "No Fantasy consumer or Player State Card activation.",
+    "No automatic news ingestion or autonomous source adjudication.",
+    "No promotion, merge, deployment, or public recommendation."
+  ]
+}

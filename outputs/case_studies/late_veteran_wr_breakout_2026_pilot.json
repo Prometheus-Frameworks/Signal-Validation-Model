@@ -1,0 +1,445 @@
+{
+  "artifact_id": "late_veteran_wr_breakout_2026_pilot",
+  "claim_boundaries": {
+    "external_receipt_status": "candidate_external_observation",
+    "forecast_activated": false,
+    "future_usage_established": false,
+    "market_status_supported": false
+  },
+  "comparisons": [
+    {
+      "availability_state": "eligible",
+      "external_observation_state": "unavailable_in_this_manual_packet",
+      "feature_season": 2025,
+      "football_archetype_eligible": true,
+      "market_status": "unavailable",
+      "observed": {
+        "air_yards_share": 0.2195,
+        "career_year": 4,
+        "games_played": 12,
+        "missing_fields": [
+          "games_missed",
+          "red_zone_carries",
+          "red_zone_targets",
+          "route_participation",
+          "routes_run",
+          "snap_share"
+        ],
+        "receiving_tds": 3,
+        "receiving_yards": 438.0,
+        "receptions": 19,
+        "route_participation": null,
+        "routes_run": null,
+        "season": 2025,
+        "season_ppg": 6.73,
+        "season_ppr": 80.80000000000001,
+        "snap_share": null,
+        "source_state": "promoted_governed_player_season_evidence",
+        "target_share": 0.0674,
+        "targets": 37,
+        "team_of_record": "KC",
+        "wopr": 0.2547
+      },
+      "player_id": "00-0038104",
+      "player_name": "Tyquan Thornton",
+      "reason_codes": [
+        "football_archetype_eligible"
+      ]
+    },
+    {
+      "availability_state": "eligible",
+      "external_observation_state": "unavailable_in_this_manual_packet",
+      "feature_season": 2025,
+      "football_archetype_eligible": true,
+      "market_status": "unavailable",
+      "observed": {
+        "air_yards_share": 0.0545,
+        "career_year": 2,
+        "games_played": 9,
+        "missing_fields": [
+          "games_missed",
+          "red_zone_carries",
+          "red_zone_targets",
+          "route_participation",
+          "routes_run",
+          "snap_share"
+        ],
+        "receiving_tds": 3,
+        "receiving_yards": 203.0,
+        "receptions": 11,
+        "route_participation": null,
+        "routes_run": null,
+        "season": 2025,
+        "season_ppg": 5.7,
+        "season_ppr": 51.3,
+        "snap_share": null,
+        "source_state": "promoted_governed_player_season_evidence",
+        "target_share": 0.0347,
+        "targets": 15,
+        "team_of_record": "WAS",
+        "wopr": 0.0903
+      },
+      "player_id": "00-0039355",
+      "player_name": "Luke McCaffrey",
+      "reason_codes": [
+        "football_archetype_eligible"
+      ]
+    },
+    {
+      "availability_state": "unavailable_feature_row",
+      "external_observation_state": "unavailable_in_this_manual_packet",
+      "feature_season": 2025,
+      "football_archetype_eligible": null,
+      "market_status": "unavailable",
+      "observed": null,
+      "player_id": "00-0039365",
+      "player_name": "Jacob Cowing",
+      "reason_codes": [
+        "unavailable_feature_row"
+      ]
+    },
+    {
+      "availability_state": "ineligible",
+      "external_observation_state": "unavailable_in_this_manual_packet",
+      "feature_season": 2025,
+      "football_archetype_eligible": false,
+      "market_status": "unavailable",
+      "observed": {
+        "air_yards_share": 0.0919,
+        "career_year": 2,
+        "games_played": 15,
+        "missing_fields": [
+          "games_missed",
+          "red_zone_carries",
+          "red_zone_targets",
+          "route_participation",
+          "routes_run",
+          "snap_share"
+        ],
+        "receiving_tds": 4,
+        "receiving_yards": 475.0,
+        "receptions": 40,
+        "route_participation": null,
+        "routes_run": null,
+        "season": 2025,
+        "season_ppg": 7.6,
+        "season_ppr": 114.0,
+        "snap_share": null,
+        "source_state": "promoted_governed_player_season_evidence",
+        "target_share": 0.0923,
+        "targets": 56,
+        "team_of_record": "DAL",
+        "wopr": 0.2027
+      },
+      "player_id": "00-0039410",
+      "player_name": "Ryan Flournoy",
+      "reason_codes": [
+        "feature_ppg_at_or_above_ceiling"
+      ]
+    },
+    {
+      "availability_state": "prior_history_incomplete",
+      "external_observation_state": "unavailable_in_this_manual_packet",
+      "feature_season": 2025,
+      "football_archetype_eligible": null,
+      "market_status": "unavailable",
+      "observed": {
+        "air_yards_share": 0.0845,
+        "career_year": 2,
+        "games_played": 9,
+        "missing_fields": [
+          "games_missed",
+          "red_zone_carries",
+          "red_zone_targets",
+          "route_participation",
+          "routes_run",
+          "snap_share"
+        ],
+        "receiving_tds": 2,
+        "receiving_yards": 166.0,
+        "receptions": 12,
+        "route_participation": null,
+        "routes_run": null,
+        "season": 2025,
+        "season_ppg": 4.29,
+        "season_ppr": 38.6,
+        "snap_share": null,
+        "source_state": "promoted_governed_player_season_evidence",
+        "target_share": 0.0402,
+        "targets": 21,
+        "team_of_record": "PIT",
+        "wopr": 0.1195
+      },
+      "player_id": "00-0039739",
+      "player_name": "Roman Wilson",
+      "reason_codes": [
+        "prior_history_incomplete"
+      ]
+    },
+    {
+      "availability_state": "eligible",
+      "external_observation_state": "unavailable_in_this_manual_packet",
+      "feature_season": 2025,
+      "football_archetype_eligible": true,
+      "market_status": "unavailable",
+      "observed": {
+        "air_yards_share": 0.0315,
+        "career_year": 2,
+        "games_played": 15,
+        "missing_fields": [
+          "games_missed",
+          "red_zone_carries",
+          "red_zone_targets",
+          "route_participation",
+          "routes_run",
+          "snap_share"
+        ],
+        "receiving_tds": 0,
+        "receiving_yards": 171.0,
+        "receptions": 18,
+        "route_participation": null,
+        "routes_run": null,
+        "season": 2025,
+        "season_ppg": 2.42,
+        "season_ppr": 36.3,
+        "snap_share": null,
+        "source_state": "promoted_governed_player_season_evidence",
+        "target_share": 0.043,
+        "targets": 25,
+        "team_of_record": "LA",
+        "wopr": 0.0866
+      },
+      "player_id": "00-0039751",
+      "player_name": "Jordan Whittington",
+      "reason_codes": [
+        "football_archetype_eligible"
+      ]
+    }
+  ],
+  "evidence_cutoff_at": "2026-08-09T19:28:02Z",
+  "evidence_cutoff_date": "2026-08-09",
+  "non_authorizations": [
+    "No ordinal ranking or blended candidate score.",
+    "No draft, waiver, start-sit, trade, or betting advice.",
+    "No Forecast binding or output mutation.",
+    "No Fantasy consumer or Player State Card activation.",
+    "No automatic news ingestion or autonomous source adjudication.",
+    "No promotion, merge, deployment, or public recommendation."
+  ],
+  "ordering": {
+    "rule": "comparison rows are ordered by player_id for deterministic serialization",
+    "semantics": "non_ordinal"
+  },
+  "pilot": {
+    "designation": "research_only_pilot",
+    "feature_season": 2025,
+    "football_archetype_eligibility": {
+      "eligible": true,
+      "reason_codes": [
+        "football_archetype_eligible"
+      ],
+      "state": "eligible"
+    },
+    "forecast": {
+      "claims": [],
+      "note": "No TIBER-Forecast output is bound to this pilot.",
+      "state": "not_activated"
+    },
+    "inferred": [
+      {
+        "basis_observed_claim_ids": [
+          "walker_observed_external_001",
+          "walker_observed_external_002"
+        ],
+        "basis_receipt_ids": [
+          "ravens_2026-07-01_five_in_line_for_bigger_roles",
+          "ravens_2026-07-28_training_camp_preview"
+        ],
+        "claim": "The two receipts support a plausible path to role expansion, but they do not establish that Walker will earn materially more routes, targets, snaps, or fantasy points.",
+        "claim_id": "walker_inferred_001",
+        "evidence_status": "research_inference"
+      }
+    ],
+    "market_qualified_eligibility": {
+      "eligible": null,
+      "reason_codes": [
+        "governed_redraft_adp_unavailable"
+      ],
+      "state": "unavailable"
+    },
+    "observed": {
+      "candidate_external_observations": [
+        {
+          "claim": "A July 1 Ravens editorial identified Walker as a returning player with an opportunity to earn a larger offensive role in 2026.",
+          "claim_id": "walker_observed_external_001",
+          "evidence_status": "candidate_external_observation",
+          "receipt_ids": [
+            "ravens_2026-07-01_five_in_line_for_bigger_roles"
+          ]
+        },
+        {
+          "claim": "A July 28 Ravens camp preview described Walker as one of the young receivers competing for the No. 3 receiver role and said training camp would help determine the pass-catcher order after Zay Flowers.",
+          "claim_id": "walker_observed_external_002",
+          "evidence_status": "candidate_external_observation",
+          "receipt_ids": [
+            "ravens_2026-07-28_training_camp_preview"
+          ]
+        }
+      ],
+      "governed_historical": {
+        "air_yards_share": 0.0573,
+        "career_year": 2,
+        "games_played": 8,
+        "missing_fields": [
+          "games_missed",
+          "red_zone_carries",
+          "red_zone_targets",
+          "route_participation",
+          "routes_run",
+          "snap_share"
+        ],
+        "receiving_tds": 3,
+        "receiving_yards": 136.0,
+        "receptions": 6,
+        "route_participation": null,
+        "routes_run": null,
+        "season": 2025,
+        "season_ppg": 4.7,
+        "season_ppr": 37.6,
+        "snap_share": null,
+        "source_state": "promoted_governed_player_season_evidence",
+        "target_share": 0.0197,
+        "targets": 8,
+        "team_of_record": "BAL",
+        "wopr": 0.0696
+      }
+    },
+    "operator": {
+      "claims": [],
+      "note": "No operator thesis or correction is encoded in this raw receipt packet.",
+      "state": "not_supplied"
+    },
+    "player_id": "00-0039792",
+    "player_name": "Devontez Walker",
+    "target_season": 2026,
+    "unknown": [
+      {
+        "field": "2026_routes_run",
+        "reason": "No governed current route source is bound."
+      },
+      {
+        "field": "2026_route_participation",
+        "reason": "No governed current route-participation source is bound."
+      },
+      {
+        "field": "2026_snap_share",
+        "reason": "Editorial opportunity language does not establish future snap share."
+      },
+      {
+        "field": "2026_age",
+        "reason": "No source-backed age field is bound to this research packet."
+      },
+      {
+        "field": "2026_active_roster_status",
+        "reason": "The historical stat-row artifact is not a governed current active-roster census."
+      },
+      {
+        "field": "2026_official_depth_chart_status",
+        "reason": "No governed current official depth-chart receipt is bound."
+      },
+      {
+        "field": "2026_depth_chart_to_usage_translation",
+        "reason": "The receipts describe an unresolved competition, not a guaranteed role."
+      },
+      {
+        "field": "2026_target_share",
+        "reason": "No governed future target allocation exists."
+      },
+      {
+        "field": "2026_redraft_market_status",
+        "reason": "No governed dated, format-specific redraft ADP input is bound."
+      },
+      {
+        "field": "2026_injury_contingency_share",
+        "reason": "No supported replacement-share model is bound."
+      }
+    ]
+  },
+  "research_issue": "https://github.com/Prometheus-Frameworks/Signal-Validation-Model/issues/16",
+  "source_bindings": {
+    "pilot_receipts_sha256": "114af8226458759c15f89428601b6cf007080387f35a8fe83667db52ba22f3c8",
+    "player_season_artifact_sha256": "d45f612b207085df00b4b080e4f55ce1abbd060dcbf30b0bee777ff833ddd8ac"
+  },
+  "source_receipts": [
+    {
+      "evidence_status": "candidate_external_observation",
+      "included_under_cutoff": "2026-08-09T19:28:02Z",
+      "limitations": [
+        "This is team editorial reporting, not a promoted TIBER artifact.",
+        "Spring-practice assessment does not establish regular-season routes or targets.",
+        "The article itself describes competition and conditions; it does not award Walker a role."
+      ],
+      "paraphrased_claims": [
+        {
+          "claim": "The team editorial framed Walker, entering his third season, as having an opportunity to become a larger part of the offense.",
+          "claim_id": "ravens_2026-07-01_claim_001",
+          "evidence_status": "candidate_external_observation"
+        },
+        {
+          "claim": "The article reported that Walker was the most impressive member of a named receiver-competition group during OTAs and mandatory minicamp.",
+          "claim_id": "ravens_2026-07-01_claim_002",
+          "evidence_status": "candidate_external_observation"
+        },
+        {
+          "claim": "The article reported a 16.1 percent offensive snap share for Walker in 2025 and treated a major increase as conditional on continued improvement and Baltimore not adding a veteran receiver.",
+          "claim_id": "ravens_2026-07-01_claim_003",
+          "evidence_status": "candidate_external_observation"
+        }
+      ],
+      "player_id": "00-0039792",
+      "player_name": "Devontez Walker",
+      "published_at": "2026-07-01T13:00:00-04:00",
+      "publisher": "Baltimore Ravens",
+      "receipt_id": "ravens_2026-07-01_five_in_line_for_bigger_roles",
+      "source_type": "official_team_editorial",
+      "title": "Five Ravens in Line for Bigger Roles",
+      "url": "https://www.baltimoreravens.com/news/ravens-bigger-roles-devontez-walker-trenton-simpson-mike-green-tj-tampa-keondere-jackson-2026"
+    },
+    {
+      "evidence_status": "candidate_external_observation",
+      "included_under_cutoff": "2026-08-09T19:28:02Z",
+      "limitations": [
+        "This is a pre-camp team editorial preview, not a depth-chart contract or usage result.",
+        "The role competition remained unresolved in the source.",
+        "The receipt cannot support a route, target, fantasy-point, or injury-contingency forecast."
+      ],
+      "paraphrased_claims": [
+        {
+          "claim": "The camp preview described Walker as a candidate who could win Baltimore's No. 3 receiver role, not as the established holder of that role.",
+          "claim_id": "ravens_2026-07-28_claim_001",
+          "evidence_status": "candidate_external_observation"
+        },
+        {
+          "claim": "The preview placed Walker with Ja'Kobi Lane, Elijah Sarratt, and LaJohntay Wester in an unsettled young-pass-catcher competition behind Zay Flowers.",
+          "claim_id": "ravens_2026-07-28_claim_002",
+          "evidence_status": "candidate_external_observation"
+        },
+        {
+          "claim": "The preview said training camp would help determine the receiving pecking order, leaving the outcome unresolved at publication time.",
+          "claim_id": "ravens_2026-07-28_claim_003",
+          "evidence_status": "candidate_external_observation"
+        }
+      ],
+      "player_id": "00-0039792",
+      "player_name": "Devontez Walker",
+      "published_at": "2026-07-28T14:17:00-04:00",
+      "publisher": "Baltimore Ravens",
+      "receipt_id": "ravens_2026-07-28_training_camp_preview",
+      "source_type": "official_team_editorial",
+      "title": "Everything You Need to Know About Ravens Training Camp",
+      "url": "https://www.baltimoreravens.com/news/lamar-jackson-jesse-minter-declan-doyle-maryland-practice-ravens-training-camp-preview-2026"
+    }
+  ],
+  "spec_version": "late_veteran_wr_breakout_v0",
+  "status": "research_watchlist_not_promoted"
+}

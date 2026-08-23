@@ -1,0 +1,138 @@
+{
+  "artifact_id": "late_veteran_wr_breakout_v0_receipt",
+  "evidence_cutoff_at": "2026-08-09T19:28:02Z",
+  "implementation_bindings": [
+    {
+      "content_sha256": "7c013ab014f3cfd582e0cba143f3689a0f08347e133e9fc44709a0e81018aa3f",
+      "relative_path": "src/ingestion/tiber_player_season_coverage.py"
+    },
+    {
+      "content_sha256": "018efb035423ea221f5ee355ec2e9455a541316dd5721032565e0e57627b1c22",
+      "relative_path": "src/labels/late_veteran_wr_breakout.py"
+    },
+    {
+      "content_sha256": "a32f3c499c13522fe83eb3ecc94487c93eaadc00e77988dc3608cd8facf2bbd6",
+      "relative_path": "src/reporting/late_veteran_wr_breakout.py"
+    },
+    {
+      "content_sha256": "721fa1ff1ed450e7a6c3e5154d3efd45423233c5a0650450c762fd28848a742b",
+      "relative_path": "src/reporting/late_veteran_wr_breakout_portable.py"
+    }
+  ],
+  "input_bindings": {
+    "pilot_receipts": {
+      "artifact_id": "late_veteran_wr_breakout_2026_pilot_receipts_v0",
+      "content_sha256": "114af8226458759c15f89428601b6cf007080387f35a8fe83667db52ba22f3c8",
+      "logical_source_path": "data/raw/late_veteran_wr_breakout_2026_pilot_receipts_v0.json",
+      "spec_version": "late_veteran_wr_breakout_2026_pilot_receipts_v0",
+      "status": "candidate_external_observations_not_promoted"
+    },
+    "player_season_coverage": {
+      "artifact_id": "player_season_coverage_v0",
+      "artifact_last_changed_commit_sha": "711d6ee158d4e3bd116d1df4d76dea282200454d",
+      "content_sha256": "d45f612b207085df00b4b080e4f55ce1abbd060dcbf30b0bee777ff833ddd8ac",
+      "counts_by_position": [
+        [
+          "QB",
+          404
+        ],
+        [
+          "RB",
+          771
+        ],
+        [
+          "TE",
+          650
+        ],
+        [
+          "WR",
+          1191
+        ]
+      ],
+      "counts_by_season": [
+        [
+          2021,
+          633
+        ],
+        [
+          2022,
+          609
+        ],
+        [
+          2023,
+          576
+        ],
+        [
+          2024,
+          588
+        ],
+        [
+          2025,
+          610
+        ]
+      ],
+      "generated_at": "2026-07-06T00:00:00Z",
+      "included_positions": [
+        "QB",
+        "RB",
+        "TE",
+        "WR"
+      ],
+      "promoted_at": "2026-07-06T00:00:00Z",
+      "promotion_decision": "promote_player_season_coverage_v0_2021_2025",
+      "promotion_review": "TIBER-Data#202",
+      "row_grain": "player_id + season + season_type",
+      "season_type_scope": [
+        "REG"
+      ],
+      "seasons": [
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "source_blob_sha": "f7b2918b978d842cd8753a7f3dedd3836934859b",
+      "source_commit_sha": "3606b6a0af5add2ebea1f7de141a299cebe70a34",
+      "source_path": "exports/promoted/nfl/player_season_coverage_v0.json",
+      "source_repository": "https://github.com/Prometheus-Frameworks/TIBER-Data",
+      "spec_version": "player_season_coverage_v0_promoted_v1",
+      "status": "promoted_governed_artifact",
+      "total_record_count": 3016
+    }
+  },
+  "output_bindings": [
+    {
+      "content_sha256": "55831cc60ff4edea94a0b9bd70d44152b8ff63baf749c18c162bc4b5d60e4ba0",
+      "relative_path": "case_studies/late_veteran_wr_breakout_2026_pilot.json"
+    },
+    {
+      "content_sha256": "b6f21ba3ff100931d8501e8516d8cee0ff03e323c25165c2679733990429524a",
+      "relative_path": "case_studies/late_veteran_wr_breakout_v0_examples.md"
+    },
+    {
+      "content_sha256": "8326600014bffbdd037a241c84898bba3e07eab701e13fb20eddb67f03580b5b",
+      "relative_path": "validation_reports/late_veteran_wr_breakout_v0_definition.json"
+    },
+    {
+      "content_sha256": "b8d614208103318463d556d4228667b4756815581fad8568871071df1b5deaea",
+      "relative_path": "validation_reports/late_veteran_wr_breakout_v0_historical_pairs.csv"
+    },
+    {
+      "content_sha256": "0e89b24bb9d9f14fc2aec9856779be3764ad5e977c6480f6dc2ef01421d83500",
+      "relative_path": "validation_reports/late_veteran_wr_breakout_v0_summary.json"
+    }
+  ],
+  "repository_base_commit_sha": "0b8f600a4779df4c64420844649b732edeb6c3e2",
+  "research_issue": "https://github.com/Prometheus-Frameworks/Signal-Validation-Model/issues/16",
+  "run_guards": {
+    "downstream_consumer_mutated": false,
+    "forecast_mutated": false,
+    "live_network_used": false,
+    "output_count_excluding_receipt": 5,
+    "receipt_self_hash_excluded": true,
+    "wall_clock_used": false
+  },
+  "spec_version": "late_veteran_wr_breakout_v0",
+  "status": "deterministic_research_run_receipt_not_promoted"
+}

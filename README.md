@@ -55,6 +55,7 @@ signal-validation enrich-wr-cohorts --processed-dir data/processed --validation-
 signal-validation enrich-wr-role --processed-dir data/processed --validation-dataset outputs/validation_reports/wr_validation_dataset_enriched.csv --output-dir outputs/validation_reports
 signal-validation compare-wr-recipes --validation-dataset outputs/validation_reports/wr_validation_dataset_role_enriched.csv --output-dir outputs
 signal-validation build-wr-case-study --validation-dataset outputs/validation_reports/wr_validation_dataset_role_enriched.csv --comparison-summary outputs/validation_reports/wr_recipe_comparison_summary.json --candidate-dir outputs/candidate_rankings --output-dir outputs/case_studies --feature-season 2024 --outcome-season 2025
+signal-validation build-late-veteran-wr-breakout-v0 --player-season-input /path/to/TIBER-Data/exports/promoted/nfl/player_season_coverage_v0.json --output-dir outputs
 ```
 
 ## Real data build
@@ -126,6 +127,15 @@ The WR case-study command writes deterministic PR7 artifacts to:
 - `outputs/case_studies/wr_recipe_winner_<feature>_to_<outcome>.json`
 - `outputs/case_studies/wr_signal_patterns_<feature>_to_<outcome>.md`
 
+The bounded `late_veteran_wr_breakout_v0` research build consumes one exact,
+digest-pinned TIBER-Data player-season artifact and a checked-in manual pilot
+receipt packet. It writes a retrospective evaluation, examples, an unordered
+2026 pilot packet, and a reproducibility receipt to `outputs/validation_reports/`
+and `outputs/case_studies/`. It does not emit rankings, scores, advice, or a
+Forecast activation. See `docs/LATE_VETERAN_WR_BREAKOUT_V0.md` for the frozen
+definition, completeness rules, evidence cutoff, exact output paths, and
+non-promotion boundary.
+
 The scaffold command still writes deterministic mock outputs to:
 
 - `outputs/candidate_rankings/`
@@ -147,6 +157,7 @@ The scaffold command still writes deterministic mock outputs to:
 - `docs/COHORT_BASELINES.md`
 - `docs/ROLE_ENRICHMENT.md`
 - `docs/CASE_STUDIES.md`
+- `docs/LATE_VETERAN_WR_BREAKOUT_V0.md`
 
 ## Current status
 

@@ -119,3 +119,89 @@ jobs:
       - run: python -m pytest -q
       - name: Verify repository remains clean
         run: test -z "$(git status --porcelain --untracked-files=all)"
+
+  cross-platform-research-determinism:
+    name: Cross-platform research determinism
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -e ".[dev]"
+      - run: python -m pip check
+      - run: python -m pytest -q
+      - name: Build exact research inputs from CRLF transport copies
+        shell: pwsh
+        run: |
+          $source = Join-Path $env:RUNNER_TEMP "player-season-lf.json"
+          $playerCrlf = Join-Path $env:RUNNER_TEMP "player-season-crlf.json"
+          $pilotCrlf = Join-Path $env:RUNNER_TEMP "pilot-crlf.json"
+          $output = Join-Path $env:RUNNER_TEMP "portable-output"
+
+          Invoke-WebRequest `
+            -Uri "https://raw.githubusercontent.com/Prometheus-Frameworks/TIBER-Data/3606b6a0af5add2ebea1f7de141a299cebe70a34/exports/promoted/nfl/player_season_coverage_v0.json" `
+            -OutFile $source
+
+          $utf8 = [System.Text.UTF8Encoding]::new($false)
+          $playerText = [System.IO.File]::ReadAllText($source)
+          [System.IO.File]::WriteAllText(
+            $playerCrlf,
+            ($playerText -replace "`r?`n", "`r`n"),
+            $utf8
+          )
+          $pilotText = [System.IO.File]::ReadAllText(
+            "data/raw/late_veteran_wr_breakout_2026_pilot_receipts_v0.json"
+          )
+          [System.IO.File]::WriteAllText(
+            $pilotCrlf,
+            ($pilotText -replace "`r?`n", "`r`n"),
+            $utf8
+          )
+
+          signal-validation build-late-veteran-wr-breakout-v0 `
+            --player-season-input $playerCrlf `
+            --pilot-receipts-input $pilotCrlf `
+            --output-dir $output
+
+          $env:TIBER_PORTABLE_OUTPUT = $output
+          @'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          root = Path(os.environ["TIBER_PORTABLE_OUTPUT"])
+          for path in root.rglob("*"):
+              if path.is_file() and b"\r\n" in path.read_bytes():
+                  raise SystemExit(f"CRLF output detected: {path}")
+
+          receipt_path = (
+              root
+              / "validation_reports"
+              / "late_veteran_wr_breakout_v0_receipt.json"
+          )
+          receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+          implementation_paths = {
+              binding["relative_path"]
+              for binding in receipt["implementation_bindings"]
+          }
+          assert "src/reporting/late_veteran_wr_breakout_portable.py" in implementation_paths
+          assert all("\\" not in value for value in implementation_paths)
+          for binding in receipt["output_bindings"]:
+              relative = binding["relative_path"]
+              assert "\\" not in relative
+              path = root.joinpath(*relative.split("/"))
+              assert hashlib.sha256(path.read_bytes()).hexdigest() == binding["content_sha256"]
+          print("Windows CRLF transport and LF artifact determinism passed")
+          '@ | python -
+      - name: Verify repository remains clean
+        shell: pwsh
+        run: |
+          $dirty = git status --porcelain --untracked-files=all
+          if ($dirty) {
+            Write-Host $dirty
+            exit 1
+          }
