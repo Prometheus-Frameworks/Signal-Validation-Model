@@ -1,7 +1,8 @@
 """Breakout labeling logic for scaffold runs and WR validation datasets."""
 
 from src.labels.late_veteran_wr_breakout import (
-    DECLARED_OBSERVED_ROW_UNIVERSE,
+    DECLARED_OBSERVED_ROW_POPULATION,
+    EVALUABLE_OBSERVED_ROW_UNIVERSE,
     LATE_VETERAN_WR_BREAKOUT_V0,
     FeatureEligibility,
     HistoricalPair,
@@ -18,7 +19,8 @@ from src.labels.late_veteran_wr_breakout import (
 from src.labels.wr_breakouts import build_wr_validation_dataset, write_wr_label_outputs
 
 __all__ = [
-    "DECLARED_OBSERVED_ROW_UNIVERSE",
+    "DECLARED_OBSERVED_ROW_POPULATION",
+    "EVALUABLE_OBSERVED_ROW_UNIVERSE",
     "LATE_VETERAN_WR_BREAKOUT_V0",
     "FeatureEligibility",
     "HistoricalPair",

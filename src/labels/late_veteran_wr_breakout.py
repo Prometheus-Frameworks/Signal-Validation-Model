@@ -27,7 +27,11 @@ EligibilityState = Literal[
 ]
 RoleExpansionState = Literal["confirmed", "not_confirmed", "unavailable"]
 OutcomeState = Literal["valid", "unavailable", "tenure_conflict"]
-EvaluationState = Literal["included", "coverage_exclusion"]
+EvaluationState = Literal[
+    "included",
+    "coverage_exclusion",
+    "outside_declared_population",
+]
 
 
 @dataclass(frozen=True)
@@ -127,13 +131,16 @@ class HistoricalPair:
 
 @dataclass(frozen=True)
 class PrimaryCohortEvaluation:
-    """Confusion counts for the declared observed-row universe."""
+    """Ledger, population, coverage, and confusion counts for the bounded run."""
 
     definition_version: str
-    declared_universe: str
-    observed_pair_count: int
-    evaluable_pair_count: int
+    declared_population: str
+    evaluable_universe: str
+    ledger_pair_count: int
+    outside_declared_population_count: int
+    declared_population_pair_count: int
     coverage_exclusion_count: int
+    evaluable_pair_count: int
     prediction_positive_count: int
     actual_hit_count: int
     true_positives: int
@@ -144,7 +151,7 @@ class PrimaryCohortEvaluation:
     recall: float | None
     base_rate: float | None
     market_status: Literal["unavailable"]
-    exclusion_reason_counts: tuple[tuple[str, int], ...]
+    coverage_exclusion_reason_counts: tuple[tuple[str, int], ...]
     small_sample_warning: str | None
 
 
@@ -161,10 +168,12 @@ class SensitivityDiagnostic:
     evaluation: PrimaryCohortEvaluation
 
 
-DECLARED_OBSERVED_ROW_UNIVERSE = (
-    "pinned observed WR player-season/stat-row population with source-backed "
-    "Y3+ target tenure, complete rookie-to-feature exposure, valid required "
-    "feature fields, and valid adjacent-season outcome fields"
+DECLARED_OBSERVED_ROW_POPULATION = (
+    "pinned observed WR player-season/stat rows with source-backed Y3+ target tenure"
+)
+EVALUABLE_OBSERVED_ROW_UNIVERSE = (
+    "declared Y3+ observed-row population with complete rookie-to-feature exposure, "
+    "valid required feature fields, and valid adjacent-season outcome fields"
 )
 
 
@@ -429,13 +438,19 @@ def build_historical_pairs(
         outcome = records_by_key.get((feature.player_id, feature.season + 1))
         labels = build_outcome_labels(feature, outcome, definition=definition)
         exclusion_reason = _evaluation_exclusion_reason(eligibility, labels)
+        if eligibility.state == "outside_declared_population":
+            evaluation_state: EvaluationState = "outside_declared_population"
+        elif exclusion_reason is None:
+            evaluation_state = "included"
+        else:
+            evaluation_state = "coverage_exclusion"
         pairs.append(
             HistoricalPair(
                 feature=feature,
                 outcome=outcome,
                 eligibility=eligibility,
                 labels=labels,
-                evaluation_state=("included" if exclusion_reason is None else "coverage_exclusion"),
+                evaluation_state=evaluation_state,
                 evaluation_exclusion_reason=exclusion_reason,
             )
         )
@@ -450,12 +465,34 @@ def evaluate_primary_cohort(
 ) -> PrimaryCohortEvaluation:
     """Evaluate the primary football-only cohort over its declared universe."""
 
-    rows = tuple(pairs)
-    evaluable = tuple(pair for pair in rows if pair.evaluation_state == "included")
+    ledger = tuple(pairs)
+    outside_population = tuple(
+        pair
+        for pair in ledger
+        if pair.evaluation_state == "outside_declared_population"
+    )
+    declared_population = tuple(
+        pair
+        for pair in ledger
+        if pair.evaluation_state != "outside_declared_population"
+    )
+    coverage_exclusions = tuple(
+        pair
+        for pair in declared_population
+        if pair.evaluation_state == "coverage_exclusion"
+    )
+    evaluable = tuple(
+        pair for pair in declared_population if pair.evaluation_state == "included"
+    )
+    if len(ledger) != len(outside_population) + len(declared_population):
+        raise ValidationError("historical ledger does not partition into declared population")
+    if len(declared_population) != len(coverage_exclusions) + len(evaluable):
+        raise ValidationError(
+            "declared population does not partition into coverage and evaluable rows"
+        )
     exclusions = Counter(
         pair.evaluation_exclusion_reason or "unspecified_coverage_exclusion"
-        for pair in rows
-        if pair.evaluation_state == "coverage_exclusion"
+        for pair in coverage_exclusions
     )
 
     true_positives = sum(
@@ -487,10 +524,13 @@ def evaluate_primary_cohort(
 
     return PrimaryCohortEvaluation(
         definition_version=definition.version,
-        declared_universe=DECLARED_OBSERVED_ROW_UNIVERSE,
-        observed_pair_count=len(rows),
+        declared_population=DECLARED_OBSERVED_ROW_POPULATION,
+        evaluable_universe=EVALUABLE_OBSERVED_ROW_UNIVERSE,
+        ledger_pair_count=len(ledger),
+        outside_declared_population_count=len(outside_population),
+        declared_population_pair_count=len(declared_population),
+        coverage_exclusion_count=len(coverage_exclusions),
         evaluable_pair_count=len(evaluable),
-        coverage_exclusion_count=len(rows) - len(evaluable),
         prediction_positive_count=prediction_positive_count,
         actual_hit_count=actual_hit_count,
         true_positives=true_positives,
@@ -501,7 +541,7 @@ def evaluate_primary_cohort(
         recall=_safe_ratio(true_positives, actual_hit_count),
         base_rate=_safe_ratio(actual_hit_count, len(evaluable)),
         market_status="unavailable",
-        exclusion_reason_counts=tuple(sorted(exclusions.items())),
+        coverage_exclusion_reason_counts=tuple(sorted(exclusions.items())),
         small_sample_warning=(
             "supported evaluable sample is below 30; do not make predictive-power claims"
             if len(evaluable) < 30
@@ -640,7 +680,8 @@ def _safe_ratio(numerator: int, denominator: int) -> float | None:
 
 
 __all__ = [
-    "DECLARED_OBSERVED_ROW_UNIVERSE",
+    "DECLARED_OBSERVED_ROW_POPULATION",
+    "EVALUABLE_OBSERVED_ROW_UNIVERSE",
     "LATE_VETERAN_WR_BREAKOUT_V0",
     "FeatureEligibility",
     "HistoricalPair",

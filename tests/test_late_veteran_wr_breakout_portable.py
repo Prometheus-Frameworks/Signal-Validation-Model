@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from contextlib import ExitStack
 import hashlib
 import json
 from pathlib import Path
@@ -66,7 +67,7 @@ def test_portable_entrypoint_normalizes_inputs_outputs_and_receipt_paths(
             (definition, b'{"artifact":"definition"}\r\n'),
             (summary, b'{"artifact":"summary"}\r\n'),
             (pairs, b"player_id,value\r\n00-test,1\r\n"),
-            (examples, b"# Examples\r\n"),
+            (examples, b"# Examples\r\nBare CR\r"),
             (pilot, b'{"artifact":"pilot"}\r\n'),
         ):
             path.write_bytes(raw)
@@ -131,7 +132,7 @@ def test_portable_entrypoint_normalizes_inputs_outputs_and_receipt_paths(
         result.pilot_path,
         result.receipt_path,
     )
-    assert all(b"\r\n" not in path.read_bytes() for path in generated)
+    assert all(b"\r" not in path.read_bytes() for path in generated)
 
     receipt = json.loads(result.receipt_path.read_text(encoding="utf-8"))
     implementation_paths = {
@@ -145,6 +146,35 @@ def test_portable_entrypoint_normalizes_inputs_outputs_and_receipt_paths(
         assert "\\" not in binding["relative_path"]
         output_path = output_root.joinpath(*binding["relative_path"].split("/"))
         assert binding["content_sha256"] == _sha256(output_path)
+
+
+@pytest.mark.parametrize(
+    "transported",
+    (
+        b'{\r  "kind": "player"\r}\r',
+        b'{\r\n  "kind": "player"\r}\r\n',
+    ),
+)
+def test_digest_pinned_input_only_canonicalizes_crlf_pairs(
+    tmp_path: Path,
+    transported: bytes,
+) -> None:
+    canonical = b'{\n  "kind": "player"\n}\n'
+    expected_sha256 = hashlib.sha256(canonical).hexdigest()
+    input_path = tmp_path / "player.json"
+    input_path.write_bytes(transported)
+
+    assert portable._to_lf(transported) == canonical
+    with ExitStack() as stack:
+        prepared = portable._prepare_digest_pinned_json(
+            input_path,
+            expected_sha256=expected_sha256,
+            label="player-season coverage",
+            stack=stack,
+        )
+        assert prepared == input_path
+        assert prepared.read_bytes() == transported
+        assert hashlib.sha256(prepared.read_bytes()).hexdigest() != expected_sha256
 
 
 @pytest.mark.parametrize(

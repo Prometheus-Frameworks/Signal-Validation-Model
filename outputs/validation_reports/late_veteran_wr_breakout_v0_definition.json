@@ -1,10 +1,11 @@
 {
   "artifact_id": "late_veteran_wr_breakout_v0_definition",
-  "declared_observed_row_universe": "pinned observed WR player-season/stat-row population with source-backed Y3+ target tenure, complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
+  "declared_observed_row_population": "pinned observed WR player-season/stat rows with source-backed Y3+ target tenure",
   "eligibility_states": {
     "football_archetype_eligible": "Uses source-backed tenure, complete exposure history, prior production, feature PPG, and feature target share only.",
     "market_qualified_eligible": "Unavailable in v0 because no governed comparable redraft ADP input is bound."
   },
+  "evaluable_observed_row_universe": "declared Y3+ observed-row population with complete rookie-to-feature exposure, valid required feature fields, and valid adjacent-season outcome fields",
   "frozen_at": "2026-08-09T19:28:02Z",
   "leakage_boundary": {
     "feature_side_only": [

@@ -24,7 +24,8 @@ from src.ingestion import (
     load_player_season_coverage,
 )
 from src.labels.late_veteran_wr_breakout import (
-    DECLARED_OBSERVED_ROW_UNIVERSE,
+    DECLARED_OBSERVED_ROW_POPULATION,
+    EVALUABLE_OBSERVED_ROW_UNIVERSE,
     LATE_VETERAN_WR_BREAKOUT_V0,
     HistoricalPair,
     PrimaryCohortEvaluation,
@@ -244,7 +245,8 @@ def _build_definition_payload() -> dict[str, Any]:
         "research_issue": RESEARCH_ISSUE_URL,
         "frozen_at": EVIDENCE_CUTOFF_AT,
         "primary_hypothesis": definition,
-        "declared_observed_row_universe": DECLARED_OBSERVED_ROW_UNIVERSE,
+        "declared_observed_row_population": DECLARED_OBSERVED_ROW_POPULATION,
+        "evaluable_observed_row_universe": EVALUABLE_OBSERVED_ROW_UNIVERSE,
         "eligibility_states": {
             "football_archetype_eligible": (
                 "Uses source-backed tenure, complete exposure history, prior production, "
@@ -317,17 +319,19 @@ def _build_summary_payload(
             "wr_record_count": len(records),
         },
         "population": {
-            "declared_universe": DECLARED_OBSERVED_ROW_UNIVERSE,
+            "ledger_scope": "all pinned observed WR player-season/stat rows",
+            "declared_population": DECLARED_OBSERVED_ROW_POPULATION,
+            "evaluable_universe": EVALUABLE_OBSERVED_ROW_UNIVERSE,
             "by_feature_season": _population_by_feature_season(historical_pairs),
             "eligibility_state_counts": dict(
                 sorted(Counter(pair.eligibility.state for pair in historical_pairs).items())
             ),
-            "evaluation_exclusion_counts": dict(
+            "coverage_exclusion_reason_counts": dict(
                 sorted(
                     Counter(
                         pair.evaluation_exclusion_reason
                         for pair in historical_pairs
-                        if pair.evaluation_exclusion_reason is not None
+                        if pair.evaluation_state == "coverage_exclusion"
                     ).items()
                 )
             ),
@@ -356,7 +360,9 @@ def _build_summary_payload(
             "configurations": [_sensitivity_payload(item) for item in sensitivity],
         },
         "interpretation_limits": [
-            "The evaluation universe is the pinned observed stat-row population, not a historical active-roster census.",
+            "The full observed-row ledger is not a historical active-roster census.",
+            "Metrics use only the coverage-complete evaluable subset of the declared Y3+ population.",
+            "Rows outside the declared Y3+ population are not coverage exclusions.",
             "Coverage exclusions are not false negatives.",
             "No predictive-power claim is made.",
             "Market-qualified eligibility remains unavailable.",
@@ -652,8 +658,14 @@ def _historical_pair_row(pair: HistoricalPair) -> dict[str, Any]:
 
 
 def _confusion_class(pair: HistoricalPair) -> str:
-    if pair.evaluation_state != "included":
+    if pair.evaluation_state == "outside_declared_population":
+        return "outside_declared_population"
+    if pair.evaluation_state == "coverage_exclusion":
         return "coverage_exclusion"
+    if pair.evaluation_state != "included":
+        raise ValidationError(
+            f"unsupported historical pair evaluation state: {pair.evaluation_state}"
+        )
     predicted = pair.eligibility.football_archetype_eligible
     actual = pair.labels.archetype_hit
     if predicted is True and actual is True:
@@ -669,7 +681,9 @@ def _confusion_class(pair: HistoricalPair) -> str:
 
 def _evaluation_payload(evaluation: PrimaryCohortEvaluation) -> dict[str, Any]:
     payload = asdict(evaluation)
-    payload["exclusion_reason_counts"] = dict(evaluation.exclusion_reason_counts)
+    payload["coverage_exclusion_reason_counts"] = dict(
+        evaluation.coverage_exclusion_reason_counts
+    )
     payload["uncertainty"] = {
         "method": "wilson_95_percent_interval",
         "precision": _wilson_interval(
@@ -726,23 +740,33 @@ def _population_by_feature_season(
         by_season[pair.feature.season].append(pair)
     result: dict[str, dict[str, Any]] = {}
     for season, season_pairs in sorted(by_season.items()):
-        exclusion_counts = Counter(
+        outside_count = sum(
+            pair.evaluation_state == "outside_declared_population"
+            for pair in season_pairs
+        )
+        coverage_count = sum(
+            pair.evaluation_state == "coverage_exclusion" for pair in season_pairs
+        )
+        evaluable_count = sum(
+            pair.evaluation_state == "included" for pair in season_pairs
+        )
+        coverage_exclusion_reason_counts = Counter(
             pair.evaluation_exclusion_reason
             for pair in season_pairs
-            if pair.evaluation_exclusion_reason is not None
+            if pair.evaluation_state == "coverage_exclusion"
         )
         result[str(season)] = {
-            "observed_pair_count": len(season_pairs),
-            "included_count": sum(
-                pair.evaluation_state == "included" for pair in season_pairs
-            ),
-            "coverage_exclusion_count": sum(
-                pair.evaluation_state == "coverage_exclusion" for pair in season_pairs
-            ),
+            "ledger_pair_count": len(season_pairs),
+            "outside_declared_population_count": outside_count,
+            "declared_population_pair_count": len(season_pairs) - outside_count,
+            "coverage_exclusion_count": coverage_count,
+            "evaluable_pair_count": evaluable_count,
             "eligibility_state_counts": dict(
                 sorted(Counter(pair.eligibility.state for pair in season_pairs).items())
             ),
-            "exclusion_reason_counts": dict(sorted(exclusion_counts.items())),
+            "coverage_exclusion_reason_counts": dict(
+                sorted(coverage_exclusion_reason_counts.items())
+            ),
         }
     return result
 
@@ -790,6 +814,7 @@ def _missingness_payload(
             "current_official_depth_chart": "unavailable_no_governed_receipt_bound",
         },
         "pair_level": {
+            "scope": "full_observed_ledger",
             "missing_adjacent_outcome_row": sum(pair.outcome is None for pair in pair_rows),
             "prior_history_incomplete": sum(
                 pair.eligibility.state == "prior_history_incomplete" for pair in pair_rows

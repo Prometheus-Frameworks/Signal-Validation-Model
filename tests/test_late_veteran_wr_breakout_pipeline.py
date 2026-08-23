@@ -23,6 +23,12 @@ from src.reporting.late_veteran_wr_breakout import (
 PILOT_RECEIPTS = Path(
     "data/raw/late_veteran_wr_breakout_2026_pilot_receipts_v0.json"
 )
+CHECKED_SUMMARY = Path(
+    "outputs/validation_reports/late_veteran_wr_breakout_v0_summary.json"
+)
+CHECKED_PAIRS = Path(
+    "outputs/validation_reports/late_veteran_wr_breakout_v0_historical_pairs.csv"
+)
 
 
 def _record(
@@ -215,12 +221,40 @@ def test_summary_csv_and_receipt_bindings_reconcile(tmp_path: Path, monkeypatch)
 
     evaluation = summary["primary_cohort_evaluation"]
     assert list(rows[0]) == HISTORICAL_PAIR_COLUMNS
-    assert evaluation["observed_pair_count"] == len(rows)
-    assert evaluation["evaluable_pair_count"] == sum(
-        row["evaluation_state"] == "included" for row in rows
+    outside_count = sum(
+        row["evaluation_state"] == "outside_declared_population" for row in rows
     )
-    assert evaluation["coverage_exclusion_count"] == sum(
+    coverage_count = sum(
         row["evaluation_state"] == "coverage_exclusion" for row in rows
+    )
+    evaluable_count = sum(row["evaluation_state"] == "included" for row in rows)
+    assert evaluation["ledger_pair_count"] == len(rows)
+    assert evaluation["outside_declared_population_count"] == outside_count
+    assert evaluation["declared_population_pair_count"] == len(rows) - outside_count
+    assert evaluation["coverage_exclusion_count"] == coverage_count
+    assert evaluation["evaluable_pair_count"] == evaluable_count
+    assert evaluation["ledger_pair_count"] == (
+        evaluation["outside_declared_population_count"]
+        + evaluation["declared_population_pair_count"]
+    )
+    assert evaluation["declared_population_pair_count"] == (
+        evaluation["coverage_exclusion_count"] + evaluation["evaluable_pair_count"]
+    )
+    coverage_reasons = Counter(
+        row["evaluation_exclusion_reason"]
+        for row in rows
+        if row["evaluation_state"] == "coverage_exclusion"
+    )
+    assert evaluation["coverage_exclusion_reason_counts"] == dict(
+        sorted(coverage_reasons.items())
+    )
+    assert summary["population"]["coverage_exclusion_reason_counts"] == dict(
+        sorted(coverage_reasons.items())
+    )
+    assert "coverage_exclusion_counts" not in summary["population"]
+    assert "outside_declared_population" not in coverage_reasons
+    assert outside_count == sum(
+        row["confusion_class"] == "outside_declared_population" for row in rows
     )
     for confusion_class, summary_key in (
         ("true_positive", "true_positives"),
@@ -246,6 +280,61 @@ def test_summary_csv_and_receipt_bindings_reconcile(tmp_path: Path, monkeypatch)
     for path in (result.definition_path, result.summary_path, result.pilot_path, result.receipt_path):
         payload = json.loads(path.read_text(encoding="utf-8"))
         assert _forbidden_keys(payload) == []
+
+
+def test_checked_in_population_partition_reconciles() -> None:
+    summary = json.loads(CHECKED_SUMMARY.read_text(encoding="utf-8"))
+    with CHECKED_PAIRS.open(encoding="utf-8", newline="") as handle:
+        rows = list(csv.DictReader(handle))
+
+    evaluation = summary["primary_cohort_evaluation"]
+    assert evaluation["ledger_pair_count"] == len(rows) == 1191
+    assert evaluation["outside_declared_population_count"] == 198
+    assert evaluation["declared_population_pair_count"] == 993
+    assert evaluation["coverage_exclusion_count"] == 869
+    assert evaluation["evaluable_pair_count"] == 124
+    assert evaluation["coverage_exclusion_reason_counts"] == {
+        "missing_outcome": 115,
+        "prior_history_incomplete": 754,
+    }
+    assert (
+        evaluation["true_positives"],
+        evaluation["false_positives"],
+        evaluation["false_negatives"],
+        evaluation["true_negatives"],
+    ) == (2, 50, 7, 65)
+
+    expected_by_season = {
+        "2021": (256, 38, 218, 218, 0),
+        "2022": (238, 39, 199, 178, 21),
+        "2023": (223, 39, 184, 142, 42),
+        "2024": (234, 38, 196, 135, 61),
+        "2025": (240, 44, 196, 196, 0),
+    }
+    for season, expected in expected_by_season.items():
+        season_population = summary["population"]["by_feature_season"][season]
+        observed = tuple(
+            season_population[key]
+            for key in (
+                "ledger_pair_count",
+                "outside_declared_population_count",
+                "declared_population_pair_count",
+                "coverage_exclusion_count",
+                "evaluable_pair_count",
+            )
+        )
+        assert observed == expected
+
+    for configuration in summary["diagnostic_sensitivity"]["configurations"]:
+        diagnostic = configuration["evaluation"]
+        assert diagnostic["ledger_pair_count"] == 1191
+        assert diagnostic["outside_declared_population_count"] == 198
+        assert diagnostic["declared_population_pair_count"] == 993
+        assert diagnostic["coverage_exclusion_count"] == 869
+        assert diagnostic["evaluable_pair_count"] == 124
+        assert "outside_declared_population" not in diagnostic[
+            "coverage_exclusion_reason_counts"
+        ]
 
 
 def test_missing_outcome_seam_writes_a_blocked_research_result(

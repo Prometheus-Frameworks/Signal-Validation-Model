@@ -6,7 +6,8 @@ import pytest
 
 from src.ingestion import PlayerSeasonRecord
 from src.labels.late_veteran_wr_breakout import (
-    DECLARED_OBSERVED_ROW_UNIVERSE,
+    DECLARED_OBSERVED_ROW_POPULATION,
+    EVALUABLE_OBSERVED_ROW_UNIVERSE,
     LATE_VETERAN_WR_BREAKOUT_V0,
     build_diagnostic_sensitivity_grid,
     build_historical_pairs,
@@ -287,19 +288,33 @@ def test_duplicate_player_names_never_override_canonical_id_joins() -> None:
     assert second_pair.labels.fantasy_breakout is False
 
 
-def test_primary_evaluation_uses_only_declared_observed_row_universe() -> None:
+def test_primary_evaluation_partitions_ledger_population_and_coverage() -> None:
     records: list[PlayerSeasonRecord] = []
     records.extend(_three_year_player("wr_tp"))
     records.extend(_three_year_player("wr_fp", outcome_ppg=9.9))
     records.extend(_three_year_player("wr_fn", feature_ppg=7.0, outcome_ppg=10.0))
     records.extend(_three_year_player("wr_tn", feature_ppg=7.0, outcome_ppg=9.9))
 
-    evaluation = evaluate_primary_cohort(build_historical_pairs(reversed(records)))
+    pairs = build_historical_pairs(reversed(records))
+    evaluation = evaluate_primary_cohort(pairs)
 
-    assert evaluation.declared_universe == DECLARED_OBSERVED_ROW_UNIVERSE
-    assert evaluation.observed_pair_count == 12
+    assert evaluation.declared_population == DECLARED_OBSERVED_ROW_POPULATION
+    assert evaluation.evaluable_universe == EVALUABLE_OBSERVED_ROW_UNIVERSE
+    assert evaluation.ledger_pair_count == 12
+    assert evaluation.outside_declared_population_count == 4
+    assert evaluation.declared_population_pair_count == 8
+    assert evaluation.coverage_exclusion_count == 4
     assert evaluation.evaluable_pair_count == 4
-    assert evaluation.coverage_exclusion_count == 8
+    assert evaluation.coverage_exclusion_reason_counts == (("missing_outcome", 4),)
+    outside_rows = tuple(
+        pair for pair in pairs if pair.eligibility.state == "outside_declared_population"
+    )
+    assert len(outside_rows) == 4
+    assert all(
+        pair.evaluation_state == "outside_declared_population"
+        and pair.evaluation_exclusion_reason == "outside_declared_population"
+        for pair in outside_rows
+    )
     assert evaluation.true_positives == 1
     assert evaluation.false_positives == 1
     assert evaluation.false_negatives == 1

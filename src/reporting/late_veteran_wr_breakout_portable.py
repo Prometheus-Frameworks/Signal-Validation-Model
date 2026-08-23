@@ -72,7 +72,7 @@ def _prepare_digest_pinned_json(
     if _sha256_bytes(raw) == expected_sha256:
         return path
 
-    canonical = _to_lf(raw)
+    canonical = raw.replace(b"\r\n", b"\n")
     if canonical == raw or _sha256_bytes(canonical) != expected_sha256:
         return path
 

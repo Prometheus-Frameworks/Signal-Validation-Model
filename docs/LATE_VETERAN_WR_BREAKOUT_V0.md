@@ -94,7 +94,18 @@ Sensitivity output may motivate a separately versioned definition. It cannot rew
 
 ## Evaluation universe and completeness limits
 
-The evaluation universe is the promoted artifact's observed WR stat-row population. It is not a complete historical active-roster census. Coverage exclusions are not false negatives, and the resulting base rate is not a leaguewide base rate.
+The full ledger contains every promoted observed WR stat row. The declared
+population is the structural Y3+ screen: a source-backed feature career year of
+at least two and a derived target career year of at least three. Rows below that
+tenure boundary remain visible as `outside_declared_population`; they are not
+coverage exclusions.
+
+Within the declared population, complete rookie-to-feature exposure, valid
+required feature fields, and a valid adjacent-season outcome are required for
+the evaluable universe. Rows that fail one of those support requirements are
+coverage exclusions, not false negatives. The promoted ledger is not a complete
+historical active-roster census, and the resulting base rate is not a leaguewide
+base rate.
 
 The strict history rule has material consequences:
 
@@ -173,12 +184,17 @@ late_veteran_wr_breakout_v0_blocked
 
 ## Checked-in v0 result
 
-Against the pinned 2021–2025 input, 124 feature/outcome pairs enter the declared
-evaluation universe. The frozen football-only screen yields 2 true positives,
-50 false positives, 7 false negatives, and 65 true negatives: precision
-`0.0385`, recall `0.2222`, and an observed-population archetype-hit rate of
-`0.0726`. These are descriptive results for the supported stat-row population,
-not leaguewide estimates.
+Against the pinned 2021–2025 input, the full ledger contains 1,191 observed WR
+rows. Of those, 198 are outside the declared Y3+ population and 993 are inside
+it. The declared population contains 869 coverage exclusions—754 with
+incomplete prior history and 115 with a missing adjacent outcome—leaving 124
+evaluable feature/outcome pairs.
+
+The frozen football-only screen yields 2 true positives, 50 false positives, 7
+false negatives, and 65 true negatives: precision `0.0385`, recall `0.2222`,
+and an evaluable-population archetype-hit rate of `0.0726`. These are
+descriptive results for the supported stat-row population, not leaguewide
+estimates.
 
 The terminal decision is
 `late_veteran_wr_breakout_v0_requires_data_or_definition_followup`. Governed
