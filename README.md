@@ -1,5 +1,7 @@
 # Signal Validation Model
 
+> **[TIBER Now — what works, what we’re building, and what’s still conceptual](https://github.com/Prometheus-Frameworks/TIBER-Fantasy/blob/main/docs/TIBER_NOW.md)**
+
 Signal Validation Model is a research-grade Python scaffold for validating whether **prior-season wide receiver signals** would have identified **next-season fantasy football breakouts**.
 
 ## Repository purpose
